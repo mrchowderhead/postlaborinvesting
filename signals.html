@@ -12,18 +12,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post-Labor Signals — Post Labor Investing</title>
-    <meta name="description" content="Real-world evidence that the post-labor economy is arriving. Tracked and updated as new data emerges.">
+    <meta name="description" content="A real-time scorecard tracking the post-labor thesis against the data. Twelve signals, updated as new data emerges.">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .signals-container { max-width: 1000px; margin: 0 auto; padding: 0 2rem 4rem; }
+        .signals-intro { max-width: 760px; margin: 0 auto 2.5rem; }
+        .signals-intro p { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.75; margin-bottom: 1rem; }
+        .signals-intro p:first-child { font-size: 1.15rem; color: var(--text-primary); }
+        .signal-legend { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; font-size: 0.85rem; color: var(--text-muted); }
+        .signal-legend span { display: flex; align-items: center; gap: 0.4rem; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+        .signal-table-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px var(--border-light); margin-bottom: 2.5rem; }
+        .signal-table { width: 100%; border-collapse: collapse; }
+        .signal-table thead th { background: var(--bg-secondary); padding: 0.85rem 1.15rem; text-align: left; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); border-bottom: 2px solid var(--border); }
+        .signal-table thead th:first-child { width: 42px; text-align: center; }
+        .signal-table thead th:nth-child(2) { width: 24%; }
+        .signal-table thead th:nth-child(3) { width: 34%; }
+        .signal-table thead th:nth-child(4) { width: 42%; }
+        .signal-table tbody tr { border-bottom: 1px solid var(--border); }
+        .signal-table tbody tr:last-child { border-bottom: none; }
+        .signal-table tbody tr:hover { background: var(--accent-dim); }
+        .signal-table td { padding: 1rem 1.15rem; vertical-align: top; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.55; }
+        .signal-table td:first-child { text-align: center; vertical-align: middle; }
+        .signal-name { font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .signal-expect { font-size: 0.8rem; color: var(--text-muted); font-style: italic; }
+        .signal-stat { font-weight: 500; }
+        .signal-source { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem; }
+        .status-dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+        .status-green { background: #059669; }
+        .status-yellow { background: #F59E0B; }
+        .status-red { background: #EF4444; }
+        .signal-commentary { font-size: 0.875rem; }
+        .updated-note { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 2rem; font-style: italic; }
+        .methodology-note { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.65; }
+        .methodology-note strong { color: var(--text-secondary); }
+        @media (max-width: 768px) {
+            .signal-table thead th:nth-child(2), .signal-table thead th:nth-child(3), .signal-table thead th:nth-child(4) { width: auto; }
+            .signal-table td { padding: 0.75rem 0.65rem; font-size: 0.8rem; }
+            .signal-table thead th { padding: 0.65rem; font-size: 0.65rem; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- NAV -->
     <nav>
         <a href="index.html" class="logo">Post Labor<span>.</span></a>
         <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
         </button>
         <div class="nav-links">
             <a href="index.html">Home</a>
@@ -35,36 +70,228 @@
         </div>
     </nav>
 
-    <!-- HEADER -->
     <div class="page-header">
         <h1>Post-Labor Signals</h1>
-        <p>Real-world evidence that the post-labor economy is arriving. Data points, trends, and milestones — tracked as they emerge.</p>
+        <p>A scorecard for the post-labor thesis. Twelve signals tracked against the data.</p>
     </div>
 
-    <!-- SIGNALS FEED -->
-    <div class="page-content">
+    <div class="signals-container">
 
-        <div class="feed-item">
-            <div class="feed-date">February 2026</div>
-            <blockquote>Entry-level job postings across major U.S. job boards have declined 30% since 2023, with the steepest drops in administrative, customer service, and data entry roles.</blockquote>
-            <div class="source">— Compiled from Indeed, LinkedIn, and ZipRecruiter data</div>
-            <div class="commentary">The entry-level job market is often the first to feel the impact of automation. These are precisely the roles most vulnerable to AI displacement — and the decline is accelerating.</div>
+        <div class="signals-intro">
+            <p>If the post-labor economy thesis is correct, we should expect to see specific, measurable changes in the labor market and broader economy. This page tracks twelve of those signals.</p>
+            <p>Some are already flashing. Others aren't — yet. The goal is intellectual honesty: we present the data as it is, not as we'd like it to be. A thesis is only as good as its willingness to be tested.</p>
         </div>
 
-        <div class="feed-item">
-            <div class="feed-date">February 2026</div>
-            <blockquote>The unemployment rate for recent college graduates has risen to levels not seen since the aftermath of the 2008 financial crisis.</blockquote>
-            <div class="source">— Bureau of Labor Statistics</div>
-            <div class="commentary">A college degree was supposed to be insurance against economic disruption. The post-labor economy is rewriting that assumption in real time.</div>
+        <div class="signal-legend">
+            <span><span class="legend-dot status-green"></span> Confirming — data supports the thesis</span>
+            <span><span class="legend-dot status-yellow"></span> Mixed — early signs or ambiguous</span>
+            <span><span class="legend-dot status-red"></span> Not yet — data does not currently support</span>
         </div>
 
-        <div class="placeholder" style="margin-top: 2rem;">
-            <p>More signals will be added as new data emerges. <a href="#subscribe">Subscribe</a> to be notified of updates.</p>
+        <p class="updated-note">Last updated: February 2026</p>
+
+        <div class="signal-table-wrap">
+            <table class="signal-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Signal</th>
+                        <th>Latest Data</th>
+                        <th>Commentary</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td><span class="status-dot status-green"></span></td>
+                        <td>
+                            <div class="signal-name">Entry-Level Job Postings Declining</div>
+                            <div class="signal-expect">We'd expect: Fewer entry-level openings as AI handles junior tasks</div>
+                        </td>
+                        <td>
+                            <div class="signal-stat">Entry-level hiring down 17% since 2019 (LinkedIn). Job postings for new grads fell 15% YoY in 2025 (Handshake). 76% of employers hired same or fewer entry-level workers in 2025 vs. 2024.</div>
+                            <div class="signal-source">Sources: LinkedIn, Handshake, Cengage Group 2025</div>
+                        </td>
+                        <td>
+                            <div class="signal-commentary">One of the strongest signals. The "learning curve" for junior roles is being automated. Entry-level tech postings have fallen 40–67% from pre-2022 levels. Companies want workers who can use AI productively from day one rather than training juniors. The traditional career ladder is breaking at the bottom rung.</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="status-dot status-yellow"></span></td>
+                        <td>
+                            <div class="signal-name">Unemployment Rate Rising</div>
+                            <div class="signal-expect">We'd expect: Gradual increase as displaced workers can't find equivalent roles</div>
+                        </td>
+                        <td>
+                            <div class="signal-stat">4.3% in January 2026 (up from 3.4% low in 2023). 2025 revised to just 181,000 total jobs added — among the worst years outside a recession. Long-term unemployed up 386,000 YoY.</div>
+                            <div class="signal-source">Sources: BLS Employment Situation Jan 2026; CNN Feb 2026</div>
+                        </td>
+                        <td>
+                            <div class="signal-commentary">The headline rate is elevated but not alarming. The real story is beneath the surface: 2025 job creation was revised down massively (from 584K to 181K). The labor market is "frozen" — low hiring, low firing. For those already employed, things feel stable. For those trying to break in, it's brutal. Watch the composition, not just the headline.</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="status-dot status-green"></span></td>
+                        <td>
+                            <div class="signal-name">Labor's Share of Income Declining</div>
+                            <div class="signal-expect">We'd expect: Capital capturing more of GDP at labor's expense</div>
+                        </td>
+                        <td>
+                            <div class="signal-stat">BLS labor share index at 95.3 (Q3 2025, base 2017=100). Down 1.4% year-over-year. Declining at an annualized rate of 5.7% in Q3 2025.</div>
+                            <div class="signal-source">Source: FRED/BLS Nonfarm Business Sector Labor Share, updated Jan 2026</div>
+                        </td>
+                        <td>
+                            <div class="signal-commentary">The foundational signal. Labor's share has been in secular decline since the early 1970s, with the trend accelerating after 2000. Productivity grew 1.9% YoY but compensation isn't keeping pace. The gap between what workers produce and what they earn is widening — the thesis in a single data point.</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="status-dot status-green"></span></td>
+                        <td>
+                            <div class="signal-name">Corporate Profit Margins at Record Highs</div>
+                            <div class="signal-expect">We'd expect: Companies doing more with less, margins expanding</div>
+                        </td>
+                        <td>
+                            <div class="signal-stat">S&P 500 net profit margin hit 13.2% in Q4 2025 — highest on record (FactSet data back to 2009). Seven consecutive quarters of expansion. 5-year average is 12.1%.</div>
+                            <div class="signal-source">Source: FactSet Earnings Insight, February 2026</div>
+                        </td>
+                        <td>
+                            <div class="signal-commentary">Record margins tell us companies are extracting more profit per dollar of revenue. The S&P 500's average net margin nearly doubled from 5.85% (1989–2015 avg) to 9.75% by 2024. This is the capital side of the labor share equation — corporate efficiency, powered by technology, is capturing income that used to flow to workers.</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="status-dot status-green"></span></td>
+                        <td>
+                            <div class="signal-name">Capex Shifting from Labor to AI/Automation</div>
+                            <div class="signal-expect">We'd expect: Companies investing in machines instead of people</div>
+                        </td>
+                        <td>
+                            <div class="signal-stat">Big Tech AI capex projected at $660–690B in 2026 — nearly double 2025. Amazon alone plans $200B. Tech capex now ~1.9% of GDP, approaching the combined scale of the 20th century's largest capital projects.</div>
+                            <div class="signal-source">Sources: Goldman Sachs, Futurum Group, CNBC Feb 2026</div>
+                        </td>
+                        <td>
+                            <div class="signal-commentary">The most aggressive capital reallocation in business history. These investments are capital-intensive, not labor-intensive. AI capex is masking broader economic weakness: subtract it and GDP growth is significantly weaker. The economy is being restructured around machines, not workers.</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="status-dot status-yellow"></span></td>
+                        <td>
+                            <div class="signal-name">Rise in Long-Term Unemployment</div>
+                            <div class="signal-expect">We'd expect: Displaced workers unable to find comparable work</div>
+                        </td>
+                        <td>
+                            <div class="signal-stat">1.8M Americans unemployed 27+ weeks in Jan 2026, up 386,000 YoY. Long-term unemployed now 25% of all unemployed (up from ~19% in early 2023).</div>
+                            <div class="signal-source">Source: BLS Employment Situation, January 2026</div>
+                        </td>
+                        <td>
+                            <div class="signal-commentary">An early warning signal. The share of long-term unemployed is growing even as overall unemployment stays moderate. These are people who lost jobs and can't find equivalent replacements — exactly what a structural transition looks like. If this share keeps climbing while the headline rate holds steady, that's the post-labor signature.</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="status-dot status-green"></span></td>
+                        <td>
+                            <div class="signal-name">Gig/Contract Work Replacing Full-Time Jobs</div>
+                            <div class="signal-expect">We'd expect: Traditional employment giving way to contingent work</div>
+                        </td>
+                        <td>
+                            <div class="signal-stat">36% of U.S. workers now participate in gig work. Full-time independents doubled from 13.6M (2020) to 27.7M (2024). Projected 86.5M freelancers by 2027 — more than half the workforce.</div>
+                            <div class="signal-source">Sources: MBO Partners, Upwork, McKinsey 2025</div>
+                        </td>
+                        <td>
+                            <div class="signal-commentary">Full-time independent work doubled in four years. Companies are replacing permanent headcount with on-demand talent, avoiding benefits costs and reducing fixed labor expenses. This is the employment model of the post-labor economy: flexible, precarious, and without the safety net traditional jobs provided. 40% of gig workers lack health insurance.</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="status-dot status-green"></span></td>
+                        <td>
+                            <div class="signal-name">College Wage Premium Declining</div>
+                            <div class="signal-expect">We'd expect: Degrees losing value as AI handles knowledge work</div>
+                        </td>
+                        <td>
+                            <div class="signal-stat">Recent grad unemployment hit 9.7% in 2025 — equal to high school diploma holders (NY Fed). Only 30% of 2025 grads found full-time work in their field. 41% underemployment rate.</div>
+                            <div class="signal-source">Sources: NY Fed, Cengage, Oxford Economics 2025</div>
+                        </td>
+                        <td>
+                            <div class="signal-commentary">The convergence of graduate and non-graduate unemployment rates is historic. The degree was supposed to guarantee economic security. When graduates face the same jobless rate as non-graduates, the fundamental value proposition of higher education is being undermined. 85% of the rise in unemployment since mid-2023 stems from graduates struggling to find roles.</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="status-dot status-green"></span></td>
+                        <td>
+                            <div class="signal-name">Job Openings Down While Productivity Rises</div>
+                            <div class="signal-expect">We'd expect: Fewer workers needed to produce the same or more output</div>
+                        </td>
+                        <td>
+                            <div class="signal-stat">Job openings fell to 6.5M in Dec 2025, trending down steadily. Hires rate near decade lows at 3.3%. Meanwhile, labor productivity grew 1.9% YoY and 4.9% annualized (Q3 2025).</div>
+                            <div class="signal-source">Sources: BLS JOLTS Dec 2025; BLS Productivity Q3 2025</div>
+                        </td>
+                        <td>
+                            <div class="signal-commentary">The scissors signal — the blades are opening. Companies are producing more while posting fewer openings. When productivity rises as openings decline, technology is substituting for labor. This divergence is exactly what the post-labor thesis predicts: output grows while demand for human labor contracts.</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="status-dot status-yellow"></span></td>
+                        <td>
+                            <div class="signal-name">Wage Growth Lagging Despite Low Unemployment</div>
+                            <div class="signal-expect">We'd expect: Workers losing bargaining power even in a tight market</div>
+                        </td>
+                        <td>
+                            <div class="signal-stat">Average hourly earnings up 3.7% YoY in Jan 2026. Real wages rose only 0.7% over the year ending Dec 2025. Real weekly earnings up just 0.4% due to declining hours worked.</div>
+                            <div class="signal-source">Sources: BLS Employment Situation Jan 2026; BLS ECI Q4 2025</div>
+                        </td>
+                        <td>
+                            <div class="signal-commentary">A mixed signal. Nominal wage growth has slowed from 2022 peaks and real gains are thin. That wages aren't rising faster with relatively low unemployment suggests weakening bargaining power. But wages are still positive in real terms, so this signal is early-stage. Watch for wage growth to decouple further from productivity.</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="status-dot status-yellow"></span></td>
+                        <td>
+                            <div class="signal-name">Government Transfers Rising as Share of Income</div>
+                            <div class="signal-expect">We'd expect: More income from government, less from employment</div>
+                        </td>
+                        <td>
+                            <div class="signal-stat">Social benefits as a share of personal income remain elevated since COVID, running above the pre-pandemic baseline of ~17%. Social Security, Medicare, and Medicaid spending continue growing as a share of GDP.</div>
+                            <div class="signal-source">Sources: BEA Personal Income & Outlays; CBO</div>
+                        </td>
+                        <td>
+                            <div class="signal-commentary">Transfer payments surged during COVID and haven't fully normalized. Some of this is demographic (aging population), but the structural trend is clear: a growing share of income comes from government rather than employment. As the post-labor economy advances, this share will likely keep rising — making the debate around UBI increasingly urgent.</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="status-dot status-red"></span></td>
+                        <td>
+                            <div class="signal-name">Labor Force Participation Declining</div>
+                            <div class="signal-expect">We'd expect: Workers dropping out as jobs disappear, especially prime-age</div>
+                        </td>
+                        <td>
+                            <div class="signal-stat">Overall LFPR at 62.5% in Jan 2026 (vs. 67.3% peak in 2000). But prime-age (25–54) participation at 84.1% — near 25-year highs. Prime-age employment at cycle high of 80.9%.</div>
+                            <div class="signal-source">Sources: BLS, USAFacts, Employ America Jan 2026</div>
+                        </td>
+                        <td>
+                            <div class="signal-commentary">This signal does not currently support the thesis. Prime-age workers are participating at record levels — a sign of labor market strength. The lower overall rate is largely demographics (aging population, more retirees). If displacement accelerates, we'd expect prime-age participation to decline. That hasn't happened. Honest assessment: the labor market is more resilient here than the thesis predicts.</div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="methodology-note">
+            <strong>How to read this scorecard:</strong> Green signals indicate data supporting the post-labor thesis. Yellow signals are ambiguous or show early signs. Red signals indicate data that currently contradicts the thesis. Data is updated as new reports are released. This scorecard is an analytical framework, not investment advice.
         </div>
 
     </div>
 
-    <!-- SUBSCRIBE -->
     <section class="newsletter-footer" id="subscribe">
         <h2>Stay ahead of the curve</h2>
         <p>Get analysis on investing in a world where work is being redefined.</p>
@@ -74,7 +301,6 @@
         </form>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <div class="footer-left">&copy; 2026 postlaborinvesting.com</div>
     </footer>
