@@ -69,6 +69,38 @@
         .score-table td { font-size: 0.9rem; color: var(--text-secondary); padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
         .score-table td:first-child { font-weight: 700; text-align: center; width: 60px; }
         .score-table td:nth-child(2) { font-weight: 600; color: var(--text-primary); width: 140px; }
+        
+        /* Occupation table */
+        .occ-filters { display: flex; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+        .occ-filter-input { flex: 1; min-width: 200px; padding: 0.7rem 1rem; font-family: var(--sans); font-size: 0.875rem; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-card); color: var(--text-primary); outline: none; }
+        .occ-filter-input:focus { border-color: var(--accent); }
+        .occ-filter-select { padding: 0.7rem 1rem; font-family: var(--sans); font-size: 0.825rem; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-card); color: var(--text-primary); outline: none; cursor: pointer; }
+        .occ-count { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+        .occ-legend { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; font-size: 0.75rem; color: var(--text-muted); }
+        .occ-legend strong { color: var(--text-secondary); }
+        .occ-table-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px var(--border-light); }
+        .occ-table-scroll { max-height: 600px; overflow-y: auto; }
+        .occ-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+        .occ-table thead { position: sticky; top: 0; z-index: 1; }
+        .occ-table th { background: var(--bg-secondary); padding: 0.65rem 0.75rem; text-align: left; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); border-bottom: 2px solid var(--border); cursor: pointer; white-space: nowrap; user-select: none; }
+        .occ-table th:hover { color: var(--accent); }
+        .occ-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+        .occ-table tr:hover td { background: var(--accent-dim); }
+        .occ-table .occ-name { font-weight: 500; color: var(--text-primary); min-width: 200px; }
+        .occ-table .occ-group { color: var(--text-muted); font-size: 0.75rem; }
+        .occ-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+        .score-dot { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 22px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
+        .s1 { background: #D1FAE5; color: #059669; }
+        .s2 { background: #E8F5E9; color: #2E7D32; }
+        .s3 { background: #FFF3E0; color: #E65100; }
+        .s4 { background: #FFEBEE; color: #C62828; }
+        .s5 { background: #FFCDD2; color: #B71C1C; }
+        @media (max-width: 768px) {
+            .occ-table { font-size: 0.7rem; }
+            .occ-table .occ-name { min-width: 150px; }
+            .occ-filters { flex-direction: column; }
+        }
+
         @media (max-width: 768px) {
             .results-row { grid-template-columns: 1fr; }
             .slider-row { grid-template-columns: 1fr; gap: 0.5rem; }
@@ -103,6 +135,7 @@
         <div class="model-tabs">
             <button class="model-tab active" onclick="switchTab(this, 'scenario')">Scenario Model</button>
             <button class="model-tab" onclick="switchTab(this, 'methodology')">Scoring Methodology</button>
+            <button class="model-tab" onclick="switchTab(this, 'occupations')">All 283 Occupations</button>
         </div>
 
         <div class="tab-panel active" id="tab-scenario">
@@ -200,6 +233,51 @@
                 <p style="font-size:1rem;color:var(--text-secondary);margin-bottom:2rem;">Simple average of AI Displacement Risk, Consumer Dependency, and Post-Labor Vulnerability. Employment-weighted averages weight by headcount to show aggregate labor market exposure.</p>
             </div>
         </div>
+
+        <!-- TAB 3: ALL OCCUPATIONS -->
+        <div class="tab-panel" id="tab-occupations">
+            <div class="occ-filters">
+                <input type="text" class="occ-filter-input" id="occ-search" placeholder="Search occupations..." oninput="renderOccTable()">
+                <select class="occ-filter-select" id="occ-group-filter" onchange="renderOccTable()">
+                    <option value="">All Groups</option>
+                </select>
+                <select class="occ-filter-select" id="occ-score-filter" onchange="renderOccTable()">
+                    <option value="">All Scores</option>
+                    <option value="1">Score 1 — Resilient</option>
+                    <option value="2">Score 2 — Low Vulnerability</option>
+                    <option value="3">Score 3 — Moderate</option>
+                    <option value="4">Score 4 — High</option>
+                    <option value="5">Score 5 — Critical</option>
+                </select>
+            </div>
+            <div class="occ-count" id="occ-count"></div>
+            <div class="occ-legend">
+                <span><strong>AI</strong> = AI/Automation Risk</span>
+                <span><strong>CD</strong> = Consumer Dependency</span>
+                <span><strong>PLV</strong> = Post-Labor Vulnerability</span>
+                <span>Scores: <span style="color:#059669">● 1</span> <span style="color:#2E7D32">● 2</span> <span style="color:#E65100">● 3</span> <span style="color:#C62828">● 4</span> <span style="color:#B71C1C">● 5</span></span>
+            </div>
+            <div class="occ-table-wrap">
+                <div class="occ-table-scroll">
+                    <table class="occ-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortOcc('t')">Occupation ▿</th>
+                                <th onclick="sortOcc('g')">Group ▿</th>
+                                <th onclick="sortOcc('e')" style="text-align:right">Employment ▿</th>
+                                <th onclick="sortOcc('w')" style="text-align:right">Mean Wage ▿</th>
+                                <th onclick="sortOcc('a')" style="text-align:center">AI</th>
+                                <th onclick="sortOcc('c')" style="text-align:center">CD</th>
+                                <th onclick="sortOcc('p')" style="text-align:center">PLV</th>
+                                <th onclick="sortOcc('s')" style="text-align:center">Combined</th>
+                            </tr>
+                        </thead>
+                        <tbody id="occ-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <section class="newsletter-footer" id="subscribe">
@@ -216,6 +294,11 @@
     </footer>
 
     <script>
+        
+        // ===== 283 OCCUPATION DATA =====
+        const OCC_DATA = [{"t":"Home Health and Personal Care Aides","g":"Healthcare Support","e":3988140,"w":34990,"a":1,"c":2,"p":1,"s":1.3},{"t":"Retail Salespersons","g":"Sales","e":3800250,"w":37150,"a":4,"c":5,"p":5,"s":4.7},{"t":"Fast Food and Counter Workers","g":"Food Prep & Serving","e":3780930,"w":31350,"a":4,"c":5,"p":5,"s":4.7},{"t":"General and Operations Managers","g":"Management","e":3584420,"w":133120,"a":2,"c":3,"p":3,"s":2.7},{"t":"Registered Nurses","g":"Healthcare Practitioners","e":3282010,"w":98430,"a":1,"c":1,"p":1,"s":1.0},{"t":"Cashiers","g":"Sales","e":3148030,"w":31810,"a":5,"c":5,"p":5,"s":5.0},{"t":"Laborers and Freight, Stock, and Material Movers, Hand","g":"Transportation & Material Moving","e":2982530,"w":41420,"a":3,"c":3,"p":3,"s":3.0},{"t":"Stockers and Order Fillers","g":"Transportation & Material Moving","e":2779530,"w":38910,"a":4,"c":4,"p":4,"s":4.0},{"t":"Customer Service Representatives","g":"Office & Admin Support","e":2725930,"w":45380,"a":5,"c":4,"p":5,"s":4.7},{"t":"Office Clerks, General","g":"Office & Admin Support","e":2510550,"w":45470,"a":5,"c":3,"p":4,"s":4.0},{"t":"Waiters and Waitresses","g":"Food Prep & Serving","e":2302690,"w":38360,"a":2,"c":5,"p":4,"s":3.7},{"t":"Janitors and Cleaners, Except Maids and Housekeeping Cleaners","g":"Building/Grounds Cleaning","e":2199900,"w":37460,"a":2,"c":3,"p":2,"s":2.3},{"t":"Heavy and Tractor-Trailer Truck Drivers","g":"Transportation & Material Moving","e":2070480,"w":58400,"a":4,"c":3,"p":3,"s":3.3},{"t":"Secretaries and Administrative Assistants, Except Legal, Medical, and Executive","g":"Office & Admin Support","e":1737820,"w":47640,"a":5,"c":3,"p":4,"s":4.0},{"t":"Software Developers","g":"Computer & Mathematical","e":1654440,"w":144570,"a":3,"c":2,"p":2,"s":2.3},{"t":"Maintenance and Repair Workers, General","g":"Installation/Maintenance/Repair","e":1531700,"w":52430,"a":1,"c":3,"p":2,"s":2.0},{"t":"First-Line Supervisors of Office and Administrative Support Workers","g":"Office & Admin Support","e":1495580,"w":71560,"a":3,"c":3,"p":3,"s":3.0},{"t":"Miscellaneous Assemblers and Fabricators","g":"Production","e":1457800,"w":44860,"a":4,"c":3,"p":4,"s":3.7},{"t":"Bookkeeping, Accounting, and Auditing Clerks","g":"Office & Admin Support","e":1455770,"w":52020,"a":5,"c":3,"p":4,"s":4.0},{"t":"Cooks, Restaurant","g":"Food Prep & Serving","e":1452130,"w":37730,"a":2,"c":5,"p":4,"s":3.7},{"t":"Accountants and Auditors","g":"Business & Financial","e":1448290,"w":93520,"a":4,"c":2,"p":3,"s":3.0},{"t":"Elementary School Teachers, Except Special Education","g":"Education","e":1393310,"w":69790,"a":1,"c":1,"p":1,"s":1.0},{"t":"Nursing Assistants","g":"Healthcare Support","e":1388430,"w":41270,"a":1,"c":1,"p":1,"s":1.0},{"t":"Teaching Assistants, Except Postsecondary","g":"Education","e":1375300,"w":35960,"a":2,"c":1,"p":1,"s":1.3},{"t":"Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products","g":"Sales","e":1266860,"w":81470,"a":3,"c":3,"p":3,"s":3.0},{"t":"Security Guards","g":"Protective Service","e":1241770,"w":42890,"a":3,"c":3,"p":3,"s":3.0},{"t":"Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel","g":"Sales","e":1189330,"w":81260,"a":3,"c":3,"p":3,"s":3.0},{"t":"First-Line Supervisors of Food Preparation and Serving Workers","g":"Food Prep & Serving","e":1187460,"w":44900,"a":2,"c":5,"p":4,"s":3.7},{"t":"Business Operations Specialists, All Other","g":"Business & Financial","e":1128200,"w":92380,"a":3,"c":3,"p":3,"s":3.0},{"t":"First-Line Supervisors of Retail Sales Workers","g":"Sales","e":1113160,"w":52350,"a":3,"c":5,"p":4,"s":4.0},{"t":"Secondary School Teachers, Except Special and Career/Technical Education","g":"Education","e":1072540,"w":73700,"a":1,"c":1,"p":1,"s":1.0},{"t":"Construction Laborers","g":"Construction & Extraction","e":1057660,"w":51260,"a":2,"c":3,"p":2,"s":2.3},{"t":"Project Management Specialists","g":"Business & Financial","e":1006160,"w":108100,"a":2,"c":2,"p":2,"s":2.0},{"t":"Light Truck Drivers","g":"Transportation & Material Moving","e":994410,"w":47950,"a":3,"c":4,"p":3,"s":3.3},{"t":"Receptionists and Information Clerks","g":"Office & Admin Support","e":964530,"w":38480,"a":5,"c":3,"p":4,"s":4.0},{"t":"Landscaping and Groundskeeping Workers","g":"Building/Grounds Cleaning","e":943430,"w":40880,"a":2,"c":3,"p":2,"s":2.3},{"t":"Human Resources Specialists","g":"Business & Financial","e":917460,"w":79730,"a":3,"c":2,"p":3,"s":2.7},{"t":"Management Analysts","g":"Business & Financial","e":893900,"w":114710,"a":3,"c":2,"p":3,"s":2.7},{"t":"Food Preparation Workers","g":"Food Prep & Serving","e":888770,"w":33940,"a":3,"c":5,"p":4,"s":4.0},{"t":"Market Research Analysts and Marketing Specialists","g":"Business & Financial","e":861140,"w":86480,"a":4,"c":3,"p":4,"s":3.7},{"t":"Shipping, Receiving, and Inventory Clerks","g":"Office & Admin Support","e":857630,"w":44890,"a":4,"c":3,"p":3,"s":3.3},{"t":"Maids and Housekeeping Cleaners","g":"Building/Grounds Cleaning","e":854910,"w":36180,"a":2,"c":4,"p":3,"s":3.0},{"t":"Medical Secretaries and Administrative Assistants","g":"Office & Admin Support","e":830760,"w":45580,"a":4,"c":1,"p":2,"s":2.3},{"t":"Financial Managers","g":"Management","e":818620,"w":180470,"a":2,"c":2,"p":2,"s":2.0},{"t":"First-Line Supervisors of Construction Trades and Extraction Workers","g":"Construction & Extraction","e":806080,"w":84500,"a":1,"c":3,"p":2,"s":2.0},{"t":"Industrial Truck and Tractor Operators","g":"Transportation & Material Moving","e":805770,"w":47830,"a":4,"c":3,"p":3,"s":3.3},{"t":"Medical Assistants","g":"Healthcare Support","e":793460,"w":44720,"a":1,"c":1,"p":1,"s":1.0},{"t":"Lawyers","g":"Legal","e":747750,"w":182760,"a":3,"c":2,"p":2,"s":2.3},{"t":"Bartenders","g":"Food Prep & Serving","e":745610,"w":39880,"a":2,"c":5,"p":4,"s":3.7},{"t":"Electricians","g":"Construction & Extraction","e":742580,"w":69630,"a":1,"c":3,"p":2,"s":2.0},{"t":"Carpenters","g":"Construction & Extraction","e":697740,"w":64040,"a":2,"c":3,"p":2,"s":2.3},{"t":"Computer User Support Specialists","g":"Computer & Mathematical","e":697210,"w":64990,"a":4,"c":2,"p":3,"s":3.0},{"t":"Automotive Service Technicians and Mechanics","g":"Installation/Maintenance/Repair","e":688840,"w":55260,"a":2,"c":4,"p":3,"s":3.0},{"t":"First-Line Supervisors of Production and Operating Workers","g":"Production","e":685140,"w":74540,"a":2,"c":3,"p":2,"s":2.3},{"t":"Cooks, Fast Food","g":"Food Prep & Serving","e":668230,"w":31140,"a":4,"c":5,"p":5,"s":4.7},{"t":"Police and Sheriff's Patrol Officers","g":"Protective Service","e":666990,"w":79320,"a":1,"c":1,"p":1,"s":1.0},{"t":"Computer and Information Systems Managers","g":"Management","e":645970,"w":187990,"a":1,"c":2,"p":1,"s":1.3},{"t":"Licensed Practical and Licensed Vocational Nurses","g":"Healthcare Practitioners","e":632430,"w":64150,"a":1,"c":1,"p":1,"s":1.0},{"t":"Managers, All Other","g":"Management","e":630980,"w":149890,"a":2,"c":3,"p":3,"s":2.7},{"t":"Middle School Teachers, Except Special and Career/Technical Education","g":"Education","e":620370,"w":70040,"a":1,"c":1,"p":1,"s":1.0},{"t":"First-Line Supervisors of Transportation and Material Moving Workers, Except Aircraft Cargo Handling Supervisors","g":"Transportation & Material Moving","e":605510,"w":65670,"a":2,"c":3,"p":2,"s":2.3},{"t":"Sales Managers","g":"Management","e":603710,"w":160930,"a":2,"c":4,"p":3,"s":3.0},{"t":"Packers and Packagers, Hand","g":"Transportation & Material Moving","e":601440,"w":36600,"a":4,"c":3,"p":4,"s":3.7},{"t":"First-Line Supervisors of Mechanics, Installers, and Repairers","g":"Installation/Maintenance/Repair","e":600680,"w":82930,"a":1,"c":3,"p":2,"s":2.0},{"t":"Inspectors, Testers, Sorters, Samplers, and Weighers","g":"Production","e":591180,"w":51670,"a":4,"c":2,"p":3,"s":3.0},{"t":"Medical and Health Services Managers","g":"Management","e":565840,"w":137730,"a":1,"c":1,"p":1,"s":1.0},{"t":"Dining Room and Cafeteria Attendants and Bartender Helpers","g":"Food Prep & Serving","e":522010,"w":34190,"a":3,"c":5,"p":4,"s":4.0},{"t":"Childcare Workers","g":"Personal Care & Service","e":520180,"w":33140,"a":1,"c":2,"p":1,"s":1.3},{"t":"Computer Systems Analysts","g":"Computer & Mathematical","e":497800,"w":111960,"a":3,"c":2,"p":2,"s":2.3},{"t":"Pharmacy Technicians","g":"Healthcare Practitioners","e":487920,"w":44800,"a":3,"c":1,"p":2,"s":2.0},{"t":"Buyers and Purchasing Agents","g":"Business & Financial","e":486900,"w":81720,"a":3,"c":3,"p":3,"s":3.0},{"t":"Substitute Teachers, Short-Term","g":"Education","e":481300,"w":44930,"a":2,"c":1,"p":1,"s":1.3},{"t":"Executive Secretaries and Executive Administrative Assistants","g":"Office & Admin Support","e":472770,"w":77060,"a":5,"c":3,"p":4,"s":4.0},{"t":"Securities, Commodities, and Financial Services Sales Agents","g":"Sales","e":472300,"w":110400,"a":3,"c":3,"p":3,"s":3.0},{"t":"Dishwashers","g":"Food Prep & Serving","e":471670,"w":33220,"a":3,"c":5,"p":4,"s":4.0},{"t":"Insurance Sales Agents","g":"Sales","e":469480,"w":81510,"a":3,"c":3,"p":3,"s":3.0},{"t":"Operating Engineers and Other Construction Equipment Operators","g":"Construction & Extraction","e":469270,"w":65180,"a":2,"c":3,"p":2,"s":2.3},{"t":"Plumbers, Pipefitters, and Steamfitters","g":"Construction & Extraction","e":455940,"w":69940,"a":1,"c":3,"p":2,"s":2.0},{"t":"Cooks, Institution and Cafeteria","g":"Food Prep & Serving","e":448260,"w":37310,"a":2,"c":2,"p":2,"s":2.0},{"t":"Preschool Teachers, Except Special Education","g":"Education","e":445080,"w":41450,"a":1,"c":1,"p":1,"s":1.0},{"t":"Substance Abuse, Behavioral Disorder, and Mental Health Counselors","g":"Community & Social Service","e":440380,"w":65100,"a":1,"c":1,"p":1,"s":1.0},{"t":"Computer Occupations, All Other","g":"Computer & Mathematical","e":439380,"w":116700,"a":3,"c":2,"p":2,"s":2.3},{"t":"Training and Development Specialists","g":"Business & Financial","e":436610,"w":73760,"a":3,"c":2,"p":2,"s":2.3},{"t":"Hosts and Hostesses, Restaurant, Lounge, and Coffee Shop","g":"Food Prep & Serving","e":427150,"w":32030,"a":3,"c":5,"p":4,"s":4.0},{"t":"Social and Human Service Assistants","g":"Community & Social Service","e":424220,"w":47090,"a":2,"c":1,"p":1,"s":1.3},{"t":"Welders, Cutters, Solderers, and Brazers","g":"Production","e":424040,"w":55100,"a":3,"c":3,"p":3,"s":3.0},{"t":"Industrial Machinery Mechanics","g":"Installation/Maintenance/Repair","e":421940,"w":67160,"a":2,"c":2,"p":2,"s":2.0},{"t":"Billing and Posting Clerks","g":"Office & Admin Support","e":417500,"w":49490,"a":5,"c":2,"p":3,"s":3.3},{"t":"Driver/Sales Workers","g":"Transportation & Material Moving","e":417420,"w":39670,"a":3,"c":4,"p":3,"s":3.3},{"t":"Counter and Rental Clerks","g":"Sales","e":398620,"w":43700,"a":4,"c":5,"p":5,"s":4.7},{"t":"Compliance Officers","g":"Business & Financial","e":397770,"w":84980,"a":3,"c":2,"p":2,"s":2.3},{"t":"Heating, Air Conditioning, and Refrigeration Mechanics and Installers","g":"Installation/Maintenance/Repair","e":396870,"w":62690,"a":1,"c":3,"p":2,"s":2.0},{"t":"Bus Drivers, School","g":"Transportation & Material Moving","e":387920,"w":46660,"a":2,"c":1,"p":1,"s":1.3},{"t":"Production, Planning, and Expediting Clerks","g":"Office & Admin Support","e":385000,"w":60420,"a":3,"c":3,"p":3,"s":3.0},{"t":"Marketing Managers","g":"Management","e":384980,"w":171520,"a":3,"c":3,"p":3,"s":3.0},{"t":"Packaging and Filling Machine Operators and Tenders","g":"Production","e":383860,"w":43630,"a":4,"c":3,"p":4,"s":3.7},{"t":"Child, Family, and School Social Workers","g":"Community & Social Service","e":382960,"w":62920,"a":1,"c":1,"p":1,"s":1.0},{"t":"Dental Assistants","g":"Healthcare Support","e":375430,"w":48860,"a":1,"c":1,"p":1,"s":1.0},{"t":"Cleaners of Vehicles and Equipment","g":"Transportation & Material Moving","e":373960,"w":36290,"a":2,"c":4,"p":3,"s":3.0},{"t":"Amusement and Recreation Attendants","g":"Personal Care & Service","e":371590,"w":31350,"a":1,"c":5,"p":3,"s":3.0},{"t":"Paralegals and Legal Assistants","g":"Legal","e":367220,"w":66510,"a":4,"c":2,"p":3,"s":3.0},{"t":"Correctional Officers and Jailers","g":"Protective Service","e":365380,"w":62760,"a":1,"c":1,"p":1,"s":1.0},{"t":"Civil Engineers","g":"Architecture & Engineering","e":355410,"w":107050,"a":2,"c":2,"p":2,"s":2.0},{"t":"Industrial Engineers","g":"Architecture & Engineering","e":350230,"w":107900,"a":2,"c":2,"p":2,"s":2.0},{"t":"Construction Managers","g":"Management","e":348330,"w":119660,"a":1,"c":3,"p":2,"s":2.0},{"t":"Clinical Laboratory Technologists and Technicians","g":"Healthcare Practitioners","e":343040,"w":65320,"a":3,"c":1,"p":2,"s":2.0},{"t":"Educational, Guidance, and Career Counselors and Advisors","g":"Community & Social Service","e":342350,"w":71520,"a":2,"c":1,"p":1,"s":1.3},{"t":"Financial and Investment Analysts","g":"Business & Financial","e":340580,"w":116490,"a":4,"c":2,"p":3,"s":3.0},{"t":"Tellers","g":"Office & Admin Support","e":339340,"w":40940,"a":5,"c":3,"p":4,"s":4.0},{"t":"Postal Service Mail Carriers","g":"Office & Admin Support","e":336040,"w":59880,"a":2,"c":2,"p":2,"s":2.0},{"t":"Firefighters","g":"Protective Service","e":332240,"w":63890,"a":1,"c":1,"p":1,"s":1.0},{"t":"Pharmacists","g":"Healthcare Practitioners","e":328870,"w":137210,"a":2,"c":1,"p":1,"s":1.3},{"t":"Education Administrators, Kindergarten through Secondary","g":"Management","e":319630,"w":113360,"a":1,"c":1,"p":1,"s":1.0},{"t":"Network and Computer Systems Administrators","g":"Computer & Mathematical","e":318570,"w":101190,"a":3,"c":2,"p":2,"s":2.3},{"t":"Physicians, All Other","g":"Healthcare Practitioners","e":315360,"w":253470,"a":1,"c":1,"p":1,"s":1.0},{"t":"Recreation Workers","g":"Personal Care & Service","e":309640,"w":37170,"a":1,"c":3,"p":2,"s":2.0},{"t":"Self-Enrichment Teachers","g":"Education","e":308520,"w":53330,"a":2,"c":4,"p":3,"s":3.0},{"t":"Nurse Practitioners","g":"Healthcare Practitioners","e":307390,"w":132000,"a":1,"c":1,"p":1,"s":1.0},{"t":"Claims Adjusters, Examiners, and Investigators","g":"Business & Financial","e":305020,"w":78770,"a":4,"c":3,"p":3,"s":3.3},{"t":"Exercise Trainers and Group Fitness Instructors","g":"Personal Care & Service","e":303620,"w":51360,"a":1,"c":4,"p":3,"s":2.7},{"t":"Machinists","g":"Production","e":298790,"w":57390,"a":3,"c":2,"p":2,"s":2.3},{"t":"Property, Real Estate, and Community Association Managers","g":"Management","e":296640,"w":82720,"a":3,"c":4,"p":3,"s":3.3},{"t":"Hairdressers, Hairstylists, and Cosmetologists","g":"Personal Care & Service","e":295460,"w":43460,"a":1,"c":4,"p":3,"s":2.7},{"t":"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products","g":"Sales","e":293930,"w":114520,"a":3,"c":2,"p":2,"s":2.3},{"t":"Loan Officers","g":"Business & Financial","e":290530,"w":86020,"a":3,"c":3,"p":3,"s":3.0},{"t":"Bus and Truck Mechanics and Diesel Engine Specialists","g":"Installation/Maintenance/Repair","e":287230,"w":62480,"a":2,"c":3,"p":2,"s":2.3},{"t":"Mechanical Engineers","g":"Architecture & Engineering","e":286760,"w":110080,"a":2,"c":2,"p":2,"s":2.0},{"t":"Public Relations Specialists","g":"Arts/Design/Entertainment","e":280590,"w":80310,"a":3,"c":3,"p":3,"s":3.0},{"t":"Animal Caretakers","g":"Personal Care & Service","e":277300,"w":34750,"a":1,"c":4,"p":2,"s":2.3},{"t":"Production Workers, All Other","g":"Production","e":277060,"w":42940,"a":3,"c":3,"p":3,"s":3.0},{"t":"Food Servers, Nonrestaurant","g":"Food Prep & Serving","e":271780,"w":35030,"a":2,"c":3,"p":3,"s":2.7},{"t":"Personal Financial Advisors","g":"Business & Financial","e":270480,"w":160210,"a":2,"c":3,"p":2,"s":2.3},{"t":"Parts Salespersons","g":"Sales","e":265060,"w":42390,"a":3,"c":4,"p":4,"s":3.7},{"t":"Farmworkers and Laborers, Crop, Nursery, and Greenhouse","g":"Farming/Fishing/Forestry","e":261690,"w":37850,"a":2,"c":2,"p":2,"s":2.0},{"t":"Hotel, Motel, and Resort Desk Clerks","g":"Office & Admin Support","e":261430,"w":34740,"a":4,"c":5,"p":5,"s":4.7},{"t":"Electrical, Electronic, and Electromechanical Assemblers, Except Coil Winders, Tapers, and Finishers","g":"Production","e":261140,"w":45930,"a":4,"c":3,"p":4,"s":3.7},{"t":"Administrative Services Managers","g":"Management","e":254140,"w":126030,"a":3,"c":3,"p":3,"s":3.0},{"t":"Coaches and Scouts","g":"Arts/Design/Entertainment","e":250940,"w":58910,"a":1,"c":3,"p":2,"s":2.0},{"t":"Physical Therapists","g":"Healthcare Practitioners","e":248630,"w":102400,"a":1,"c":1,"p":1,"s":1.0},{"t":"Food Service Managers","g":"Management","e":244230,"w":72370,"a":2,"c":5,"p":4,"s":3.7},{"t":"Logisticians","g":"Business & Financial","e":235640,"w":87600,"a":3,"c":3,"p":3,"s":3.0},{"t":"Industrial Production Managers","g":"Management","e":234380,"w":129180,"a":2,"c":3,"p":2,"s":2.3},{"t":"Data Scientists","g":"Computer & Mathematical","e":233440,"w":124590,"a":3,"c":2,"p":2,"s":2.3},{"t":"Bakers","g":"Production","e":231890,"w":37670,"a":2,"c":4,"p":3,"s":3.0},{"t":"Special Education Teachers, Kindergarten and Elementary School","g":"Education","e":231570,"w":70150,"a":1,"c":1,"p":1,"s":1.0},{"t":"Health Specialties Teachers, Postsecondary","g":"Education","e":229720,"w":137900,"a":1,"c":1,"p":1,"s":1.0},{"t":"Shuttle Drivers and Chauffeurs","g":"Transportation & Material Moving","e":229630,"w":39070,"a":3,"c":4,"p":3,"s":3.3},{"t":"Insurance Claims and Policy Processing Clerks","g":"Office & Admin Support","e":229070,"w":51980,"a":4,"c":2,"p":3,"s":3.0},{"t":"Painters, Construction and Maintenance","g":"Construction & Extraction","e":224180,"w":53710,"a":2,"c":3,"p":2,"s":2.3},{"t":"Radiologic Technologists and Technicians","g":"Healthcare Practitioners","e":223460,"w":79760,"a":2,"c":1,"p":1,"s":1.3},{"t":"Cost Estimators","g":"Business & Financial","e":219530,"w":83160,"a":3,"c":3,"p":3,"s":3.0},{"t":"Dental Hygienists","g":"Healthcare Practitioners","e":219070,"w":93890,"a":1,"c":1,"p":1,"s":1.0},{"t":"First-Line Supervisors of Non-Retail Sales Workers","g":"Sales","e":219010,"w":97870,"a":2,"c":3,"p":3,"s":2.7},{"t":"Human Resources Managers","g":"Management","e":215520,"w":160480,"a":2,"c":2,"p":2,"s":2.0},{"t":"Graphic Designers","g":"Arts/Design/Entertainment","e":214260,"w":68610,"a":4,"c":3,"p":4,"s":3.7},{"t":"Transportation, Storage, and Distribution Managers","g":"Management","e":213000,"w":116010,"a":2,"c":3,"p":2,"s":2.3},{"t":"Chief Executives","g":"Management","e":211850,"w":262930,"a":1,"c":3,"p":2,"s":2.0},{"t":"Dispatchers, Except Police, Fire, and Ambulance","g":"Office & Admin Support","e":211000,"w":53150,"a":2,"c":2,"p":2,"s":2.0},{"t":"Instructional Coordinators","g":"Education","e":210850,"w":77600,"a":3,"c":1,"p":2,"s":2.0},{"t":"Architectural and Engineering Managers","g":"Management","e":210340,"w":175710,"a":1,"c":2,"p":1,"s":1.3},{"t":"Cement Masons and Concrete Finishers","g":"Construction & Extraction","e":205230,"w":59360,"a":2,"c":3,"p":2,"s":2.3},{"t":"Software Quality Assurance Analysts and Testers","g":"Computer & Mathematical","e":199800,"w":110260,"a":4,"c":2,"p":3,"s":3.0},{"t":"Office and Administrative Support Workers, All Other","g":"Office & Admin Support","e":195890,"w":48700,"a":4,"c":3,"p":3,"s":3.3},{"t":"Social and Community Service Managers","g":"Management","e":195490,"w":86100,"a":1,"c":1,"p":1,"s":1.0},{"t":"Laundry and Dry-Cleaning Workers","g":"Production","e":195360,"w":33990,"a":3,"c":3,"p":3,"s":3.0},{"t":"Merchandise Displayers and Window Trimmers","g":"Arts/Design/Entertainment","e":192480,"w":40540,"a":2,"c":4,"p":3,"s":3.0},{"t":"Real Estate Sales Agents","g":"Sales","e":190600,"w":70970,"a":3,"c":4,"p":4,"s":3.7},{"t":"Electrical Engineers","g":"Architecture & Engineering","e":188790,"w":120980,"a":2,"c":2,"p":2,"s":2.0},{"t":"Medical Records Specialists","g":"Healthcare Practitioners","e":187910,"w":55970,"a":4,"c":1,"p":2,"s":2.3},{"t":"Healthcare Social Workers","g":"Community & Social Service","e":185940,"w":72030,"a":1,"c":1,"p":1,"s":1.0},{"t":"Installation, Maintenance, and Repair Workers, All Other","g":"Installation/Maintenance/Repair","e":183690,"w":53270,"a":2,"c":3,"p":2,"s":2.3},{"t":"Chefs and Head Cooks","g":"Food Prep & Serving","e":182320,"w":64720,"a":1,"c":4,"p":3,"s":2.7},{"t":"Mobile Heavy Equipment Mechanics, Except Engines","g":"Installation/Maintenance/Repair","e":180270,"w":67580,"a":2,"c":3,"p":2,"s":2.3},{"t":"Information Security Analysts","g":"Computer & Mathematical","e":179430,"w":127730,"a":2,"c":1,"p":1,"s":1.3},{"t":"Speech-Language Pathologists","g":"Healthcare Practitioners","e":178790,"w":95840,"a":1,"c":1,"p":1,"s":1.0},{"t":"Emergency Medical Technicians","g":"Healthcare Practitioners","e":177980,"w":44790,"a":1,"c":1,"p":1,"s":1.0},{"t":"Computer Network Architects","g":"Computer & Mathematical","e":177010,"w":135890,"a":3,"c":2,"p":2,"s":2.3},{"t":"Computer Numerically Controlled Tool Operators","g":"Production","e":176950,"w":52900,"a":3,"c":2,"p":2,"s":2.3},{"t":"Education Administrators, Postsecondary","g":"Management","e":176420,"w":124450,"a":1,"c":1,"p":1,"s":1.0},{"t":"First-Line Supervisors of Housekeeping and Janitorial Workers","g":"Building/Grounds Cleaning","e":174660,"w":51170,"a":2,"c":3,"p":2,"s":2.3},{"t":"Tutors","g":"Education","e":174660,"w":47780,"a":3,"c":2,"p":2,"s":2.3},{"t":"Cutting, Punching, and Press Machine Setters, Operators, and Tenders, Metal and Plastic","g":"Production","e":174430,"w":47060,"a":4,"c":3,"p":4,"s":3.7},{"t":"Health Technologists and Technicians, All Other","g":"Healthcare Practitioners","e":174060,"w":56370,"a":2,"c":1,"p":1,"s":1.3},{"t":"Loan Interviewers and Clerks","g":"Office & Admin Support","e":173100,"w":51050,"a":4,"c":3,"p":3,"s":3.3},{"t":"Food Batchmakers","g":"Production","e":171660,"w":42830,"a":3,"c":3,"p":3,"s":3.0},{"t":"Court, Municipal, and License Clerks","g":"Office & Admin Support","e":170010,"w":51200,"a":3,"c":1,"p":2,"s":2.0},{"t":"Helpers--Production Workers","g":"Production","e":167490,"w":40080,"a":3,"c":3,"p":3,"s":3.0},{"t":"Bill and Account Collectors","g":"Office & Admin Support","e":165020,"w":48370,"a":4,"c":3,"p":4,"s":3.7},{"t":"Special Education Teachers, Secondary School","g":"Education","e":162780,"w":74610,"a":1,"c":1,"p":1,"s":1.0},{"t":"Coating, Painting, and Spraying Machine Setters, Operators, and Tenders","g":"Production","e":159500,"w":51610,"a":4,"c":3,"p":3,"s":3.3},{"t":"Interviewers, Except Eligibility and Loan","g":"Office & Admin Support","e":157310,"w":45400,"a":4,"c":3,"p":4,"s":3.7},{"t":"Payroll and Timekeeping Clerks","g":"Office & Admin Support","e":156950,"w":56870,"a":5,"c":2,"p":3,"s":3.3},{"t":"Medical Scientists, Except Epidemiologists","g":"Life/Physical/Social Science","e":156300,"w":112690,"a":2,"c":1,"p":1,"s":1.3},{"t":"Eligibility Interviewers, Government Programs","g":"Office & Admin Support","e":156260,"w":53970,"a":3,"c":1,"p":2,"s":2.0},{"t":"Physician Assistants","g":"Healthcare Practitioners","e":155540,"w":136900,"a":1,"c":1,"p":1,"s":1.0},{"t":"Automotive Body and Related Repairers","g":"Installation/Maintenance/Repair","e":155220,"w":58830,"a":2,"c":4,"p":3,"s":3.0},{"t":"Teaching Assistants, Postsecondary","g":"Education","e":155010,"w":47560,"a":2,"c":1,"p":1,"s":1.3},{"t":"Molding, Coremaking, and Casting Machine Setters, Operators, and Tenders, Metal and Plastic","g":"Production","e":154820,"w":44130,"a":4,"c":3,"p":4,"s":3.7},{"t":"Legal Secretaries and Administrative Assistants","g":"Office & Admin Support","e":154540,"w":60320,"a":5,"c":2,"p":3,"s":3.3},{"t":"Telecommunications Equipment Installers and Repairers, Except Line Installers","g":"Installation/Maintenance/Repair","e":153890,"w":66650,"a":2,"c":2,"p":2,"s":2.0},{"t":"First-Line Supervisors of Police and Detectives","g":"Protective Service","e":153130,"w":110990,"a":1,"c":1,"p":1,"s":1.0},{"t":"Occupational Therapists","g":"Healthcare Practitioners","e":152280,"w":98240,"a":1,"c":1,"p":1,"s":1.0},{"t":"Highway Maintenance Workers","g":"Construction & Extraction","e":151750,"w":51410,"a":2,"c":2,"p":2,"s":2.0},{"t":"Postsecondary Teachers, All Other","g":"Education","e":151530,"w":94470,"a":2,"c":1,"p":1,"s":1.3},{"t":"Engineers, All Other","g":"Architecture & Engineering","e":150750,"w":121720,"a":2,"c":2,"p":2,"s":2.0},{"t":"Cooks, Short Order","g":"Food Prep & Serving","e":150420,"w":35660,"a":3,"c":5,"p":4,"s":4.0},{"t":"Bus Drivers, Transit and Intercity","g":"Transportation & Material Moving","e":148980,"w":58390,"a":3,"c":2,"p":2,"s":2.3},{"t":"Manicurists and Pedicurists","g":"Personal Care & Service","e":147820,"w":36910,"a":1,"c":4,"p":3,"s":2.7},{"t":"Computer Network Support Specialists","g":"Computer & Mathematical","e":146450,"w":79610,"a":4,"c":2,"p":3,"s":3.0},{"t":"Producers and Directors","g":"Arts/Design/Entertainment","e":145270,"w":114280,"a":2,"c":3,"p":3,"s":2.7},{"t":"Printing Press Operators","g":"Production","e":145110,"w":46620,"a":4,"c":3,"p":3,"s":3.3},{"t":"Information and Record Clerks, All Other","g":"Office & Admin Support","e":143910,"w":50200,"a":4,"c":3,"p":3,"s":3.3},{"t":"Lifeguards, Ski Patrol, and Other Recreational Protective Service Workers","g":"Protective Service","e":143590,"w":34700,"a":1,"c":4,"p":2,"s":2.3},{"t":"Facilities Managers","g":"Management","e":141090,"w":114520,"a":2,"c":3,"p":2,"s":2.3},{"t":"Meat, Poultry, and Fish Cutters and Trimmers","g":"Production","e":141090,"w":38640,"a":3,"c":2,"p":2,"s":2.3},{"t":"Butchers and Meat Cutters","g":"Production","e":140040,"w":41300,"a":2,"c":3,"p":2,"s":2.3},{"t":"Refuse and Recyclable Material Collectors","g":"Transportation & Material Moving","e":139180,"w":51210,"a":2,"c":2,"p":2,"s":2.0},{"t":"Phlebotomists","g":"Healthcare Support","e":138880,"w":44390,"a":1,"c":1,"p":1,"s":1.0},{"t":"Construction and Building Inspectors","g":"Construction & Extraction","e":137210,"w":76430,"a":3,"c":2,"p":2,"s":2.3},{"t":"Roofers","g":"Construction & Extraction","e":136740,"w":57090,"a":2,"c":3,"p":2,"s":2.3},{"t":"Respiratory Therapists","g":"Healthcare Practitioners","e":136420,"w":84260,"a":1,"c":1,"p":1,"s":1.0},{"t":"Aircraft Mechanics and Service Technicians","g":"Installation/Maintenance/Repair","e":136390,"w":80780,"a":2,"c":2,"p":2,"s":2.0},{"t":"Psychiatric Technicians","g":"Healthcare Practitioners","e":136300,"w":45000,"a":1,"c":1,"p":1,"s":1.0},{"t":"Data Entry Keyers","g":"Office & Admin Support","e":135280,"w":42070,"a":5,"c":3,"p":5,"s":4.3},{"t":"Meeting, Convention, and Event Planners","g":"Business & Financial","e":134670,"w":65090,"a":3,"c":4,"p":3,"s":3.3},{"t":"Parking Attendants","g":"Transportation & Material Moving","e":134650,"w":34190,"a":3,"c":4,"p":3,"s":3.3},{"t":"Librarians and Media Collections Specialists","g":"Education","e":131830,"w":69180,"a":3,"c":1,"p":2,"s":2.0},{"t":"Veterinary Technologists and Technicians","g":"Healthcare Practitioners","e":131320,"w":46280,"a":1,"c":1,"p":1,"s":1.0},{"t":"Flight Attendants","g":"Transportation & Material Moving","e":130110,"w":78950,"a":1,"c":4,"p":3,"s":2.7},{"t":"Multiple Machine Tool Setters, Operators, and Tenders, Metal and Plastic","g":"Production","e":129850,"w":48590,"a":4,"c":3,"p":3,"s":3.3},{"t":"Occupational Health and Safety Specialists","g":"Life/Physical/Social Science","e":128430,"w":88660,"a":2,"c":1,"p":1,"s":1.3},{"t":"Financial Specialists, All Other","g":"Business & Financial","e":127450,"w":93890,"a":3,"c":2,"p":3,"s":2.7},{"t":"Reservation and Transportation Ticket Agents and Travel Clerks","g":"Office & Admin Support","e":127440,"w":47720,"a":4,"c":4,"p":4,"s":4.0},{"t":"Chemical Equipment Operators and Tenders","g":"Production","e":127410,"w":59800,"a":3,"c":2,"p":2,"s":2.3},{"t":"Water and Wastewater Treatment Plant and System Operators","g":"Production","e":126750,"w":60620,"a":2,"c":1,"p":1,"s":1.3},{"t":"Mental Health and Substance Abuse Social Workers","g":"Community & Social Service","e":125910,"w":68290,"a":1,"c":1,"p":1,"s":1.0},{"t":"Teachers and Instructors, All Other","g":"Education","e":125010,"w":71610,"a":2,"c":2,"p":2,"s":2.0},{"t":"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers","g":"Building/Grounds Cleaning","e":124130,"w":59380,"a":2,"c":3,"p":2,"s":2.3},{"t":"Electrical Power-Line Installers and Repairers","g":"Installation/Maintenance/Repair","e":123680,"w":90110,"a":1,"c":2,"p":1,"s":1.3},{"t":"Ushers, Lobby Attendants, and Ticket Takers","g":"Personal Care & Service","e":119210,"w":31770,"a":2,"c":5,"p":4,"s":3.7},{"t":"Sheet Metal Workers","g":"Construction & Extraction","e":117470,"w":66110,"a":2,"c":3,"p":2,"s":2.3},{"t":"Educational Instruction and Library Workers, All Other","g":"Education","e":114640,"w":55700,"a":2,"c":1,"p":1,"s":1.3},{"t":"Kindergarten Teachers, Except Special Education","g":"Education","e":114410,"w":67020,"a":1,"c":1,"p":1,"s":1.0},{"t":"Veterinary Assistants and Laboratory Animal Caretakers","g":"Healthcare Support","e":114190,"w":38990,"a":1,"c":1,"p":1,"s":1.0},{"t":"Surgical Technologists","g":"Healthcare Practitioners","e":113890,"w":65810,"a":1,"c":1,"p":1,"s":1.0},{"t":"Dentists, General","g":"Healthcare Practitioners","e":113490,"w":196100,"a":1,"c":1,"p":1,"s":1.0},{"t":"Postal Service Mail Sorters, Processors, and Processing Machine Operators","g":"Office & Admin Support","e":111930,"w":58310,"a":4,"c":2,"p":3,"s":3.0},{"t":"Web and Digital Interface Designers","g":"Computer & Mathematical","e":111400,"w":111450,"a":4,"c":3,"p":4,"s":3.7},{"t":"Career/Technical Education Teachers, Postsecondary","g":"Education","e":111150,"w":68710,"a":1,"c":1,"p":1,"s":1.0},{"t":"Architects, Except Landscape and Naval","g":"Architecture & Engineering","e":111140,"w":103390,"a":3,"c":3,"p":3,"s":3.0},{"t":"Detectives and Criminal Investigators","g":"Protective Service","e":110790,"w":98770,"a":2,"c":1,"p":1,"s":1.3},{"t":"Community and Social Service Specialists, All Other","g":"Community & Social Service","e":110390,"w":58360,"a":2,"c":1,"p":1,"s":1.3},{"t":"Computer Programmers","g":"Computer & Mathematical","e":109870,"w":103640,"a":5,"c":2,"p":4,"s":3.7},{"t":"Sewing Machine Operators","g":"Production","e":109590,"w":36680,"a":4,"c":3,"p":4,"s":3.7},{"t":"Architectural and Civil Drafters","g":"Architecture & Engineering","e":109550,"w":68860,"a":4,"c":3,"p":3,"s":3.3},{"t":"Physical Therapist Assistants","g":"Healthcare Support","e":108010,"w":67160,"a":1,"c":1,"p":1,"s":1.0},{"t":"Family Medicine Physicians","g":"Healthcare Practitioners","e":107950,"w":256830,"a":1,"c":1,"p":1,"s":1.0},{"t":"Insurance Underwriters","g":"Business & Financial","e":107820,"w":90830,"a":4,"c":2,"p":3,"s":3.0},{"t":"Operations Research Analysts","g":"Computer & Mathematical","e":107760,"w":99120,"a":3,"c":2,"p":2,"s":2.3},{"t":"First-Line Supervisors of Personal Service Workers","g":"Personal Care & Service","e":107060,"w":50920,"a":2,"c":4,"p":3,"s":3.0},{"t":"Tire Repairers and Changers","g":"Installation/Maintenance/Repair","e":106620,"w":39140,"a":2,"c":4,"p":3,"s":3.0},{"t":"Fundraisers","g":"Business & Financial","e":105930,"w":73130,"a":2,"c":3,"p":2,"s":2.3},{"t":"Career/Technical Education Teachers, Secondary School","g":"Education","e":104450,"w":70550,"a":1,"c":1,"p":1,"s":1.0},{"t":"Healthcare Support Workers, All Other","g":"Healthcare Support","e":103650,"w":48760,"a":1,"c":1,"p":1,"s":1.0},{"t":"Compensation, Benefits, and Job Analysis Specialists","g":"Business & Financial","e":102370,"w":82920,"a":4,"c":2,"p":3,"s":3.0},{"t":"Public Safety Telecommunicators","g":"Office & Admin Support","e":101140,"w":54800,"a":2,"c":1,"p":1,"s":1.3},{"t":"Natural Sciences Managers","g":"Management","e":100870,"w":173500,"a":1,"c":1,"p":1,"s":1.0},{"t":"Mixing and Blending Machine Setters, Operators, and Tenders","g":"Production","e":100840,"w":49990,"a":3,"c":3,"p":3,"s":3.0},{"t":"Paramedics","g":"Healthcare Practitioners","e":99530,"w":60610,"a":1,"c":1,"p":1,"s":1.0},{"t":"Airline Pilots, Copilots, and Flight Engineers","g":"Transportation & Material Moving","e":99300,"w":280570,"a":2,"c":3,"p":2,"s":2.3},{"t":"Sales and Related Workers, All Other","g":"Sales","e":99070,"w":57030,"a":3,"c":3,"p":3,"s":3.0},{"t":"Telecommunications Line Installers and Repairers","g":"Installation/Maintenance/Repair","e":98360,"w":72440,"a":2,"c":2,"p":2,"s":2.0},{"t":"Automotive and Watercraft Service Attendants","g":"Transportation & Material Moving","e":98270,"w":35800,"a":2,"c":4,"p":3,"s":3.0},{"t":"Art, Drama, and Music Teachers, Postsecondary","g":"Education","e":97890,"w":102240,"a":1,"c":1,"p":1,"s":1.0},{"t":"Cargo and Freight Agents","g":"Office & Admin Support","e":97800,"w":55420,"a":3,"c":3,"p":3,"s":3.0},{"t":"Helpers--Installation, Maintenance, and Repair Workers","g":"Installation/Maintenance/Repair","e":97540,"w":40750,"a":2,"c":3,"p":2,"s":2.3},{"t":"Advertising Sales Agents","g":"Sales","e":97470,"w":76350,"a":4,"c":4,"p":4,"s":4.0},{"t":"Paper Goods Machine Setters, Operators, and Tenders","g":"Production","e":96950,"w":51750,"a":4,"c":3,"p":3,"s":3.3},{"t":"Pest Control Workers","g":"Building/Grounds Cleaning","e":96110,"w":45800,"a":2,"c":3,"p":2,"s":2.3},{"t":"Massage Therapists","g":"Healthcare Support","e":96040,"w":63430,"a":1,"c":4,"p":2,"s":2.3},{"t":"Editors","g":"Arts/Design/Entertainment","e":95480,"w":85700,"a":4,"c":3,"p":4,"s":3.7},{"t":"Special Education Teachers, Middle School","g":"Education","e":95330,"w":72310,"a":1,"c":1,"p":1,"s":1.0},{"t":"Electronics Engineers, Except Computer","g":"Architecture & Engineering","e":93940,"w":132500,"a":2,"c":2,"p":2,"s":2.0}];
+        const OCC_GROUPS = ["Architecture & Engineering", "Arts/Design/Entertainment", "Building/Grounds Cleaning", "Business & Financial", "Community & Social Service", "Computer & Mathematical", "Construction & Extraction", "Education", "Farming/Fishing/Forestry", "Food Prep & Serving", "Healthcare Practitioners", "Healthcare Support", "Installation/Maintenance/Repair", "Legal", "Life/Physical/Social Science", "Management", "Office & Admin Support", "Personal Care & Service", "Production", "Protective Service", "Sales", "Transportation & Material Moving"];
+
         const SCORE_DATA = [
             { score: 1, label: "Resilient", emp: 35842000, color: "#059669", bg: "#D1FAE5", desc: "Healthcare, education, public safety, essential services" },
             { score: 2, label: "Low Vulnerability", emp: 33918000, color: "#2E7D32", bg: "#E8F5E9", desc: "Skilled trades, engineering, physical maintenance, financial mgmt" },
@@ -315,11 +398,175 @@
         function updateRate(idx, val) {
             rates[idx] = Math.max(0, Math.min(100, val));
             render();
+
+        // ===== OCCUPATION TABLE =====
+        let occSortCol = 'e';
+        let occSortDir = 'desc';
+
+        function initOccFilters() {
+            const select = document.getElementById('occ-group-filter');
+            OCC_GROUPS.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g;
+                opt.textContent = g;
+                select.appendChild(opt);
+            });
+        }
+
+        function scoreCls(s) {
+            if (s <= 1) return 's1';
+            if (s <= 2) return 's2';
+            if (s <= 3) return 's3';
+            if (s <= 4) return 's4';
+            return 's5';
+        }
+
+        function combinedCls(s) {
+            if (s <= 1.5) return 's1';
+            if (s <= 2.5) return 's2';
+            if (s <= 3.5) return 's3';
+            if (s <= 4.5) return 's4';
+            return 's5';
+        }
+
+        function sortOcc(col) {
+            if (occSortCol === col) {
+                occSortDir = occSortDir === 'asc' ? 'desc' : 'asc';
+            } else {
+                occSortCol = col;
+                occSortDir = col === 't' || col === 'g' ? 'asc' : 'desc';
+            }
+            renderOccTable();
+        }
+
+        function renderOccTable() {
+            const search = document.getElementById('occ-search').value.toLowerCase();
+            const groupFilter = document.getElementById('occ-group-filter').value;
+            const scoreFilter = document.getElementById('occ-score-filter').value;
+
+            let filtered = OCC_DATA.filter(o => {
+                if (search && !o.t.toLowerCase().includes(search) && !o.g.toLowerCase().includes(search)) return false;
+                if (groupFilter && o.g !== groupFilter) return false;
+                if (scoreFilter && Math.round(o.s) !== parseInt(scoreFilter)) return false;
+                return true;
+            });
+
+            filtered.sort((a, b) => {
+                let va = a[occSortCol], vb = b[occSortCol];
+                if (typeof va === 'string') va = va.toLowerCase();
+                if (typeof vb === 'string') vb = vb.toLowerCase();
+                if (va < vb) return occSortDir === 'asc' ? -1 : 1;
+                if (va > vb) return occSortDir === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            document.getElementById('occ-count').textContent = `Showing ${filtered.length} of ${OCC_DATA.length} occupations`;
+
+            const tbody = document.getElementById('occ-tbody');
+            tbody.innerHTML = filtered.map(o => `
+                <tr>
+                    <td class="occ-name">${o.t}</td>
+                    <td class="occ-group">${o.g}</td>
+                    <td class="num">${o.e.toLocaleString()}</td>
+                    <td class="num">$${o.w.toLocaleString()}</td>
+                    <td style="text-align:center"><span class="score-dot ${scoreCls(o.a)}">${o.a}</span></td>
+                    <td style="text-align:center"><span class="score-dot ${scoreCls(o.c)}">${o.c}</span></td>
+                    <td style="text-align:center"><span class="score-dot ${scoreCls(o.p)}">${o.p}</span></td>
+                    <td style="text-align:center"><span class="score-dot ${combinedCls(o.s)}">${o.s}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        initOccFilters();
+        renderOccTable();
+
         }
 
         function resetDefaults() {
             rates = [...DEFAULT_RATES];
             render();
+
+        // ===== OCCUPATION TABLE =====
+        let occSortCol = 'e';
+        let occSortDir = 'desc';
+
+        function initOccFilters() {
+            const select = document.getElementById('occ-group-filter');
+            OCC_GROUPS.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g;
+                opt.textContent = g;
+                select.appendChild(opt);
+            });
+        }
+
+        function scoreCls(s) {
+            if (s <= 1) return 's1';
+            if (s <= 2) return 's2';
+            if (s <= 3) return 's3';
+            if (s <= 4) return 's4';
+            return 's5';
+        }
+
+        function combinedCls(s) {
+            if (s <= 1.5) return 's1';
+            if (s <= 2.5) return 's2';
+            if (s <= 3.5) return 's3';
+            if (s <= 4.5) return 's4';
+            return 's5';
+        }
+
+        function sortOcc(col) {
+            if (occSortCol === col) {
+                occSortDir = occSortDir === 'asc' ? 'desc' : 'asc';
+            } else {
+                occSortCol = col;
+                occSortDir = col === 't' || col === 'g' ? 'asc' : 'desc';
+            }
+            renderOccTable();
+        }
+
+        function renderOccTable() {
+            const search = document.getElementById('occ-search').value.toLowerCase();
+            const groupFilter = document.getElementById('occ-group-filter').value;
+            const scoreFilter = document.getElementById('occ-score-filter').value;
+
+            let filtered = OCC_DATA.filter(o => {
+                if (search && !o.t.toLowerCase().includes(search) && !o.g.toLowerCase().includes(search)) return false;
+                if (groupFilter && o.g !== groupFilter) return false;
+                if (scoreFilter && Math.round(o.s) !== parseInt(scoreFilter)) return false;
+                return true;
+            });
+
+            filtered.sort((a, b) => {
+                let va = a[occSortCol], vb = b[occSortCol];
+                if (typeof va === 'string') va = va.toLowerCase();
+                if (typeof vb === 'string') vb = vb.toLowerCase();
+                if (va < vb) return occSortDir === 'asc' ? -1 : 1;
+                if (va > vb) return occSortDir === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            document.getElementById('occ-count').textContent = `Showing ${filtered.length} of ${OCC_DATA.length} occupations`;
+
+            const tbody = document.getElementById('occ-tbody');
+            tbody.innerHTML = filtered.map(o => `
+                <tr>
+                    <td class="occ-name">${o.t}</td>
+                    <td class="occ-group">${o.g}</td>
+                    <td class="num">${o.e.toLocaleString()}</td>
+                    <td class="num">$${o.w.toLocaleString()}</td>
+                    <td style="text-align:center"><span class="score-dot ${scoreCls(o.a)}">${o.a}</span></td>
+                    <td style="text-align:center"><span class="score-dot ${scoreCls(o.c)}">${o.c}</span></td>
+                    <td style="text-align:center"><span class="score-dot ${scoreCls(o.p)}">${o.p}</span></td>
+                    <td style="text-align:center"><span class="score-dot ${combinedCls(o.s)}">${o.s}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        initOccFilters();
+        renderOccTable();
+
         }
 
         function switchTab(btn, tab) {
@@ -338,6 +585,88 @@
         document.head.appendChild(thumbStyle);
 
         render();
+
+        // ===== OCCUPATION TABLE =====
+        let occSortCol = 'e';
+        let occSortDir = 'desc';
+
+        function initOccFilters() {
+            const select = document.getElementById('occ-group-filter');
+            OCC_GROUPS.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g;
+                opt.textContent = g;
+                select.appendChild(opt);
+            });
+        }
+
+        function scoreCls(s) {
+            if (s <= 1) return 's1';
+            if (s <= 2) return 's2';
+            if (s <= 3) return 's3';
+            if (s <= 4) return 's4';
+            return 's5';
+        }
+
+        function combinedCls(s) {
+            if (s <= 1.5) return 's1';
+            if (s <= 2.5) return 's2';
+            if (s <= 3.5) return 's3';
+            if (s <= 4.5) return 's4';
+            return 's5';
+        }
+
+        function sortOcc(col) {
+            if (occSortCol === col) {
+                occSortDir = occSortDir === 'asc' ? 'desc' : 'asc';
+            } else {
+                occSortCol = col;
+                occSortDir = col === 't' || col === 'g' ? 'asc' : 'desc';
+            }
+            renderOccTable();
+        }
+
+        function renderOccTable() {
+            const search = document.getElementById('occ-search').value.toLowerCase();
+            const groupFilter = document.getElementById('occ-group-filter').value;
+            const scoreFilter = document.getElementById('occ-score-filter').value;
+
+            let filtered = OCC_DATA.filter(o => {
+                if (search && !o.t.toLowerCase().includes(search) && !o.g.toLowerCase().includes(search)) return false;
+                if (groupFilter && o.g !== groupFilter) return false;
+                if (scoreFilter && Math.round(o.s) !== parseInt(scoreFilter)) return false;
+                return true;
+            });
+
+            filtered.sort((a, b) => {
+                let va = a[occSortCol], vb = b[occSortCol];
+                if (typeof va === 'string') va = va.toLowerCase();
+                if (typeof vb === 'string') vb = vb.toLowerCase();
+                if (va < vb) return occSortDir === 'asc' ? -1 : 1;
+                if (va > vb) return occSortDir === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            document.getElementById('occ-count').textContent = `Showing ${filtered.length} of ${OCC_DATA.length} occupations`;
+
+            const tbody = document.getElementById('occ-tbody');
+            tbody.innerHTML = filtered.map(o => `
+                <tr>
+                    <td class="occ-name">${o.t}</td>
+                    <td class="occ-group">${o.g}</td>
+                    <td class="num">${o.e.toLocaleString()}</td>
+                    <td class="num">$${o.w.toLocaleString()}</td>
+                    <td style="text-align:center"><span class="score-dot ${scoreCls(o.a)}">${o.a}</span></td>
+                    <td style="text-align:center"><span class="score-dot ${scoreCls(o.c)}">${o.c}</span></td>
+                    <td style="text-align:center"><span class="score-dot ${scoreCls(o.p)}">${o.p}</span></td>
+                    <td style="text-align:center"><span class="score-dot ${combinedCls(o.s)}">${o.s}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        initOccFilters();
+        renderOccTable();
+
     </script>
 </body>
 </html>
