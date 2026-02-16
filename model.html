@@ -14,16 +14,75 @@
     <title>The Model — Post Labor Investing</title>
     <meta name="description" content="An interactive displacement scenario model covering 283 U.S. occupations and 138.8M workers.">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .model-container { max-width: 920px; margin: 0 auto; padding: 0 2rem 4rem; }
+        .model-intro { background: var(--accent-dim); border: 1px solid rgba(26,95,122,0.15); border-radius: 8px; padding: 1.15rem 1.5rem; margin-bottom: 2rem; font-size: 0.9rem; color: var(--accent); line-height: 1.6; }
+        .model-intro strong { font-weight: 600; }
+        .results-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-bottom: 2.5rem; }
+        .result-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; text-align: center; box-shadow: 0 2px 8px var(--border-light); transition: border-color 0.3s ease; }
+        .result-card.danger { border-color: #EF4444; }
+        .result-label { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .result-value { font-family: var(--serif); font-size: 2.25rem; font-weight: 400; color: var(--text-primary); line-height: 1.1; }
+        .result-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem; }
+        .sliders-section { margin-bottom: 2.5rem; }
+        .sliders-title { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; color: var(--text-primary); margin-bottom: 1.25rem; }
+        .slider-row { display: grid; grid-template-columns: 200px 1fr 60px 100px; align-items: center; gap: 1rem; padding: 0.9rem 1.15rem; border-radius: 8px; margin-bottom: 4px; border: 1px solid var(--border); background: var(--bg-card); }
+        .slider-row:nth-child(odd) { background: var(--bg-primary); }
+        .score-badge { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 5px; font-size: 0.75rem; font-weight: 700; margin-right: 0.5rem; flex-shrink: 0; }
+        .slider-info { display: flex; align-items: center; }
+        .slider-label { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+        .slider-workers { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+        .slider-input { width: 100%; height: 6px; -webkit-appearance: none; appearance: none; border-radius: 3px; outline: none; cursor: pointer; background: var(--border); }
+        .slider-input::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; cursor: pointer; border: 2px solid white; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+        .slider-input::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; cursor: pointer; border: 2px solid white; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+        .slider-pct { text-align: center; font-size: 1.25rem; font-weight: 700; }
+        .slider-displaced { text-align: right; font-size: 0.85rem; font-weight: 600; color: #DC2626; }
+        .chart-section { margin-bottom: 2.5rem; }
+        .chart-title { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; color: var(--text-primary); margin-bottom: 1.25rem; }
+        .chart-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.75rem; box-shadow: 0 2px 8px var(--border-light); }
+        .bar-row { display: flex; align-items: center; margin-bottom: 0.85rem; }
+        .bar-label { width: 200px; font-size: 0.8rem; color: var(--text-secondary); flex-shrink: 0; text-align: right; padding-right: 1rem; }
+        .bar-track { flex: 1; height: 28px; background: var(--bg-primary); border-radius: 4px; position: relative; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; transition: width 0.4s ease; min-width: 45px; }
+        .bar-value { font-size: 0.75rem; font-weight: 700; color: white; }
+        .bar-row.scenario .bar-label { font-weight: 600; color: var(--text-primary); }
+        .affected-section { margin-bottom: 2rem; }
+        .affected-title { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; color: var(--text-primary); margin-bottom: 1.25rem; }
+        .affected-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .affected-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; box-shadow: 0 2px 8px var(--border-light); }
+        .affected-card h4 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .affected-card ul { list-style: none; padding: 0; }
+        .affected-card li { font-size: 0.85rem; color: var(--text-secondary); padding: 0.3rem 0; display: flex; justify-content: space-between; }
+        .affected-card li span.emp { font-weight: 500; color: #DC2626; font-size: 0.8rem; }
+        .methodology { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 2rem; }
+        .methodology strong { color: var(--text-secondary); }
+        .reset-btn { display: block; margin: 0 auto 2rem; background: none; border: 1px solid var(--border); color: var(--text-secondary); padding: 0.6rem 1.5rem; border-radius: 6px; font-family: var(--sans); font-size: 0.8rem; letter-spacing: 0.05em; cursor: pointer; transition: all 0.25s ease; }
+        .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .model-tabs { display: flex; gap: 0; margin-bottom: 2rem; border-bottom: 2px solid var(--border); }
+        .model-tab { padding: 0.75rem 1.5rem; font-family: var(--sans); font-size: 0.875rem; font-weight: 500; color: var(--text-muted); background: none; border: none; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.25s ease; }
+        .model-tab:hover { color: var(--text-primary); }
+        .model-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+        .score-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; }
+        .score-table th { text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); padding: 0.75rem 1rem; border-bottom: 2px solid var(--border); }
+        .score-table td { font-size: 0.9rem; color: var(--text-secondary); padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+        .score-table td:first-child { font-weight: 700; text-align: center; width: 60px; }
+        .score-table td:nth-child(2) { font-weight: 600; color: var(--text-primary); width: 140px; }
+        @media (max-width: 768px) {
+            .results-row { grid-template-columns: 1fr; }
+            .slider-row { grid-template-columns: 1fr; gap: 0.5rem; }
+            .slider-displaced { text-align: left; }
+            .bar-label { width: 140px; font-size: 0.7rem; }
+            .affected-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-
-    <!-- NAV -->
     <nav>
         <a href="index.html" class="logo">Post Labor<span>.</span></a>
         <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
         </button>
         <div class="nav-links">
             <a href="index.html">Home</a>
@@ -35,22 +94,114 @@
         </div>
     </nav>
 
-    <!-- HEADER -->
     <div class="page-header">
         <h1>Post-Labor Economy Displacement Scenario Model</h1>
-        <p>283 occupations. 138.8M workers. 90% of U.S. employment. Adjust your assumptions and see the impact in real time.</p>
+        <p>283 occupations · 138.8M workers · 90% of U.S. employment · BLS OEWS May 2024</p>
     </div>
 
-    <!-- MODEL PLACEHOLDER -->
-    <div class="page-content">
-        <div class="placeholder">
-            <div class="placeholder-icon">📊</div>
-            <p>The interactive displacement model is coming soon.</p>
-            <p style="margin-top: 0.75rem;">Each U.S. occupation has been scored 1–5 for Post-Labor Vulnerability based on AI displacement risk and consumer spending dependency. The model lets you adjust displacement percentages and see the resulting impact on unemployment.</p>
+    <div class="model-container">
+        <div class="model-tabs">
+            <button class="model-tab active" onclick="switchTab(this, 'scenario')">Scenario Model</button>
+            <button class="model-tab" onclick="switchTab(this, 'methodology')">Scoring Methodology</button>
+        </div>
+
+        <div class="tab-panel active" id="tab-scenario">
+            <div class="model-intro">
+                <strong>How it works:</strong> Each U.S. occupation has been scored 1 to 5 for Post-Labor Vulnerability based on AI displacement risk and consumer spending dependency. Adjust the displacement percentages below to model what happens to unemployment.
+            </div>
+
+            <div class="results-row" id="results-row"></div>
+
+            <div class="sliders-section">
+                <h2 class="sliders-title">Your Assumptions</h2>
+                <div id="sliders-container"></div>
+            </div>
+
+            <button class="reset-btn" onclick="resetDefaults()">Reset to Defaults</button>
+
+            <div class="chart-section">
+                <h2 class="chart-title">Historical Comparison</h2>
+                <div class="chart-container" id="chart-container"></div>
+            </div>
+
+            <div class="affected-section">
+                <h2 class="affected-title">Most Affected Occupation Categories</h2>
+                <div class="affected-grid">
+                    <div class="affected-card">
+                        <h4><span class="score-badge" style="background:#FFCDD2;color:#B71C1C;">5</span> Critical Vulnerability</h4>
+                        <ul>
+                            <li>Cashiers <span class="emp">3.3M workers</span></li>
+                            <li>Retail Salespersons <span class="emp">3.6M workers</span></li>
+                            <li>Fast Food & Counter Workers <span class="emp">3.6M workers</span></li>
+                            <li>Customer Service Reps <span class="emp">2.8M workers</span></li>
+                            <li>Data Entry Keyers <span class="emp">0.2M workers</span></li>
+                        </ul>
+                    </div>
+                    <div class="affected-card">
+                        <h4><span class="score-badge" style="background:#FFE0B2;color:#BF360C;">4</span> High Vulnerability</h4>
+                        <ul>
+                            <li>Market Research Analysts <span class="emp">0.9M workers</span></li>
+                            <li>Bookkeeping & Accounting Clerks <span class="emp">1.5M workers</span></li>
+                            <li>Assemblers & Fabricators <span class="emp">1.6M workers</span></li>
+                            <li>Heavy & Tractor-Trailer Truck Drivers <span class="emp">2.0M workers</span></li>
+                            <li>Retail Supervisors <span class="emp">1.2M workers</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="methodology">
+                <strong>Methodology:</strong> Employment data from BLS Occupational Employment & Wage Statistics (OEWS), May 2024. 283 detailed occupations covering 138.8M workers (90% of total U.S. employment). Remaining 10% of employment assigned to Score 3 (Moderate). This is a scenario analysis tool, not a forecast. Employment-weighted scoring framework developed for Post Labor Investing.
+            </div>
+        </div>
+
+        <div class="tab-panel" id="tab-methodology">
+            <div style="max-width:760px;">
+                <h2 style="font-family:var(--serif);font-size:1.5rem;font-weight:400;margin:0 0 0.75rem;color:var(--text-primary);">AI Displacement Risk (1 to 5)</h2>
+                <p style="font-size:1rem;color:var(--text-secondary);margin-bottom:1.25rem;">How susceptible is this occupation to replacement by AI, robotics, or automation?</p>
+                <table class="score-table">
+                    <thead><tr><th>Score</th><th>Label</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#059669;">1</td><td>Very Low</td><td>Physical work in unpredictable environments, deep human interaction required. Robotics decades away at current wage points.</td></tr>
+                        <tr><td style="color:#2E7D32;">2</td><td>Low</td><td>Mostly physical or requires significant human judgment in variable settings. AI augments but doesn't replace.</td></tr>
+                        <tr><td style="color:#E65100;">3</td><td>Moderate</td><td>Mix of automatable and non-automatable tasks. Occupation shrinks but doesn't disappear.</td></tr>
+                        <tr><td style="color:#BF360C;">4</td><td>High</td><td>Primarily routine cognitive or data-processing work. AI can handle most core tasks.</td></tr>
+                        <tr><td style="color:#B71C1C;">5</td><td>Very High</td><td>Highly structured, repetitive tasks. Already being actively automated by current technology.</td></tr>
+                    </tbody>
+                </table>
+
+                <h2 style="font-family:var(--serif);font-size:1.5rem;font-weight:400;margin:2rem 0 0.75rem;color:var(--text-primary);">Consumer Dependency (1 to 5)</h2>
+                <p style="font-size:1rem;color:var(--text-secondary);margin-bottom:1.25rem;">How much does this occupation depend on continued consumer spending by employed people?</p>
+                <table class="score-table">
+                    <thead><tr><th>Score</th><th>Label</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#059669;">1</td><td>Minimal</td><td>Essential services, government-funded, or demographically driven demand. Insulated from consumer spending cycles.</td></tr>
+                        <tr><td style="color:#2E7D32;">2</td><td>Low</td><td>Primarily B2B, infrastructure, or capital-goods oriented. Indirect consumer exposure only.</td></tr>
+                        <tr><td style="color:#E65100;">3</td><td>Moderate</td><td>Mixed exposure. Some consumer-facing, some institutional demand.</td></tr>
+                        <tr><td style="color:#BF360C;">4</td><td>High</td><td>Primarily consumer-facing. Revenue directly tied to household spending.</td></tr>
+                        <tr><td style="color:#B71C1C;">5</td><td>Very High</td><td>Almost entirely dependent on discretionary consumer spending. Demand collapses if consumers stop spending.</td></tr>
+                    </tbody>
+                </table>
+
+                <h2 style="font-family:var(--serif);font-size:1.5rem;font-weight:400;margin:2rem 0 0.75rem;color:var(--text-primary);">Post-Labor Vulnerability (1 to 5)</h2>
+                <p style="font-size:1rem;color:var(--text-secondary);margin-bottom:1.25rem;">The combined assessment: how exposed is this occupation to the post-labor economy transition?</p>
+                <table class="score-table">
+                    <thead><tr><th>Score</th><th>Label</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#059669;">1</td><td>Resilient</td><td>Government-funded, demographically driven, or AI-complementary. Occupation likely grows or holds steady.</td></tr>
+                        <tr><td style="color:#2E7D32;">2</td><td>Low Vulnerability</td><td>Modest impact expected. Physical work, essential infrastructure, or roles that benefit from AI augmentation.</td></tr>
+                        <tr><td style="color:#E65100;">3</td><td>Moderate</td><td>Meaningful but manageable disruption. Occupation shrinks but doesn't disappear. Workers must adapt.</td></tr>
+                        <tr><td style="color:#BF360C;">4</td><td>High</td><td>Significant job losses likely. Occupation exists but at much smaller scale.</td></tr>
+                        <tr><td style="color:#B71C1C;">5</td><td>Critical</td><td>Occupation could largely disappear or shrink more than 50%. Both highly automatable AND dependent on consumer spending.</td></tr>
+                    </tbody>
+                </table>
+
+                <h2 style="font-family:var(--serif);font-size:1.5rem;font-weight:400;margin:2rem 0 0.75rem;color:var(--text-primary);">Combined Score</h2>
+                <p style="font-size:1rem;color:var(--text-secondary);margin-bottom:2rem;">Simple average of AI Displacement Risk, Consumer Dependency, and Post-Labor Vulnerability. Employment-weighted averages weight by headcount to show aggregate labor market exposure.</p>
+            </div>
         </div>
     </div>
 
-    <!-- SUBSCRIBE -->
     <section class="newsletter-footer" id="subscribe">
         <h2>Stay ahead of the curve</h2>
         <p>Get analysis on investing in a world where work is being redefined.</p>
@@ -60,10 +211,133 @@
         </form>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <div class="footer-left">&copy; 2026 postlaborinvesting.com</div>
     </footer>
 
+    <script>
+        const SCORE_DATA = [
+            { score: 1, label: "Resilient", emp: 35842000, color: "#059669", bg: "#D1FAE5", desc: "Healthcare, education, public safety, essential services" },
+            { score: 2, label: "Low Vulnerability", emp: 33918000, color: "#2E7D32", bg: "#E8F5E9", desc: "Skilled trades, engineering, physical maintenance, financial mgmt" },
+            { score: 3, label: "Moderate", emp: 40512000, color: "#E65100", bg: "#FFF3E0", desc: "Management, logistics, security, mixed office/industrial" },
+            { score: 4, label: "High", emp: 26890000, color: "#C62828", bg: "#FFEBEE", desc: "Market research, bookkeeping, assemblers, truck drivers, retail mgmt" },
+            { score: 5, label: "Critical", emp: 17024000, color: "#B71C1C", bg: "#FFCDD2", desc: "Cashiers, fast food, customer service, data entry, retail sales" }
+        ];
+
+        const TOTAL_LABOR_FORCE = 168000000;
+        const CURRENT_UNEMPLOYMENT_RATE = 0.043;
+        const CURRENT_UNEMPLOYED = Math.round(TOTAL_LABOR_FORCE * CURRENT_UNEMPLOYMENT_RATE);
+        const DEFAULT_RATES = [2, 10, 25, 40, 50];
+        const HISTORICAL = [
+            { label: "Current (Jan 2026)", rate: 4.3, color: "#059669" },
+            { label: "Great Recession (2009)", rate: 10.0, color: "#F59E0B" },
+            { label: "COVID-19 Peak (Apr 2020)", rate: 14.7, color: "#E65100" },
+            { label: "Great Depression (1933)", rate: 25.0, color: "#B71C1C" }
+        ];
+
+        let rates = [...DEFAULT_RATES];
+
+        function formatNum(n) {
+            if (n >= 1000000) return (n / 1000000).toFixed(1) + "M";
+            if (n >= 1000) return Math.round(n / 1000) + "K";
+            return n.toString();
+        }
+
+        function calculate() {
+            let totalDisplaced = 0;
+            const details = SCORE_DATA.map((d, i) => {
+                const displaced = Math.round(d.emp * (rates[i] / 100));
+                totalDisplaced += displaced;
+                return { ...d, rate: rates[i], displaced };
+            });
+            const newUnemployed = CURRENT_UNEMPLOYED + totalDisplaced;
+            const newRate = (newUnemployed / TOTAL_LABOR_FORCE) * 100;
+            const rateChange = newRate - (CURRENT_UNEMPLOYMENT_RATE * 100);
+            return { details, totalDisplaced, newUnemployed, newRate, rateChange };
+        }
+
+        function render() {
+            const r = calculate();
+            const isDanger = r.newRate > 10;
+            const isCritical = r.newRate > 20;
+
+            document.getElementById('results-row').innerHTML = `
+                <div class="result-card ${isDanger ? 'danger' : ''}">
+                    <div class="result-label">Workers Displaced</div>
+                    <div class="result-value" style="color:#DC2626;">${formatNum(r.totalDisplaced)}</div>
+                    <div class="result-sub">from ${formatNum(SCORE_DATA.reduce((s,d)=>s+d.emp,0))} scored workers</div>
+                </div>
+                <div class="result-card ${isDanger ? 'danger' : ''}">
+                    <div class="result-label">Unemployment Rate</div>
+                    <div class="result-value" style="color:${isCritical ? '#B71C1C' : isDanger ? '#DC2626' : '#E65100'};">${r.newRate.toFixed(1)}%</div>
+                    <div class="result-sub">+${r.rateChange.toFixed(1)} points from current</div>
+                </div>
+                <div class="result-card ${isDanger ? 'danger' : ''}">
+                    <div class="result-label">Total Unemployed</div>
+                    <div class="result-value" style="color:${isCritical ? '#B71C1C' : isDanger ? '#DC2626' : '#E65100'};">${formatNum(r.newUnemployed)}</div>
+                    <div class="result-sub">vs. ${formatNum(CURRENT_UNEMPLOYED)} today</div>
+                </div>`;
+
+            document.getElementById('sliders-container').innerHTML = r.details.map((d, i) => `
+                <div class="slider-row">
+                    <div class="slider-info">
+                        <span class="score-badge" style="background:${d.bg};color:${d.color};">${d.score}</span>
+                        <div>
+                            <div class="slider-label">${d.label}</div>
+                            <div class="slider-workers">${formatNum(d.emp)} workers</div>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="range" class="slider-input" min="0" max="80" value="${rates[i]}"
+                            oninput="updateRate(${i}, parseInt(this.value))"
+                            style="background:linear-gradient(to right, ${d.color} 0%, ${d.color} ${rates[i]/80*100}%, #E5E7EB ${rates[i]/80*100}%, #E5E7EB 100%);">
+                    </div>
+                    <div class="slider-pct" style="color:${d.color};">${rates[i]}%</div>
+                    <div class="slider-displaced">&minus;${formatNum(d.displaced)}</div>
+                </div>`).join('');
+
+            const maxRate = 30;
+            const allBars = [...HISTORICAL.map(h => ({...h, isScenario: false})),
+                           { label: "Your Scenario", rate: r.newRate, color: "#1A5F7A", isScenario: true }]
+                          .sort((a, b) => a.rate - b.rate);
+
+            document.getElementById('chart-container').innerHTML = allBars.map(b => `
+                <div class="bar-row ${b.isScenario ? 'scenario' : ''}">
+                    <div class="bar-label">${b.label}</div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width:${Math.min(b.rate/maxRate*100,100)}%;background:${b.isScenario?'linear-gradient(90deg,#1A5F7A,#2980B9)':b.color};${b.isScenario?'box-shadow:0 2px 8px rgba(26,95,122,0.3);':''}">
+                            <span class="bar-value">${b.rate.toFixed(1)}%</span>
+                        </div>
+                    </div>
+                </div>`).join('');
+        }
+
+        function updateRate(idx, val) {
+            rates[idx] = Math.max(0, Math.min(100, val));
+            render();
+        }
+
+        function resetDefaults() {
+            rates = [...DEFAULT_RATES];
+            render();
+        }
+
+        function switchTab(btn, tab) {
+            document.querySelectorAll('.model-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // Dynamic slider thumb colors
+        const thumbStyle = document.createElement('style');
+        thumbStyle.textContent = SCORE_DATA.map((d,i) => `
+            .slider-row:nth-child(${i+1}) .slider-input::-webkit-slider-thumb { background: ${d.color}; }
+            .slider-row:nth-child(${i+1}) .slider-input::-moz-range-thumb { background: ${d.color}; }
+        `).join('');
+        document.head.appendChild(thumbStyle);
+
+        render();
+    </script>
 </body>
 </html>
