@@ -1,0 +1,515 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600&display=swap');
+
+:root {
+    --bg-primary: #FAFAFA;
+    --bg-secondary: #F0F1F3;
+    --bg-card: #FFFFFF;
+    --text-primary: #1A1A2E;
+    --text-secondary: #6B7280;
+    --text-muted: #9CA3AF;
+    --accent: #1A5F7A;
+    --accent-dim: rgba(26, 95, 122, 0.06);
+    --accent-glow: rgba(26, 95, 122, 0.15);
+    --border: #E5E7EB;
+    --border-light: rgba(0, 0, 0, 0.04);
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'Outfit', -apple-system, sans-serif;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---- NAV ---- */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1.25rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    background: rgba(250, 250, 250, 0.85);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s ease;
+}
+
+.logo {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.logo span {
+    color: var(--accent);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.825rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--accent);
+}
+
+/* Mobile menu button */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: var(--text-primary);
+}
+
+.menu-toggle svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* ---- PAGE HEADER ---- */
+.page-header {
+    padding: 8rem 2rem 3rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.page-header p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ---- PAGE CONTENT ---- */
+.page-content {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+}
+
+.page-content p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.85;
+    margin-bottom: 1.5rem;
+}
+
+.page-content p strong {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.page-content h2 {
+    font-family: var(--serif);
+    font-size: 1.75rem;
+    font-weight: 400;
+    margin: 3rem 0 1.25rem;
+    color: var(--text-primary);
+}
+
+.page-content h3 {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin: 2rem 0 1rem;
+    color: var(--text-primary);
+}
+
+.page-content a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.25s ease;
+}
+
+.page-content a:hover {
+    opacity: 0.7;
+}
+
+/* ---- CARDS GRID ---- */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2.25rem 2rem;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--border-light);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.card:hover {
+    border-color: rgba(26, 95, 122, 0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.card:hover::after {
+    opacity: 1;
+}
+
+.card-icon {
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+    display: block;
+}
+
+.card h3 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+}
+
+.card p {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.65;
+}
+
+/* ---- FEED ITEMS (News & Commentary, Signals) ---- */
+.feed-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px var(--border-light);
+}
+
+.feed-date {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+.feed-item blockquote {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1.7;
+    border-left: 3px solid var(--accent);
+    padding-left: 1.25rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.feed-item .source {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.feed-item .source a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.feed-item .commentary {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* ---- RESEARCH LINKS ---- */
+.research-category {
+    margin-bottom: 3rem;
+}
+
+.research-category h2 {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+    color: var(--text-primary);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.research-link {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 0.75rem;
+    display: block;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 1px 4px var(--border-light);
+}
+
+.research-link:hover {
+    border-color: rgba(26, 95, 122, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.research-link h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+}
+
+.research-link .authors {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.research-link .description {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ---- NEWSLETTER FOOTER ---- */
+.newsletter-footer {
+    padding: 4rem 2rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+}
+
+.newsletter-footer h2 {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.newsletter-footer p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.email-form {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.email-form input {
+    flex: 1;
+    padding: 0.85rem 1.15rem;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.25s ease;
+}
+
+.email-form input::placeholder {
+    color: var(--text-muted);
+}
+
+.email-form input:focus {
+    border-color: var(--accent);
+}
+
+.email-form button {
+    padding: 0.85rem 1.5rem;
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #FFFFFF;
+    background: var(--accent);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+}
+
+.email-form button:hover {
+    box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+/* ---- FOOTER ---- */
+footer {
+    padding: 2rem 2.5rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+}
+
+footer .footer-left {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* ---- PLACEHOLDER STATE ---- */
+.placeholder {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-muted);
+}
+
+.placeholder-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.placeholder p {
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+/* ---- ANIMATIONS ---- */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+    nav {
+        padding: 1rem 1.25rem;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(250, 250, 250, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 1rem 1.5rem 1.5rem;
+        border-bottom: 1px solid var(--border);
+        gap: 0.75rem;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .page-header {
+        padding: 6rem 1.5rem 2rem;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0 1.5rem 3rem;
+    }
+
+    .email-form {
+        flex-direction: column;
+    }
+
+    .page-content {
+        padding: 1.5rem 1.5rem 3rem;
+    }
+}
