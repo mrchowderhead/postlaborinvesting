@@ -236,6 +236,14 @@
 
         <!-- TAB 3: ALL OCCUPATIONS -->
         <div class="tab-panel" id="tab-occupations">
+            <div class="page-content" style="padding: 0 0 2rem 0;">
+                <p><strong>About the Data</strong></p>
+                <p>This table presents 283 U.S. occupations scored across three dimensions: AI Displacement Risk, Consumer Dependency, and Post-Labor Vulnerability. Together, these scores produce a Combined Score that estimates each occupation's overall exposure to the post-labor economy transition.</p>
+                <p>Employment and wage data are sourced from the Bureau of Labor Statistics Occupational Employment and Wage Statistics (OEWS) survey, May 2024. The 283 occupations listed cover approximately 138.8 million workers, representing 90% of total U.S. employment.</p>
+                <p><strong>How the scores were generated:</strong> The vulnerability scores were produced by AI (Claude, developed by Anthropic) using a structured scoring framework. Each occupation was evaluated against defined criteria for each dimension, with scores ranging from 1 (minimal risk/dependency) to 5 (critical risk/dependency). The Combined Score is a simple average of the three dimensions.</p>
+                <p>While AI scoring provides consistency and scale across hundreds of occupations, these scores reflect probabilistic assessments, not certainties. Individual occupations may be affected differently depending on the pace of technological adoption, regional factors, and policy responses. This is an analytical framework for thinking about the post-labor transition, not a definitive prediction.</p>
+                <p>You can review the full scoring criteria on the <strong>Scoring Methodology</strong> tab.</p>
+            </div>
             <div class="occ-filters">
                 <input type="text" class="occ-filter-input" id="occ-search" placeholder="Search occupations..." oninput="renderOccTable()">
                 <select class="occ-filter-select" id="occ-group-filter" onchange="renderOccTable()">
