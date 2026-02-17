@@ -12,18 +12,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News & Commentary — Post Labor Investing</title>
-    <meta name="description" content="Curated news, data, and observations about the post-labor transition with brief analysis on what it means for investors.">
+    <meta name="description" content="A running feed of news and data through the post-labor investing lens. The signal, then what it means.">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .news-container { max-width: 960px; margin: 0 auto; padding: 0 2rem 4rem; }
+        .news-intro { max-width: 720px; margin: 0 auto 2.5rem; }
+        .news-intro p { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.75; }
+        .news-feed { display: flex; flex-direction: column; gap: 0; }
+        .news-entry { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+        .news-entry:first-child { border-top: 1px solid var(--border); }
+        .news-col { padding: 1.5rem 1.75rem; }
+        .news-col-left { border-right: 1px solid var(--border); }
+        .news-date { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .news-headline { font-size: 1rem; font-weight: 600; color: var(--text-primary); line-height: 1.45; margin-bottom: 0.5rem; }
+        .news-headline a { color: var(--text-primary); text-decoration: none; border-bottom: 1px solid var(--border); transition: border-color 0.2s; }
+        .news-headline a:hover { border-color: var(--accent); color: var(--accent); }
+        .news-stat { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+        .news-source { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem; }
+        .news-take { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; }
+        .news-take-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 0.5rem; }
+        .col-header { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 0; }
+        .col-header div { padding: 0.75rem 1.75rem; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+        .col-header div:first-child { border-right: 1px solid var(--border); }
+
+        /* TEMPLATE COMMENT for adding new entries — copy the block below */
+        /* 
+        <div class="news-entry">
+            <div class="news-col news-col-left">
+                <div class="news-date">Month Day, Year</div>
+                <div class="news-headline"><a href="URL" target="_blank">Headline Here</a></div>
+                <div class="news-stat">Key stat or excerpt from the article.</div>
+                <div class="news-source">Source Name</div>
+            </div>
+            <div class="news-col">
+                <div class="news-take-label">Our Take</div>
+                <div class="news-take">Your commentary here.</div>
+            </div>
+        </div>
+        */
+
+        @media (max-width: 700px) {
+            .news-entry { grid-template-columns: 1fr; }
+            .news-col-left { border-right: none; border-bottom: 1px dashed var(--border); }
+            .news-col { padding: 1rem 1.25rem; }
+            .col-header { grid-template-columns: 1fr; }
+            .col-header div:first-child { border-right: none; }
+            .col-header div:last-child { display: none; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- NAV -->
     <nav>
         <a href="index.html" class="logo">Post Labor<span>.</span></a>
         <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
         </button>
         <div class="nav-links">
             <a href="index.html">Home</a>
@@ -35,23 +78,140 @@
         </div>
     </nav>
 
-    <!-- HEADER -->
     <div class="page-header">
         <h1>News & Commentary</h1>
-        <p>Curated news, data, and observations about the post-labor transition — with brief analysis on what it means for investors.</p>
+        <p>The news through a post-labor lens. The signal, then what it means.</p>
     </div>
 
-    <!-- NEWS FEED -->
-    <div class="page-content">
+    <div class="news-container">
 
-        <div class="placeholder">
-            <div class="placeholder-icon">📰</div>
-            <p>News and commentary coming soon. <a href="#subscribe">Subscribe</a> to be notified when new content is published.</p>
+        <div class="news-intro">
+            <p>A running feed of news, data releases, and corporate announcements that matter for the post-labor investment thesis. Left column: the facts. Right column: why it matters.</p>
         </div>
 
-    </div>
+        <div class="col-header">
+            <div>The News</div>
+            <div>Our Take</div>
+        </div>
 
-    <!-- SUBSCRIBE -->
+        <div class="news-feed">
+
+            <!-- ENTRY 0 -->
+            <div class="news-entry">
+                <div class="news-col news-col-left">
+                    <div class="news-date">February 11, 2026</div>
+                    <div class="news-headline"><a href="https://shumer.dev/something-big-is-happening" target="_blank">Matt Shumer's "Something Big Is Happening" Goes Viral — 80M+ Views</a></div>
+                    <div class="news-stat">AI startup CEO Matt Shumer published a 5,000-word essay comparing this moment in AI to February 2020 — before the world changed. He argues AI isn't replacing one skill, it's a "general substitute for cognitive work" that gets better at everything simultaneously. Cites Anthropic CEO Dario Amodei's prediction that AI will eliminate 50% of entry-level white-collar jobs within 1–5 years.</div>
+                    <div class="news-source">shumer.dev, Fortune, 80M+ views on X</div>
+                </div>
+                <div class="news-col">
+                    <div class="news-take-label">Our Take</div>
+                    <div class="news-take">Shumer's essay struck a nerve because it articulated what millions of knowledge workers are quietly feeling. The skeptics — Gary Marcus, Oxford Economics, Fortune's own analysis — make fair points about timeline and hype. But the directional argument is hard to dismiss: AI is improving at everything simultaneously, and unlike previous automation waves, there's no obvious adjacent sector for displaced workers to move into. Whether the timeline is 2 years or 10, the investment implications are the same. Read it, then read the rebuttals. Form your own view. That's what this page is for.</div>
+                </div>
+            </div>
+
+            <!-- ENTRY 1 -->
+            <div class="news-entry">
+                <div class="news-col news-col-left">
+                    <div class="news-date">February 11, 2026</div>
+                    <div class="news-headline"><a href="https://www.hiringlab.org/2026/02/11/january-2026-jobs-report/" target="_blank">BLS Benchmark Revision: 2025 Was One of the Weakest Years for Job Creation Outside a Recession</a></div>
+                    <div class="news-stat">The U.S. economy added just 181,000 jobs in all of 2025 — revised down from 584,000. That's an average of 15,000 per month. The benchmark revision erased 898,000 jobs from the April 2024–March 2025 period, the second-largest downward adjustment on record.</div>
+                    <div class="news-source">Indeed Hiring Lab, BLS, CNN</div>
+                </div>
+                <div class="news-col">
+                    <div class="news-take-label">Our Take</div>
+                    <div class="news-take">This is the single most important labor market data point of the year. The economy we thought we had in 2025 didn't exist. Stock markets hit all-time highs while the job market was essentially at a standstill. That disconnect — booming corporate profits, stagnant employment — is the post-labor economy in miniature. When companies can grow earnings without growing headcount, the thesis isn't theoretical anymore.</div>
+                </div>
+            </div>
+
+            <!-- ENTRY 2 -->
+            <div class="news-entry">
+                <div class="news-col news-col-left">
+                    <div class="news-date">February 6, 2026</div>
+                    <div class="news-headline"><a href="https://www.cnbc.com/2026/02/06/google-microsoft-meta-amazon-ai-cash.html" target="_blank">Big Tech AI Spending Approaches $700 Billion in 2026</a></div>
+                    <div class="news-stat">Alphabet, Microsoft, Meta, and Amazon are projected to spend nearly $700 billion combined on AI infrastructure in 2026. Amazon alone plans $200B in capex. Amazon's free cash flow is expected to turn negative. Google's FCF may plummet 90%.</div>
+                    <div class="news-source">CNBC</div>
+                </div>
+                <div class="news-col">
+                    <div class="news-take-label">Our Take</div>
+                    <div class="news-take">Companies are betting their balance sheets on AI — and they're not building labor-intensive factories. They're building data centers that run on chips, not people. When the four largest companies in the world spend $700B on automation infrastructure while the economy creates 181,000 jobs, the capital-over-labor reallocation isn't subtle. Follow the capex.</div>
+                </div>
+            </div>
+
+            <!-- ENTRY 3 -->
+            <div class="news-entry">
+                <div class="news-col news-col-left">
+                    <div class="news-date">February 3, 2026</div>
+                    <div class="news-headline"><a href="https://www.cbsnews.com/news/ai-layoffs-2026-artificial-intelligence-amazon-pinterest/" target="_blank">Companies Citing AI in 55,000 Job Cuts in 2025 — 12x the Level Two Years Prior</a></div>
+                    <div class="news-stat">Pinterest cut 15% of its workforce for an "AI-forward strategy." Dow eliminated 4,500 jobs citing AI and automation. Indeed and Glassdoor cut 1,300 jobs. Amazon's CEO expects white-collar jobs to shrink as AI agents scale.</div>
+                    <div class="news-source">CBS News, Challenger Gray & Christmas</div>
+                </div>
+                <div class="news-col">
+                    <div class="news-take-label">Our Take</div>
+                    <div class="news-take">Some skeptics argue companies are using AI as a pretext for normal layoffs. That may be partly true — but it doesn't matter for the thesis. Whether companies are actually replacing workers with AI today or merely signaling that they intend to, both lead to the same investment conclusion: capital is flowing toward automation and away from labor. The direction of the bet is clear even if the timing is debated.</div>
+                </div>
+            </div>
+
+            <!-- ENTRY 4 -->
+            <div class="news-entry">
+                <div class="news-col news-col-left">
+                    <div class="news-date">January 29, 2026</div>
+                    <div class="news-headline"><a href="https://hbr.org/2026/01/companies-are-laying-off-workers-because-of-ais-potential-not-its-performance" target="_blank">HBR: Companies Laying Off Workers for AI's Potential — Not Its Performance</a></div>
+                    <div class="news-stat">CEOs from Ford, Amazon, Salesforce, and JP Morgan Chase have proclaimed that many white-collar jobs at their companies will soon disappear. Companies are making preemptive workforce reductions based on anticipated AI capabilities, not proven deployments.</div>
+                    <div class="news-source">Harvard Business Review</div>
+                </div>
+                <div class="news-col">
+                    <div class="news-take-label">Our Take</div>
+                    <div class="news-take">This distinction — potential vs. performance — is crucial. It means the labor displacement hasn't fully happened yet, which is why the thesis is still an investment opportunity rather than yesterday's news. The market is pricing in future AI productivity, but the workforce disruption is still in early innings. The companies making these bets are telling you their plans. Listen.</div>
+                </div>
+            </div>
+
+            <!-- ENTRY 5 -->
+            <div class="news-entry">
+                <div class="news-col news-col-left">
+                    <div class="news-date">January 7, 2026</div>
+                    <div class="news-headline"><a href="https://fortune.com/2026/01/07/ai-layoffs-convenient-corporate-fiction-true-false-oxford-economics-productivity/" target="_blank">Oxford Economics: Companies May Be "Dressing Up" Layoffs as AI-Driven</a></div>
+                    <div class="news-stat">Oxford Economics finds "firms don't appear to be replacing workers with AI on a significant scale" and suspects some are using AI as cover for routine cuts. AI-cited layoffs represent just 4.5% of total reported job losses. The firm calls the shift "evolutionary rather than revolutionary."</div>
+                    <div class="news-source">Fortune, Oxford Economics</div>
+                </div>
+                <div class="news-col">
+                    <div class="news-take-label">Our Take</div>
+                    <div class="news-take">A credible counterpoint, and we include it because the thesis should be tested, not protected. Oxford's argument: it's cyclical, not structural. They may be right — for now. But their own data shows entry-level hiring is collapsing regardless of the cause. Whether the mechanism is AI displacement or AI-justified cost cutting, the outcome for workers is the same: fewer jobs, lower bargaining power, and a labor market being restructured. We watch for the productivity spike that would confirm true substitution.</div>
+                </div>
+            </div>
+
+            <!-- ENTRY 6 -->
+            <div class="news-entry">
+                <div class="news-col news-col-left">
+                    <div class="news-date">December 31, 2025</div>
+                    <div class="news-headline"><a href="https://techcrunch.com/2025/12/31/investors-predict-ai-is-coming-for-labor-in-2026/" target="_blank">VCs Predict 2026 Will Be the Year AI Comes for Labor</a></div>
+                    <div class="news-stat">Multiple enterprise VCs unsolicited predicted AI will impact the workforce in 2026. Battery Ventures: "2026 will be the year of agents as software expands from making humans more productive to automating work itself." Exceptional Capital: "We'll see more human labor get cut as AI budgets increase."</div>
+                    <div class="news-source">TechCrunch</div>
+                </div>
+                <div class="news-col">
+                    <div class="news-take-label">Our Take</div>
+                    <div class="news-take">When VCs volunteer labor displacement predictions without being asked, that tells you something about where private capital sees the world going. These aren't labor economists theorizing — they're investors deploying billions into companies built to replace human work. The smart money isn't debating whether AI will displace labor. They're funding it.</div>
+                </div>
+            </div>
+
+            <!-- ENTRY 7 -->
+            <div class="news-entry">
+                <div class="news-col news-col-left">
+                    <div class="news-date">December 8, 2025</div>
+                    <div class="news-headline"><a href="https://www.cnbc.com/2025/12/08/how-recent-grads-are-dealing-with-the-shrinking-pool-of-entry-level-jobs.html" target="_blank">'None of Us Are Really Thriving': Gen Z Faces Toughest Entry-Level Market in Years</a></div>
+                    <div class="news-stat">Recent college grad unemployment reached 9.7% — equal to high school diploma holders for the first time. Only 30% of 2025 graduates found full-time work in their field. Layoffs hit 1.1 million in the first 10 months of 2025, the highest since the pandemic. The unemployment rate for grads and non-grads has converged.</div>
+                    <div class="news-source">CNBC, NY Fed, Cengage</div>
+                </div>
+                <div class="news-col">
+                    <div class="news-take-label">Our Take</div>
+                    <div class="news-take">The convergence of graduate and non-graduate unemployment rates may be the most underreported economic story of the decade. The entire premise of the knowledge economy was that education = employment security. That premise is breaking. If a college degree no longer guarantees a job advantage, the social contract around work, education, and economic mobility is being rewritten. This is where the post-labor thesis meets real people's lives.</div>
+                </div>
+            </div>
+
+        </div><!-- /news-feed -->
+
+    </div><!-- /news-container -->
+
     <section class="newsletter-footer" id="subscribe">
         <h2>Stay ahead of the curve</h2>
         <p>Get analysis on investing in a world where work is being redefined.</p>
@@ -61,7 +221,6 @@
         </form>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <div class="footer-left">&copy; 2026 postlaborinvesting.com</div>
     </footer>
