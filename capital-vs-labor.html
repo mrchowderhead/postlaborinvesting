@@ -14,7 +14,7 @@
     <title>Capital vs. Labor — Post Labor Investing</title>
     <meta name="description" content="The long-term decline of labor's share of income — and why AI may represent an inflection point that accelerates the trend dramatically.">
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.7/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .essay-container { max-width: 720px; margin: 0 auto; padding: 0 2rem 4rem; }
         .essay-meta { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 2rem; }
@@ -87,7 +87,9 @@
 
         <div class="chart-container">
             <div class="chart-label">U.S. Nonfarm Business Sector: Labor Share of Gross Value Added, 1947–2025</div>
-            <canvas id="laborShareChart" height="280"></canvas>
+            <div style="position:relative; height:280px;">
+                <canvas id="laborShareChart"></canvas>
+            </div>
             <p class="chart-note">Source: BLS via FRED (PRS85006173), index converted to approximate share. Annual averages of quarterly data. Hover for values.</p>
         </div>
 
@@ -165,7 +167,9 @@
 
         <div class="chart-container">
             <div class="chart-label">Cumulative Real Wage Growth by Percentile, 1979–2024 (indexed to 1979 = 100)</div>
-            <canvas id="wageGrowthChart" height="300"></canvas>
+            <div style="position:relative; height:300px;">
+                <canvas id="wageGrowthChart"></canvas>
+            </div>
             <p class="chart-note">Sources: EPI State of Working America Wages (10th, 50th, 90th percentiles); SSA wage data (top 1%, through 2023). All figures in 2024 dollars. Hover for values.</p>
         </div>
 
@@ -323,7 +327,7 @@
         60.0,58.2,57.8,58.0,57.5
     ];
 
-    const laborCtx = document.getElementById('laborShareChart').getContext('2d');
+    const laborCtx = document.getElementById('laborShareChart');
     new Chart(laborCtx, {
         type: 'line',
         data: {
@@ -458,7 +462,7 @@
         215, 230, 250, 260, 255, 275, 270, 282, null
     ];
 
-    const wageCtx = document.getElementById('wageGrowthChart').getContext('2d');
+    const wageCtx = document.getElementById('wageGrowthChart');
     new Chart(wageCtx, {
         type: 'line',
         data: {
