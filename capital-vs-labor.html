@@ -40,6 +40,15 @@
         .chart-container canvas { width: 100% !important; }
         .chart-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.75rem; text-align: center; }
         .chart-note { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.5rem; line-height: 1.5; }
+        sup.fn { font-size: 0.7em; font-weight: 600; color: var(--accent); cursor: pointer; text-decoration: none; position: relative; top: -0.3em; }
+        sup.fn a { color: var(--accent); text-decoration: none; border-bottom: none; }
+        sup.fn a:hover { text-decoration: underline; }
+        .essay-footnotes ol { list-style: none; counter-reset: fn-counter; padding-left: 0; }
+        .essay-footnotes li { counter-increment: fn-counter; font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.6rem; padding-left: 1.5rem; position: relative; }
+        .essay-footnotes li::before { content: counter(fn-counter) "."; position: absolute; left: 0; font-weight: 600; color: var(--text-secondary); }
+        .essay-footnotes li a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
+        .essay-footnotes li a:hover { border-bottom-color: var(--accent); }
+        .fn-back { font-size: 0.75em; text-decoration: none; color: var(--text-muted); margin-left: 0.3em; }
     </style>
 </head>
 <body>
@@ -80,7 +89,7 @@
 
         <p>Keynes, writing in 1939, called the stability of labor's share one of the most surprising yet best-established facts in all of economic statistics. Nicholas Kaldor enshrined it as the first of his famous stylized facts about economic growth. The verdict seemed clear: Marx was wrong, capitalism distributed its gains broadly, and the split between labor and capital was something close to a natural constant.</p>
 
-        <p>But the data tell a more complicated story than the textbook version. Looking at the full arc of the Bureau of Labor Statistics <a href="https://fred.stlouisfed.org/series/PRS85006173" target="_blank">labor share series</a>, which begins in 1947, labor's share didn't hold steady so much as it rose. From the early postwar period through about 1970, labor's share climbed from the low 60s to roughly 65% of gross value added in the nonfarm business sector. The postwar boom, strong unions, rising educational attainment, and tight labor markets all pushed income toward workers. (The BLS nonfarm business sector series is the standard measure used by labor economists. Broader measures exist — the BEA's <a href="https://fred.stlouisfed.org/series/W270RE1A156NBEA" target="_blank">gross domestic income components</a> extend to 1948, and NIPA accounts can be used to derive compensation shares back to 1929 — but these cover the full economy rather than the private nonfarm sector and are less precise for this purpose.)</p>
+        <p>But the data tell a more complicated story than the textbook version. Looking at the full arc of the Bureau of Labor Statistics labor share series,<sup class="fn" id="fnref1"><a href="#fn1">1</a></sup> which begins in 1947, labor's share didn't hold steady so much as it rose. From the early postwar period through about 1970, labor's share climbed from the low 60s to roughly 65% of gross value added in the nonfarm business sector. The postwar boom, strong unions, rising educational attainment, and tight labor markets all pushed income toward workers. (The BLS nonfarm business sector series is the standard measure used by labor economists. Broader measures exist — the BEA's gross domestic income components<sup class="fn" id="fnref2"><a href="#fn2">2</a></sup> extend to 1948, and NIPA accounts can be used to derive compensation shares back to 1929 — but these cover the full economy rather than the private nonfarm sector and are less precise for this purpose.)</p>
 
         <p>Then it peaked. Starting around 1970, labor's share began a long, uneven decline — gradual through the 1980s and 1990s, then accelerating sharply after 2000. It reached a postwar low of approximately 56% in 2013, recovered partially to around 58%, and has remained in that range since. The BLS labor share index stood at 97.6 (2017=100) as of the second quarter of 2025.</p>
 
@@ -122,7 +131,7 @@
             </tr>
         </table>
 
-        <p>Sources: <a href="https://fred.stlouisfed.org/series/PRS85006173" target="_blank">BLS via FRED</a>, <a href="https://www.bls.gov/opub/mlr/2017/article/estimating-the-us-labor-share.htm" target="_blank">BLS Monthly Labor Review</a>, Elsby, Hobijn & Şahin (2013).</p>
+        <p>Sources: BLS via FRED,<sup class="fn"><a href="#fn1">1</a></sup> BLS Monthly Labor Review,<sup class="fn" id="fnref3"><a href="#fn3">3</a></sup> Elsby, Hobijn & Şahin (2013).<sup class="fn" id="fnref4"><a href="#fn4">4</a></sup></p>
 
         <div class="measurement-box">
             <h3>How It's Measured</h3>
@@ -136,21 +145,21 @@
 
         <h2>Where the Money Went</h2>
 
-        <p>The mirror image of labor's decline is capital's gain. In February 2026, the <a href="https://www.wsj.com/economy/the-big-money-in-todays-economy-is-going-to-capital-not-labor-f553a8e4" target="_blank">Wall Street Journal's Greg Ip</a> put it starkly: labor received 58% of gross domestic income in 1980; by the third quarter of 2025, that had fallen to 51.4%. Corporate profits' share rose from 7% to 11.7% over the same period — the highest in more than 40 years. Since the end of 2019 alone, real average hourly wages have risen 3% while corporate profits have climbed 43%.</p>
+        <p>The mirror image of labor's decline is capital's gain. In February 2026, the Wall Street Journal's Greg Ip<sup class="fn" id="fnref5"><a href="#fn5">5</a></sup> put it starkly: labor received 58% of gross domestic income in 1980; by the third quarter of 2025, that had fallen to 51.4%. Corporate profits' share rose from 7% to 11.7% over the same period — the highest in more than 40 years. Since the end of 2019 alone, real average hourly wages have risen 3% while corporate profits have climbed 43%.</p>
 
-        <p>Data from the <a href="https://www.stlouisfed.org/on-the-economy/2025/apr/whats-driving-surge-us-corporate-profits" target="_blank">Federal Reserve Bank of St. Louis</a> shows the same pattern through a different lens: corporate profits as a share of national income averaged 13.9% from 2010 to 2019 and had risen to 16.2% by the fourth quarter of 2024, an increase driven almost entirely by domestic nonfinancial industries.</p>
+        <p>Data from the Federal Reserve Bank of St. Louis<sup class="fn" id="fnref6"><a href="#fn6">6</a></sup> shows the same pattern through a different lens: corporate profits as a share of national income averaged 13.9% from 2010 to 2019 and had risen to 16.2% by the fourth quarter of 2024, an increase driven almost entirely by domestic nonfinancial industries.</p>
 
         <p>Since 2000, U.S. GDP has roughly doubled. But the gains have disproportionately accrued to capital owners — shareholders, property holders, and the owners of intellectual property — rather than to workers as a class. Household stock wealth now equals almost 300% of annual disposable income, up from 200% in 2019. The economy is growing; the question is for whom.</p>
 
         <h2>The Superstar Firm Effect</h2>
 
-        <p>What caused the decline to accelerate? Economists have proposed several explanations: globalization and offshoring, the declining price of capital goods, weakening unions, and rising market concentration. But the explanation most relevant to the post-labor thesis is the rise of what MIT economist David Autor and his colleagues call <a href="https://www.nber.org/papers/w23396" target="_blank">"superstar firms."</a></p>
+        <p>What caused the decline to accelerate? Economists have proposed several explanations: globalization and offshoring, the declining price of capital goods, weakening unions, and rising market concentration. But the explanation most relevant to the post-labor thesis is the rise of what MIT economist David Autor and his colleagues call "superstar firms."<sup class="fn" id="fnref7"><a href="#fn7">7</a></sup></p>
 
         <p>The argument is straightforward. Technology — particularly information technology — tends to create winner-take-most dynamics. The most productive firms in each industry capture an increasing share of sales while employing relatively fewer workers per dollar of revenue. As output reallocates toward these high-markup, low-labor-share firms, the aggregate labor share falls — not because individual firms are paying workers less, but because the firms that dominate the economy simply need fewer of them.</p>
 
         <p>The data bear this out. In retail, the top four firms accounted for less than 15% of total sales in 1982. By 2012, that figure had risen to approximately 30%. Similar concentration trends appear across manufacturing, services, finance, and utilities. Industries with the largest increases in concentration experienced the steepest declines in labor share.</p>
 
-        <p>The most vivid illustration: Nvidia, the most valuable U.S. company in early 2026 at roughly $4.5 trillion, is nearly 20 times as valuable as IBM was in 1985 in inflation-adjusted terms — yet employs approximately 36,000 people compared to IBM's roughly 400,000. That is a staggering ratio: twenty times the market value, one-tenth the workers. The value creation hasn't disappeared; it has migrated from labor to capital.</p>
+        <p>The most vivid illustration: Nvidia, the most valuable U.S. company in early 2026 at roughly $4.5 trillion, is nearly 20 times as valuable as IBM was in 1985 in inflation-adjusted terms — yet employs approximately 36,000 people compared to IBM's roughly 400,000.<sup class="fn"><a href="#fn5">5</a></sup> That is a staggering ratio: twenty times the market value, one-tenth the workers. The value creation hasn't disappeared; it has migrated from labor to capital.</p>
 
         <div class="essay-pullquote">
             <p>The labor share isn't falling because firms are cutting wages. It's falling because the firms that are winning need fewer workers to generate more output.</p>
@@ -162,7 +171,7 @@
 
         <p>The capital-versus-labor story tells you about the size of the pie going to workers as a whole. But inside that shrinking slice, another divergence has been underway — and it matters enormously for understanding what AI is about to do.</p>
 
-        <p>Since 1979, real wages at the 90th percentile have grown roughly 1.1% per year. At the median, growth has been just 0.6% per year — cumulative growth of only 29% over 45 years. At the 10th percentile, workers barely exceeded their 1979 wage levels until 2015. The <a href="https://www.epi.org/productivity-pay-gap/" target="_blank">Economic Policy Institute</a> calculates that productivity has grown 3.5 times as much as typical worker pay since 1979. The gap isn't subtle: if median wages had tracked productivity, they'd be over $31 per hour today rather than roughly $25.</p>
+        <p>Since 1979, real wages at the 90th percentile have grown roughly 1.1% per year. At the median, growth has been just 0.6% per year — cumulative growth of only 29% over 45 years. At the 10th percentile, workers barely exceeded their 1979 wage levels until 2015. The Economic Policy Institute<sup class="fn" id="fnref8"><a href="#fn8">8</a></sup> calculates that productivity has grown 3.5 times as much as typical worker pay since 1979. The gap isn't subtle: if median wages had tracked productivity, they'd be over $31 per hour today rather than roughly $25.</p>
 
         <p>But the most striking divergence is at the very top. According to Social Security Administration data, wages for the top 1% grew 182% from 1979 to 2023 — roughly seven times the growth rate of workers at the 10th percentile. The average wage has been pulled upward by gains at the top, masking stagnation in the middle and bottom. When commentators cite "rising wages," they are often describing an average inflated by a small number of high earners.</p>
 
@@ -202,7 +211,7 @@
             </tr>
         </table>
 
-        <p>Sources: <a href="https://www.epi.org/publication/strong-wage-growth-for-low-wage-workers-bucks-the-historic-trend/" target="_blank">EPI State of Working America Wages</a>, <a href="https://www.congress.gov/crs-product/R45090" target="_blank">Congressional Research Service</a>, Social Security Administration.</p>
+        <p>Sources: EPI State of Working America Wages,<sup class="fn" id="fnref9"><a href="#fn9">9</a></sup> Congressional Research Service,<sup class="fn" id="fnref10"><a href="#fn10">10</a></sup> Social Security Administration.</p>
 
         <p>This pattern — modest gains at the median, stagnation at the bottom, concentration at the top — is the within-labor version of the capital-versus-labor story. And it sets up the critical question: what happens when AI begins displacing the high-wage knowledge workers whose gains have been propping up the average?</p>
 
@@ -212,7 +221,7 @@
 
         <p>The economic logic is simple. If a technology can perform a task at lower cost than a human worker, firms will adopt it. What makes AI different from previous waves of automation is the breadth of tasks it can perform and the pace at which its capabilities are improving. In 2023, large language models could draft text and answer questions. By 2025, AI agents can write and execute code, conduct research, manage workflows, and operate autonomously for extended periods. Physical AI — humanoid robots guided by foundation models — is moving from prototype to pilot deployment.</p>
 
-        <p>Korinek and Lockwood's 2026 analysis for <a href="https://www.brookings.edu/articles/public-finance-age-ai-primer/" target="_blank">Brookings and NBER</a> formalizes what this means for income distribution. As AI substitutes for labor across a widening range of tasks, the capital share of income rises mechanically. Their model shows that maximum labor-tax revenue as a share of output approaches zero as the capital share approaches one.</p>
+        <p>Korinek and Lockwood's 2026 analysis for Brookings and NBER<sup class="fn" id="fnref11"><a href="#fn11">11</a></sup> formalizes what this means for income distribution. As AI substitutes for labor across a widening range of tasks, the capital share of income rises mechanically. Their model shows that maximum labor-tax revenue as a share of output approaches zero as the capital share approaches one.</p>
 
         <p>Crucially, AI doesn't follow the old pattern of automating low-wage routine work first. It is coming for cognitive work — legal analysis, financial modeling, software development, content creation, medical diagnostics — precisely the high-wage knowledge work that has been the one bright spot in the wage distribution. The workers whose gains have been pulling the average upward are now newly exposed.</p>
 
@@ -256,18 +265,20 @@
 
         <!-- SOURCES -->
         <div class="essay-footnotes">
-            <p><strong>Sources & Further Reading</strong></p>
-            <p>Ip, <a href="https://www.wsj.com/economy/the-big-money-in-todays-economy-is-going-to-capital-not-labor-f553a8e4" target="_blank">"The Big Money in Today's Economy Is Going to Capital, Not Labor"</a> — Wall Street Journal, February 10, 2026.</p>
-            <p>BLS, <a href="https://fred.stlouisfed.org/series/PRS85006173" target="_blank">Nonfarm Business Sector: Labor Share for All Workers</a> — FRED, Q1 1947–Q2 2025.</p>
-            <p>BLS, <a href="https://www.bls.gov/opub/mlr/2017/article/estimating-the-us-labor-share.htm" target="_blank">"Estimating the U.S. Labor Share"</a> — Monthly Labor Review, 2017.</p>
-            <p>Marto, <a href="https://www.stlouisfed.org/on-the-economy/2025/apr/whats-driving-surge-us-corporate-profits" target="_blank">"What's Driving the Surge in U.S. Corporate Profits?"</a> — St. Louis Fed, April 2025.</p>
-            <p>Autor, Dorn, Katz, Patterson & Van Reenen, <a href="https://www.nber.org/papers/w23396" target="_blank">"The Fall of the Labor Share and the Rise of Superstar Firms"</a> — Quarterly Journal of Economics, 2020.</p>
-            <p>Elsby, Hobijn & Şahin, <a href="https://www.brookings.edu/articles/the-decline-of-the-u-s-labor-share/" target="_blank">"The Decline of the U.S. Labor Share"</a> — Brookings Papers on Economic Activity, 2013.</p>
-            <p>Korinek & Lockwood, <a href="https://www.brookings.edu/articles/public-finance-age-ai-primer/" target="_blank">"Public Finance in the Age of AI"</a> — Brookings/NBER, 2026.</p>
-            <p>EPI, <a href="https://www.epi.org/productivity-pay-gap/" target="_blank">"The Productivity–Pay Gap"</a> — Economic Policy Institute, updated 2024.</p>
-            <p>EPI, <a href="https://www.epi.org/publication/strong-wage-growth-for-low-wage-workers-bucks-the-historic-trend/" target="_blank">"Strong Wage Growth for Low-Wage Workers"</a> — State of Working America Wages, 2024.</p>
-            <p>Pew Research Center, <a href="https://www.pewresearch.org/short-reads/2018/08/07/for-most-us-workers-real-wages-have-barely-budged-for-decades/" target="_blank">"For Most Americans, Real Wages Have Barely Budged for Decades"</a> — 2018.</p>
-            <p>CRS, <a href="https://www.congress.gov/crs-product/R45090" target="_blank">"Real Wage Trends, 1979 to 2019"</a> — Congressional Research Service.</p>
+            <p><strong>Notes</strong></p>
+            <ol>
+                <li id="fn1">BLS, <a href="https://fred.stlouisfed.org/series/PRS85006173" target="_blank">Nonfarm Business Sector: Labor Share for All Workers</a> — FRED, Q1 1947–Q2 2025. <a href="#fnref1" class="fn-back">↩</a></li>
+                <li id="fn2">BEA, <a href="https://fred.stlouisfed.org/series/W270RE1A156NBEA" target="_blank">Shares of Gross Domestic Income: Compensation of Employees</a> — FRED, 1948–2024. <a href="#fnref2" class="fn-back">↩</a></li>
+                <li id="fn3">BLS, <a href="https://www.bls.gov/opub/mlr/2017/article/estimating-the-us-labor-share.htm" target="_blank">"Estimating the U.S. Labor Share"</a> — Monthly Labor Review, 2017. <a href="#fnref3" class="fn-back">↩</a></li>
+                <li id="fn4">Elsby, Hobijn & Şahin, <a href="https://www.brookings.edu/articles/the-decline-of-the-u-s-labor-share/" target="_blank">"The Decline of the U.S. Labor Share"</a> — Brookings Papers on Economic Activity, 2013. <a href="#fnref4" class="fn-back">↩</a></li>
+                <li id="fn5">Ip, <a href="https://www.wsj.com/economy/the-big-money-in-todays-economy-is-going-to-capital-not-labor-f553a8e4" target="_blank">"The Big Money in Today's Economy Is Going to Capital, Not Labor"</a> — Wall Street Journal, February 10, 2026. <a href="#fnref5" class="fn-back">↩</a></li>
+                <li id="fn6">Marto, <a href="https://www.stlouisfed.org/on-the-economy/2025/apr/whats-driving-surge-us-corporate-profits" target="_blank">"What's Driving the Surge in U.S. Corporate Profits?"</a> — Federal Reserve Bank of St. Louis, April 2025. <a href="#fnref6" class="fn-back">↩</a></li>
+                <li id="fn7">Autor, Dorn, Katz, Patterson & Van Reenen, <a href="https://www.nber.org/papers/w23396" target="_blank">"The Fall of the Labor Share and the Rise of Superstar Firms"</a> — Quarterly Journal of Economics, 2020. <a href="#fnref7" class="fn-back">↩</a></li>
+                <li id="fn8">EPI, <a href="https://www.epi.org/productivity-pay-gap/" target="_blank">"The Productivity–Pay Gap"</a> — Economic Policy Institute, updated 2024. <a href="#fnref8" class="fn-back">↩</a></li>
+                <li id="fn9">EPI, <a href="https://www.epi.org/publication/strong-wage-growth-for-low-wage-workers-bucks-the-historic-trend/" target="_blank">"Strong Wage Growth for Low-Wage Workers"</a> — State of Working America Wages, 2024. <a href="#fnref9" class="fn-back">↩</a></li>
+                <li id="fn10">CRS, <a href="https://www.congress.gov/crs-product/R45090" target="_blank">"Real Wage Trends, 1979 to 2019"</a> — Congressional Research Service. <a href="#fnref10" class="fn-back">↩</a></li>
+                <li id="fn11">Korinek & Lockwood, <a href="https://www.brookings.edu/articles/public-finance-age-ai-primer/" target="_blank">"Public Finance in the Age of AI"</a> — Brookings/NBER, 2026. <a href="#fnref11" class="fn-back">↩</a></li>
+            </ol>
         </div>
     </div>
 
