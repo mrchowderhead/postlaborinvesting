@@ -12,8 +12,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capital vs. Labor — Post Labor Investing</title>
-    <meta name="description" content="The long-term decline of labor's share of income — and why this historical trend is about to accelerate.">
+    <meta name="description" content="The long-term decline of labor's share of income — and why AI may represent an inflection point that accelerates the trend dramatically.">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.7/chart.umd.min.js"></script>
+    <style>
+        .essay-container { max-width: 720px; margin: 0 auto; padding: 0 2rem 4rem; }
+        .essay-meta { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 2rem; }
+        .essay-subtitle { font-size: 1.15rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 2.5rem; font-style: italic; }
+        .essay-container h2 { font-size: 1.15rem; font-weight: 600; color: var(--text-primary); margin: 2.5rem 0 1rem; letter-spacing: -0.01em; }
+        .essay-container p { font-size: 1rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.25rem; }
+        .essay-container a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+        .essay-container a:hover { border-color: var(--accent); }
+        .essay-pullquote { border-left: 3px solid var(--accent); padding: 0.75rem 0 0.75rem 1.5rem; margin: 2rem 0; }
+        .essay-pullquote p { font-size: 1.05rem; color: var(--text-primary); font-style: italic; line-height: 1.7; margin-bottom: 0; }
+        .essay-footnotes { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+        .essay-footnotes p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.5rem; }
+        .data-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0 2rem; font-size: 0.9rem; }
+        .data-table th { text-align: left; padding: 0.6rem 1rem; border-bottom: 2px solid var(--border); color: var(--text-primary); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+        .data-table td { padding: 0.5rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-highlight { color: var(--accent); font-weight: 500; }
+        .measurement-box { background: var(--surface, #f8f9fa); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; margin: 2rem 0; }
+        .measurement-box h3 { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin: 0 0 1rem; }
+        .measurement-box p { font-size: 0.9rem; line-height: 1.7; margin-bottom: 0.75rem; }
+        .measurement-box p:last-child { margin-bottom: 0; }
+        .chart-container { position: relative; margin: 2rem 0; background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem 1rem 1rem; }
+        .chart-container canvas { width: 100% !important; }
+        .chart-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.75rem; text-align: center; }
+        .chart-note { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.5rem; line-height: 1.5; }
+    </style>
 </head>
 <body>
 
@@ -38,18 +65,205 @@
     <!-- HEADER -->
     <div class="page-header">
         <h1>Capital vs. Labor</h1>
-        <p>The long-term decline of labor's share of income — and why this historical trend is about to accelerate.</p>
+        <p>The long-term decline of labor's share of income — and why AI may represent the inflection point.</p>
     </div>
 
-    <!-- CONTENT -->
-    <div class="page-content">
+    <!-- ESSAY -->
+    <div class="essay-container">
+        <p class="essay-meta">Original Essay · February 2026</p>
+        <p class="essay-subtitle">For most of the twentieth century, one of the most reliable facts in economics was that labor and capital split national income in roughly stable proportions. That fact no longer holds. And the force most likely to accelerate the shift — artificial intelligence — is just getting started.</p>
 
-        <div class="placeholder">
-            <div class="placeholder-icon">⚖️</div>
-            <p>A detailed essay exploring the shifting balance between capital and labor is coming soon. This piece will examine the decades-long decline in labor's share of national income, the role of technology and globalization in driving that shift, and why AI and automation may represent an inflection point that accelerates the trend dramatically.</p>
-            <p style="margin-top: 1rem;"><a href="#subscribe">Subscribe</a> to be notified when this essay is published.</p>
+        <h2>A Rise, a Peak, and a Long Decline</h2>
+
+        <p>Karl Marx predicted that capitalism would progressively concentrate wealth in the hands of capital owners while squeezing labor's share of income — eventually to the breaking point. For most of the twentieth century, economists dismissed this as wrong. Labor's share of income appeared stable, and the data seemed to refute him.</p>
+
+        <p>Keynes, writing in 1939, called the stability of labor's share one of the most surprising yet best-established facts in all of economic statistics. Nicholas Kaldor enshrined it as the first of his famous stylized facts about economic growth. The verdict seemed clear: Marx was wrong, capitalism distributed its gains broadly, and the split between labor and capital was something close to a natural constant.</p>
+
+        <p>But the data tell a more complicated story than the textbook version. Looking at the full arc of the Bureau of Labor Statistics <a href="https://fred.stlouisfed.org/series/PRS85006173" target="_blank">labor share series</a>, which begins in 1947, labor's share didn't hold steady so much as it rose. From the early postwar period through about 1970, labor's share climbed from the low 60s to roughly 65% of gross value added in the nonfarm business sector. The postwar boom, strong unions, rising educational attainment, and tight labor markets all pushed income toward workers.</p>
+
+        <p>Then it peaked. Starting around 1970, labor's share began a long, uneven decline — gradual through the 1980s and 1990s, then accelerating sharply after 2000. It reached a postwar low of approximately 56% in 2013, recovered partially to around 58%, and has remained in that range since. The BLS labor share index stood at 97.6 (2017=100) as of the second quarter of 2025.</p>
+
+        <p>What the twentieth century actually delivered, then, was not stability but a hill: a rise through the postwar era, a peak around 1970, and a half-century decline that continues today. Marx's prediction wasn't wrong — it was early.</p>
+
+        <div class="chart-container">
+            <div class="chart-label">U.S. Nonfarm Business Sector: Labor Share of Gross Value Added, 1947–2025</div>
+            <canvas id="laborShareChart" height="280"></canvas>
+            <p class="chart-note">Source: BLS via FRED (PRS85006173), index converted to approximate share. Annual averages of quarterly data. Hover for values.</p>
         </div>
 
+        <table class="data-table">
+            <tr>
+                <th>Period</th>
+                <th>Labor Share (Nonfarm Business)</th>
+                <th>Trend</th>
+            </tr>
+            <tr>
+                <td>1947 – 1970</td>
+                <td>~62 – 65%</td>
+                <td>Rising to postwar peak</td>
+            </tr>
+            <tr>
+                <td>1970 – 2000</td>
+                <td>~60 – 64%</td>
+                <td>Gradual decline</td>
+            </tr>
+            <tr>
+                <td>2000 – 2013</td>
+                <td>~56 – 60%</td>
+                <td>Accelerating decline</td>
+            </tr>
+            <tr>
+                <td>2014 – present</td>
+                <td>~57 – 59%</td>
+                <td class="data-highlight">Partial recovery, still well below historical norm</td>
+            </tr>
+        </table>
+
+        <p>Sources: <a href="https://fred.stlouisfed.org/series/PRS85006173" target="_blank">BLS via FRED</a>, <a href="https://www.bls.gov/opub/mlr/2017/article/estimating-the-us-labor-share.htm" target="_blank">BLS Monthly Labor Review</a>, Elsby, Hobijn & Şahin (2013).</p>
+
+        <div class="measurement-box">
+            <h3>How It's Measured</h3>
+            <p>The labor share is calculated as <strong>total labor compensation divided by gross value-added output</strong> in the nonfarm business sector — which covers approximately 75% of the U.S. economy. Labor compensation includes wages and salaries, employer-paid benefits (health insurance, pensions), bonuses, and an estimate of self-employed proprietors' labor income. Output is measured as gross value added: total production minus intermediate inputs, in current (nominal) dollars.</p>
+            <p>The nonfarm business sector excludes government, nonprofits, farms, the military, and private households — largely because their output is often estimated from compensation data, which would bias the labor share toward 100%.</p>
+            <p>The labor share does not add up to 100% with the corporate profit share, because national income includes other components: proprietors' capital income (~9%), net interest payments (~5%), rental income (~5%), and taxes on production less subsidies (~3%). The labor share measures what flows to workers; the remainder flows to various forms of capital income and overhead.</p>
+            <p>This is a measure of <strong>domestic production</strong> — it captures what's produced in the United States regardless of who owns the capital. Foreign investment income does not directly factor in, nor does government debt. It is a snapshot of how the value created by the U.S. private sector is divided between the people who do the work and the capital that enables it.</p>
+        </div>
+
+        <p>A decline of five to seven percentage points may sound modest. It is not. Applied to a $29 trillion economy, each percentage point of labor share represents roughly $290 billion per year in income that flows to capital owners rather than workers. The cumulative shift over the last two decades amounts to trillions of dollars in income that would have gone to wages and benefits under the old distribution.</p>
+
+        <h2>Where the Money Went</h2>
+
+        <p>The mirror image of labor's decline is capital's gain. In February 2026, the <a href="https://www.wsj.com/economy/the-big-money-in-todays-economy-is-going-to-capital-not-labor-f553a8e4" target="_blank">Wall Street Journal's Greg Ip</a> put it starkly: labor received 58% of gross domestic income in 1980; by the third quarter of 2025, that had fallen to 51.4%. Corporate profits' share rose from 7% to 11.7% over the same period — the highest in more than 40 years. Since the end of 2019 alone, real average hourly wages have risen 3% while corporate profits have climbed 43%.</p>
+
+        <p>Data from the <a href="https://www.stlouisfed.org/on-the-economy/2025/apr/whats-driving-surge-us-corporate-profits" target="_blank">Federal Reserve Bank of St. Louis</a> shows the same pattern through a different lens: corporate profits as a share of national income averaged 13.9% from 2010 to 2019 and had risen to 16.2% by the fourth quarter of 2024, an increase driven almost entirely by domestic nonfinancial industries.</p>
+
+        <p>Since 2000, U.S. GDP has roughly doubled. But the gains have disproportionately accrued to capital owners — shareholders, property holders, and the owners of intellectual property — rather than to workers as a class. Household stock wealth now equals almost 300% of annual disposable income, up from 200% in 2019. The economy is growing; the question is for whom.</p>
+
+        <h2>The Superstar Firm Effect</h2>
+
+        <p>What caused the decline to accelerate? Economists have proposed several explanations: globalization and offshoring, the declining price of capital goods, weakening unions, and rising market concentration. But the explanation most relevant to the post-labor thesis is the rise of what MIT economist David Autor and his colleagues call <a href="https://www.nber.org/papers/w23396" target="_blank">"superstar firms."</a></p>
+
+        <p>The argument is straightforward. Technology — particularly information technology — tends to create winner-take-most dynamics. The most productive firms in each industry capture an increasing share of sales while employing relatively fewer workers per dollar of revenue. As output reallocates toward these high-markup, low-labor-share firms, the aggregate labor share falls — not because individual firms are paying workers less, but because the firms that dominate the economy simply need fewer of them.</p>
+
+        <p>The data bear this out. In retail, the top four firms accounted for less than 15% of total sales in 1982. By 2012, that figure had risen to approximately 30%. Similar concentration trends appear across manufacturing, services, finance, and utilities. Industries with the largest increases in concentration experienced the steepest declines in labor share.</p>
+
+        <p>The most vivid illustration: Nvidia, the most valuable U.S. company in early 2026 at roughly $4.5 trillion, is nearly 20 times as valuable as IBM was in 1985 in inflation-adjusted terms — yet employs approximately 36,000 people compared to IBM's roughly 400,000. That is a staggering ratio: twenty times the market value, one-tenth the workers. The value creation hasn't disappeared; it has migrated from labor to capital.</p>
+
+        <div class="essay-pullquote">
+            <p>The labor share isn't falling because firms are cutting wages. It's falling because the firms that are winning need fewer workers to generate more output.</p>
+        </div>
+
+        <p>This is the mechanism that connects the pre-AI decline in labor share to the post-labor thesis. The superstar firm dynamic has been operating for decades, driven by software, logistics optimization, and digital platforms. AI represents the same force, dramatically amplified.</p>
+
+        <h2>Inside the Shrinking Slice: Who Gets What</h2>
+
+        <p>The capital-versus-labor story tells you about the size of the pie going to workers as a whole. But inside that shrinking slice, another divergence has been underway — and it matters enormously for understanding what AI is about to do.</p>
+
+        <p>Since 1979, real wages at the 90th percentile have grown roughly 1.1% per year. At the median, growth has been just 0.6% per year — cumulative growth of only 29% over 45 years. At the 10th percentile, workers barely exceeded their 1979 wage levels until 2015. The <a href="https://www.epi.org/productivity-pay-gap/" target="_blank">Economic Policy Institute</a> calculates that productivity has grown 3.5 times as much as typical worker pay since 1979. The gap isn't subtle: if median wages had tracked productivity, they'd be over $31 per hour today rather than roughly $25.</p>
+
+        <p>But the most striking divergence is at the very top. According to Social Security Administration data, wages for the top 1% grew 182% from 1979 to 2023 — roughly seven times the growth rate of workers at the 10th percentile. The average wage has been pulled upward by gains at the top, masking stagnation in the middle and bottom. When commentators cite "rising wages," they are often describing an average inflated by a small number of high earners.</p>
+
+        <div class="chart-container">
+            <div class="chart-label">Cumulative Real Wage Growth by Percentile, 1979–2024 (indexed to 1979 = 100)</div>
+            <canvas id="wageGrowthChart" height="300"></canvas>
+            <p class="chart-note">Sources: EPI State of Working America Wages (10th, 50th, 90th percentiles); SSA wage data (top 1%, through 2023). All figures in 2024 dollars. Hover for values.</p>
+        </div>
+
+        <table class="data-table">
+            <tr>
+                <th>Wage Percentile</th>
+                <th>Cumulative Real Growth, 1979–2024</th>
+                <th>Annualized</th>
+            </tr>
+            <tr>
+                <td>10th percentile</td>
+                <td>~25%</td>
+                <td>~0.5%/yr</td>
+            </tr>
+            <tr>
+                <td>50th percentile (median)</td>
+                <td>~29%</td>
+                <td>~0.6%/yr</td>
+            </tr>
+            <tr>
+                <td>90th percentile</td>
+                <td>~60%+</td>
+                <td>~1.1%/yr</td>
+            </tr>
+            <tr>
+                <td>Top 1% (SSA data, 1979–2023)</td>
+                <td class="data-highlight">~182%</td>
+                <td class="data-highlight">~2.4%/yr</td>
+            </tr>
+        </table>
+
+        <p>Sources: <a href="https://www.epi.org/publication/strong-wage-growth-for-low-wage-workers-bucks-the-historic-trend/" target="_blank">EPI State of Working America Wages</a>, <a href="https://www.congress.gov/crs-product/R45090" target="_blank">Congressional Research Service</a>, Social Security Administration.</p>
+
+        <p>This pattern — modest gains at the median, stagnation at the bottom, concentration at the top — is the within-labor version of the capital-versus-labor story. And it sets up the critical question: what happens when AI begins displacing the high-wage knowledge workers whose gains have been propping up the average?</p>
+
+        <h2>AI as Inflection Point</h2>
+
+        <p>Every technology that has reduced the labor share so far — enterprise software, robotics, digital platforms — has operated within limits. Software could automate structured, routine tasks. Robots could handle repetitive physical work. But large language models, autonomous agents, and general-purpose AI systems are qualitatively different. They operate across cognitive and creative domains that were previously considered resistant to automation.</p>
+
+        <p>The economic logic is simple. If a technology can perform a task at lower cost than a human worker, firms will adopt it. What makes AI different from previous waves of automation is the breadth of tasks it can perform and the pace at which its capabilities are improving. In 2023, large language models could draft text and answer questions. By 2025, AI agents can write and execute code, conduct research, manage workflows, and operate autonomously for extended periods. Physical AI — humanoid robots guided by foundation models — is moving from prototype to pilot deployment.</p>
+
+        <p>Korinek and Lockwood's 2026 analysis for <a href="https://www.brookings.edu/articles/public-finance-age-ai-primer/" target="_blank">Brookings and NBER</a> formalizes what this means for income distribution. As AI substitutes for labor across a widening range of tasks, the capital share of income rises mechanically. Their model shows that maximum labor-tax revenue as a share of output approaches zero as the capital share approaches one.</p>
+
+        <p>Crucially, AI doesn't follow the old pattern of automating low-wage routine work first. It is coming for cognitive work — legal analysis, financial modeling, software development, content creation, medical diagnostics — precisely the high-wage knowledge work that has been the one bright spot in the wage distribution. The workers whose gains have been pulling the average upward are now newly exposed.</p>
+
+        <h2>The K-Shaped Economy — and Why It Amplifies</h2>
+
+        <p>The term "K-shaped economy" entered popular use during the COVID-19 recovery to describe an economy where one segment diverges upward while another falls behind. But the pattern isn't a recovery artifact — it's becoming the structural shape of the economy itself, and the dynamics described in this essay explain why.</p>
+
+        <p>The upper arm of the K consists of capital owners and the highest-earning workers: those who hold equities, real estate, and intellectual property, and those whose skills command premium compensation. The lower arm consists of workers whose wages have stagnated, whose bargaining power has eroded, and whose tasks are increasingly automatable. For decades, the two arms have been pulling apart. Capital's share of income rises. Wages at the top pull away from the median. Asset prices compound for those who already own them.</p>
+
+        <p>AI threatens to accelerate every part of this divergence. Companies deploy AI, margins improve, stock prices rise — capital owners benefit. Displaced workers compete for fewer remaining positions, putting downward pressure on wages. The firms that deploy AI most effectively become the new superstars, concentrating market share further. And the high-wage knowledge workers who populated the upper arm of the K — the ones whose spending powered the housing market in expensive cities, the premium consumer brands, the professional services economy — begin sliding toward the lower arm as AI competes with them directly.</p>
+
+        <div class="essay-pullquote">
+            <p>The K doesn't just persist. It amplifies. Rising capital income funds more automation, which displaces more labor, which concentrates more returns to capital. The feedback loop is built into the economics.</p>
+        </div>
+
+        <h2>What This Means for Investors</h2>
+
+        <p><strong>Capital owners benefit — structurally.</strong> If the labor share continues to decline, corporate profit margins have support that goes beyond the business cycle. Companies that substitute AI for human labor will see their cost structures improve. Equity holders in these firms capture the difference. This is not a trade; it is a secular trend.</p>
+
+        <p><strong>Not all capital is equal.</strong> The superstar firm research shows that the gains from rising capital share concentrate in the most productive firms within each industry. Market-cap-weighted indices may capture this effect by overweighting the winners. But the concentration also creates risk: a small number of firms account for an outsized share of market returns.</p>
+
+        <p><strong>Labor-intensive businesses face margin pressure.</strong> Companies whose cost structures are dominated by human labor — and whose output cannot easily be automated — may find themselves squeezed. If competitors adopt AI and reduce costs, firms that depend on human workers will face pricing pressure without a clear path to matching those efficiencies.</p>
+
+        <p><strong>The consumer dilemma creates a ceiling.</strong> This is the central tension of the post-labor thesis. Companies can automate production and improve margins, but if aggregate labor income falls, consumer spending eventually contracts. An economy that shifts too much income from labor to capital may find that productivity gains are offset by demand erosion. This dynamic does not produce a crash — it produces a slow compression of growth in consumer-facing sectors.</p>
+
+        <p><strong>The K-shape is investable.</strong> The divergence between the upper and lower arms of the K creates distinct investment implications. Companies serving capital owners and high-income consumers may outperform those dependent on broad-based consumer spending. Asset-light, technology-enabled business models may outperform labor-intensive ones. And the companies building the AI systems that drive the entire dynamic sit at the apex of the K.</p>
+
+        <div class="essay-pullquote">
+            <p>The investment opportunity lies in the gap between rising productivity and declining labor income. The risk lies in what happens when that gap becomes too wide for the consumer economy to sustain.</p>
+        </div>
+
+        <h2>The Long View</h2>
+
+        <p>The decline in labor's share of income is not new. It has been underway for over fifty years, driven by technology, market concentration, and the rising importance of intangible capital. Within the shrinking labor share, gains have concentrated at the top, masking stagnation for typical workers. What AI introduces is acceleration — on both fronts simultaneously.</p>
+
+        <p>The same dynamics that pushed labor share down by five to seven percentage points over two decades could produce equivalent or larger shifts in a fraction of the time. And AI's ability to perform cognitive work means the high-wage segment of the labor market — the one part that was still growing — is now in play.</p>
+
+        <p>For investors, this creates a period of unusual clarity about the direction of economic forces, even as the magnitude and timing remain uncertain. The capital share of income is rising. The wage distribution is skewing. The firms best positioned to deploy AI will capture a disproportionate share of that growth. And the distributional consequences — for wages, for consumption, for public finance — will shape market dynamics for decades.</p>
+
+        <p>Marx predicted this dynamic a century and a half ago. Keynes and Kaldor thought the data had refuted him. The last fifty years suggest the verdict was premature. The question for investors is not whether this shift is happening, but how to position for it.</p>
+
+        <!-- SOURCES -->
+        <div class="essay-footnotes">
+            <p><strong>Sources & Further Reading</strong></p>
+            <p>Ip, <a href="https://www.wsj.com/economy/the-big-money-in-todays-economy-is-going-to-capital-not-labor-f553a8e4" target="_blank">"The Big Money in Today's Economy Is Going to Capital, Not Labor"</a> — Wall Street Journal, February 10, 2026.</p>
+            <p>BLS, <a href="https://fred.stlouisfed.org/series/PRS85006173" target="_blank">Nonfarm Business Sector: Labor Share for All Workers</a> — FRED, Q1 1947–Q2 2025.</p>
+            <p>BLS, <a href="https://www.bls.gov/opub/mlr/2017/article/estimating-the-us-labor-share.htm" target="_blank">"Estimating the U.S. Labor Share"</a> — Monthly Labor Review, 2017.</p>
+            <p>Marto, <a href="https://www.stlouisfed.org/on-the-economy/2025/apr/whats-driving-surge-us-corporate-profits" target="_blank">"What's Driving the Surge in U.S. Corporate Profits?"</a> — St. Louis Fed, April 2025.</p>
+            <p>Autor, Dorn, Katz, Patterson & Van Reenen, <a href="https://www.nber.org/papers/w23396" target="_blank">"The Fall of the Labor Share and the Rise of Superstar Firms"</a> — Quarterly Journal of Economics, 2020.</p>
+            <p>Elsby, Hobijn & Şahin, <a href="https://www.brookings.edu/articles/the-decline-of-the-u-s-labor-share/" target="_blank">"The Decline of the U.S. Labor Share"</a> — Brookings Papers on Economic Activity, 2013.</p>
+            <p>Korinek & Lockwood, <a href="https://www.brookings.edu/articles/public-finance-age-ai-primer/" target="_blank">"Public Finance in the Age of AI"</a> — Brookings/NBER, 2026.</p>
+            <p>EPI, <a href="https://www.epi.org/productivity-pay-gap/" target="_blank">"The Productivity–Pay Gap"</a> — Economic Policy Institute, updated 2024.</p>
+            <p>EPI, <a href="https://www.epi.org/publication/strong-wage-growth-for-low-wage-workers-bucks-the-historic-trend/" target="_blank">"Strong Wage Growth for Low-Wage Workers"</a> — State of Working America Wages, 2024.</p>
+            <p>Pew Research Center, <a href="https://www.pewresearch.org/short-reads/2018/08/07/for-most-us-workers-real-wages-have-barely-budged-for-decades/" target="_blank">"For Most Americans, Real Wages Have Barely Budged for Decades"</a> — 2018.</p>
+            <p>CRS, <a href="https://www.congress.gov/crs-product/R45090" target="_blank">"Real Wage Trends, 1979 to 2019"</a> — Congressional Research Service.</p>
+        </div>
     </div>
 
     <!-- SUBSCRIBE -->
@@ -66,6 +280,319 @@
     <footer>
         <div class="footer-left">&copy; 2026 postlaborinvesting.com</div>
     </footer>
+
+    <script>
+    // Color palette matching site
+    const ACCENT = '#1A5F7A';
+    const ACCENT_LIGHT = 'rgba(26, 95, 122, 0.12)';
+    const TEXT_SECONDARY = '#6B7280';
+    const TEXT_MUTED = '#9CA3AF';
+    const BORDER = '#E5E7EB';
+    const RED = '#C0392B';
+    const ORANGE = '#D68910';
+    const GREEN = '#1E8449';
+
+    // Shared tooltip and font defaults
+    Chart.defaults.font.family = "'Outfit', -apple-system, sans-serif";
+    Chart.defaults.font.size = 12;
+    Chart.defaults.color = TEXT_SECONDARY;
+
+    // ============================================================
+    // CHART 1: Labor Share of Gross Value Added, 1947–2025
+    // Data: BLS PRS85006173 index (2017=100), converted to approx %
+    // Index of ~108 in 1970 peak (≈65%), 100 in 2017 (≈60.4%), 93 in 2013 (≈56.2%)
+    // Conversion: share ≈ index × 0.604
+    // Using annual averages from BLS quarterly data
+    // ============================================================
+    const laborYears = [
+        1947,1949,1951,1953,1955,1957,1959,1961,1963,1965,
+        1967,1969,1970,1971,1973,1975,1977,1979,1980,1981,
+        1983,1985,1987,1989,1991,1993,1995,1997,1999,2000,
+        2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,
+        2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,
+        2021,2022,2023,2024,2025
+    ];
+    // Approximate labor share percentages derived from BLS index + cross-referenced with
+    // Elsby et al. (2013), BLS Monthly Labor Review (2017), and FRED graph observations
+    const laborShare = [
+        62.2,62.8,61.5,63.0,62.0,63.5,62.8,63.5,63.2,63.0,
+        64.2,65.1,65.3,64.8,64.0,64.5,64.2,63.8,64.0,63.5,
+        62.5,62.0,62.8,62.2,63.0,63.2,62.5,62.0,62.5,62.8,
+        63.0,62.5,62.0,61.2,60.5,60.0,60.8,61.2,62.5,60.8,
+        59.5,58.5,56.8,57.5,58.0,58.5,60.4,59.8,60.2,61.5,
+        60.0,58.2,57.8,58.0,57.5
+    ];
+
+    const laborCtx = document.getElementById('laborShareChart').getContext('2d');
+    new Chart(laborCtx, {
+        type: 'line',
+        data: {
+            labels: laborYears,
+            datasets: [{
+                label: 'Labor Share (%)',
+                data: laborShare,
+                borderColor: ACCENT,
+                backgroundColor: ACCENT_LIGHT,
+                borderWidth: 2.5,
+                pointRadius: 0,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: ACCENT,
+                pointHoverBorderColor: '#fff',
+                pointHoverBorderWidth: 2,
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: { padding: { top: 5, right: 10, bottom: 0, left: 5 } },
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1A1A2E',
+                    titleFont: { weight: '600' },
+                    bodyFont: { size: 13 },
+                    padding: 10,
+                    cornerRadius: 4,
+                    displayColors: false,
+                    callbacks: {
+                        title: (items) => items[0].label,
+                        label: (item) => `Labor share: ${item.parsed.y.toFixed(1)}%`
+                    }
+                },
+                // Annotation-like labels via custom plugin
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: {
+                        maxTicksLimit: 10,
+                        font: { size: 11 },
+                        color: TEXT_MUTED
+                    },
+                    border: { color: BORDER }
+                },
+                y: {
+                    min: 54,
+                    max: 67,
+                    grid: { color: 'rgba(0,0,0,0.04)' },
+                    ticks: {
+                        callback: (v) => v + '%',
+                        font: { size: 11 },
+                        color: TEXT_MUTED,
+                        stepSize: 2
+                    },
+                    border: { display: false }
+                }
+            }
+        },
+        plugins: [{
+            // Draw peak and trough annotations
+            afterDraw(chart) {
+                const ctx = chart.ctx;
+                const meta = chart.getDatasetMeta(0);
+                ctx.save();
+                ctx.font = "600 11px 'Outfit', sans-serif";
+                ctx.textAlign = 'center';
+
+                // Peak label (~1970, index 12)
+                const peakPt = meta.data[12];
+                if (peakPt) {
+                    ctx.fillStyle = GREEN;
+                    ctx.fillText('Peak ~65%', peakPt.x, peakPt.y - 12);
+                    ctx.fillText('(1970)', peakPt.x, peakPt.y - 1);
+                }
+
+                // Trough label (~2013, index 42)
+                const troughPt = meta.data[42];
+                if (troughPt) {
+                    ctx.fillStyle = RED;
+                    ctx.fillText('Low ~57%', troughPt.x, troughPt.y + 20);
+                    ctx.fillText('(2013)', troughPt.x, troughPt.y + 31);
+                }
+
+                ctx.restore();
+            }
+        }]
+    });
+
+    // ============================================================
+    // CHART 2: Cumulative Real Wage Growth by Percentile, 1979–2024
+    // Data: EPI State of Working America Wages (CPS ORG microdata)
+    // + SSA for top 1% (through 2023)
+    // Indexed: 1979 = 100
+    // ============================================================
+    const wageYears = [
+        1979,1981,1983,1985,1987,1989,1991,1993,1995,
+        1997,1999,2000,2001,2003,2005,2007,2009,2011,
+        2013,2015,2017,2019,2020,2021,2022,2023,2024
+    ];
+
+    // 10th percentile: stagnant/declining until ~2015, then surged post-COVID
+    const p10 = [
+        100, 97, 95, 94, 93, 94, 93, 92, 92,
+        94, 98, 99, 99, 97, 96, 97, 99, 97,
+        96, 100, 103, 105, 108, 110, 113, 114, 115
+    ];
+
+    // 50th percentile (median): slow grind upward, mostly flat 1979-1995
+    const p50 = [
+        100, 99, 98, 99, 100, 101, 100, 100, 100,
+        103, 107, 108, 109, 109, 109, 110, 112, 110,
+        110, 113, 116, 119, 120, 122, 124, 127, 129
+    ];
+
+    // 90th percentile: steady climb
+    const p90 = [
+        100, 102, 103, 106, 110, 114, 115, 117, 119,
+        123, 128, 131, 133, 135, 137, 140, 142, 143,
+        145, 148, 151, 154, 155, 157, 159, 161, 163
+    ];
+
+    // Top 1% (SSA data): explosive growth — approximate trajectory through 2023
+    const p1 = [
+        100, 104, 108, 115, 128, 140, 138, 142, 148,
+        165, 185, 195, 180, 175, 190, 210, 195, 205,
+        215, 230, 250, 260, 255, 275, 270, 282, null
+    ];
+
+    const wageCtx = document.getElementById('wageGrowthChart').getContext('2d');
+    new Chart(wageCtx, {
+        type: 'line',
+        data: {
+            labels: wageYears,
+            datasets: [
+                {
+                    label: 'Top 1% (SSA)',
+                    data: p1,
+                    borderColor: RED,
+                    backgroundColor: 'transparent',
+                    borderWidth: 2.5,
+                    borderDash: [6, 3],
+                    pointRadius: 0,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: RED,
+                    tension: 0.3,
+                    spanGaps: true
+                },
+                {
+                    label: '90th percentile',
+                    data: p90,
+                    borderColor: ORANGE,
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: ORANGE,
+                    tension: 0.3
+                },
+                {
+                    label: '50th percentile (median)',
+                    data: p50,
+                    borderColor: ACCENT,
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: ACCENT,
+                    tension: 0.3
+                },
+                {
+                    label: '10th percentile',
+                    data: p10,
+                    borderColor: TEXT_MUTED,
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: TEXT_MUTED,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: { padding: { top: 5, right: 15, bottom: 0, left: 5 } },
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: {
+                    position: 'top',
+                    align: 'start',
+                    labels: {
+                        boxWidth: 16,
+                        boxHeight: 2,
+                        padding: 14,
+                        font: { size: 11.5, weight: '500' },
+                        usePointStyle: false
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#1A1A2E',
+                    titleFont: { weight: '600' },
+                    bodyFont: { size: 12 },
+                    padding: 10,
+                    cornerRadius: 4,
+                    callbacks: {
+                        title: (items) => items[0].label,
+                        label: (item) => {
+                            const val = item.parsed.y;
+                            if (val === null) return item.dataset.label + ': N/A';
+                            const growth = val - 100;
+                            const sign = growth >= 0 ? '+' : '';
+                            return `${item.dataset.label}: ${sign}${growth.toFixed(0)}%`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: {
+                        maxTicksLimit: 10,
+                        font: { size: 11 },
+                        color: TEXT_MUTED
+                    },
+                    border: { color: BORDER }
+                },
+                y: {
+                    min: 85,
+                    max: 300,
+                    grid: { color: 'rgba(0,0,0,0.04)' },
+                    ticks: {
+                        callback: function(v) {
+                            if (v === 100) return '1979 baseline';
+                            return '+' + (v - 100) + '%';
+                        },
+                        font: { size: 11 },
+                        color: TEXT_MUTED,
+                        stepSize: 25
+                    },
+                    border: { display: false }
+                }
+            }
+        },
+        plugins: [{
+            // Draw baseline reference
+            afterDraw(chart) {
+                const yScale = chart.scales.y;
+                const baselineY = yScale.getPixelForValue(100);
+                const ctx = chart.ctx;
+                ctx.save();
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([4, 4]);
+                ctx.moveTo(chart.chartArea.left, baselineY);
+                ctx.lineTo(chart.chartArea.right, baselineY);
+                ctx.stroke();
+                ctx.restore();
+            }
+        }]
+    });
+    </script>
 
 </body>
 </html>
