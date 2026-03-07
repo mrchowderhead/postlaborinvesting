@@ -11,530 +11,352 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News & Commentary — Post Labor Investing</title>
-    <meta name="description" content="A running feed of news and data through the post-labor investing lens.">
+    <title>Post Labor Investing — Investing in the Post-Labor Economy</title>
+    <meta name="description" content="Explore investment strategies for a world where automation, AI, and robotics are reshaping the nature of work and capital.">
     <link rel="stylesheet" href="styles.css">
     <style>
-        .news-container { max-width: 960px; margin: 0 auto; padding: 0 2rem 4rem; }
-        .news-intro { max-width: 720px; margin: 0 auto 2.5rem; }
-        .news-intro p { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.75; }
-        .news-feed { display: flex; flex-direction: column; gap: 0; }
-        .news-entry { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); }
-        .news-entry:first-child { border-top: 1px solid var(--border); }
-        .news-col { padding: 1.5rem 1.75rem; }
-        .news-col-left { border-right: 1px solid var(--border); }
-        .news-date { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.5rem; }
-        .news-headline { font-size: 1rem; font-weight: 600; color: var(--text-primary); line-height: 1.45; margin-bottom: 0.5rem; }
-        .news-headline a { color: var(--text-primary); text-decoration: none; border-bottom: 1px solid var(--border); transition: border-color 0.2s; }
-        .news-headline a:hover { border-color: var(--accent); color: var(--accent); }
-        .news-stat { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
-        .news-source { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem; }
-        .news-take { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; }
-        .news-take-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 0.5rem; }
-        .col-header { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 0; }
-        .col-header div { padding: 0.75rem 1.75rem; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
-        .col-header div:first-child { border-right: 1px solid var(--border); }
+        /* Homepage-specific styles */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 2rem;
+            position: relative;
+        }
 
-        /* TEMPLATE COMMENT for adding new entries — copy the block below */
-        /* 
-        <div class="news-entry">
-            <div class="news-col news-col-left">
-                <div class="news-date">Month Day, Year</div>
-                <div class="news-headline"><a href="URL" target="_blank">Headline Here</a></div>
-                <div class="news-stat">Key stat or excerpt from the article.</div>
-                <div class="news-source">Source Name</div>
-            </div>
-            <div class="news-col">
-                <div class="news-take-label">Our Take</div>
-                <div class="news-take">Your commentary here.</div>
-            </div>
-        </div>
-        */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(ellipse at center, var(--accent-dim) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: 0.8;
+        }
 
-        @media (max-width: 700px) {
-            .news-entry { grid-template-columns: 1fr; }
-            .news-col-left { border-right: none; border-bottom: 1px dashed var(--border); }
-            .news-col { padding: 1rem 1.25rem; }
-            .col-header { grid-template-columns: 1fr; }
-            .col-header div:first-child { border-right: none; }
-            .col-header div:last-child { display: none; }
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 2.5rem;
+            padding: 0.5rem 1.25rem;
+            border: 1px solid rgba(26, 95, 122, 0.2);
+            border-radius: 100px;
+            background: var(--accent-dim);
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+
+        .hero-label::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(2.8rem, 6vw, 5.5rem);
+            line-height: 1.08;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            max-width: 820px;
+            margin-bottom: 1.75rem;
+            color: var(--text-primary);
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.4s forwards;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 560px;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem 2.25rem;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #FFFFFF;
+            background: var(--accent);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.8s forwards;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(26, 95, 122, 0.25);
+        }
+
+        .hero-cta svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.25s ease;
+        }
+
+        .hero-cta:hover svg {
+            transform: translateX(3px);
+        }
+
+        .intro {
+            padding: 3rem 2rem 4rem;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .intro p {
+            font-size: 1.15rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.85;
+            margin-bottom: 1.5rem;
+        }
+
+        .intro p strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .intro p em {
+            font-style: italic;
+        }
+
+        .intro .cta-line {
+            font-weight: 400;
+            color: var(--accent);
+            margin-top: 2rem;
+        }
+
+        .intro .cta-line a {
+            color: var(--accent);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: opacity 0.25s ease;
+        }
+
+        .intro .cta-line a:hover {
+            opacity: 0.7;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 2rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .section-header p {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        /* Manifesto */
+        .manifesto {
+            padding: 4rem 2rem 5rem;
+            position: relative;
+        }
+
+        .manifesto::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+        }
+
+        .manifesto-inner {
+            max-width: 680px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .manifesto blockquote {
+            font-family: var(--serif);
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            font-weight: 400;
+            line-height: 1.45;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .manifesto blockquote::before {
+            content: '\201C';
+            position: absolute;
+            top: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 5rem;
+            color: var(--accent);
+            opacity: 0.15;
+            font-family: var(--serif);
+            line-height: 1;
+        }
+
+        .manifesto .attribution {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 1.5rem 2rem;
+            }
+
+            .intro {
+                padding: 2rem 1.5rem 3rem;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- NAV -->
     <nav>
         <a href="index.html" class="logo">Post Labor<span>.</span></a>
         <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
         </button>
         <div class="nav-links">
-            <a href="index.html">Home</a>
+            <a href="index.html" class="active">Home</a>
             <a href="model.html">The Model</a>
             <a href="signals.html">Post-Labor Signals</a>
-            <a href="news.html" class="active">News & Commentary</a>
+            <a href="news.html">News & Commentary</a>
             <a href="research.html">Research</a>
             <a href="policy.html">Policy & Governance</a>
             <a href="capital-vs-labor.html">Capital vs. Labor</a>
         </div>
     </nav>
 
-    <div class="page-header">
-        <h1>News & Commentary</h1>
-        <p>The news through a post-labor lens.</p>
-    </div>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-label">Exploring the future of capital</div>
+        <h1>Investing in the <em>Post-Labor</em> Economy</h1>
+        <p class="hero-sub">
+            AI, robotics, and automation are rewriting the rules of value creation. 
+            Understand what it means for capital, markets, and the future of wealth.
+        </p>
 
-    <div class="news-container">
+    </section>
 
-        <div class="news-intro">
-            <p>A running feed of news, data releases, and corporate announcements that matter for the post-labor investment thesis. Left column: the facts. Right column: why it matters.</p>
+    <!-- EXPLORE -->
+    <section>
+        <div class="section-header reveal">
+            <h2>Explore</h2>
+            <p>Interactive tools, curated research, and original analysis for investors navigating the post-labor transition.</p>
         </div>
-
-        <div class="col-header">
-            <div>The News</div>
-            <div>Our Take</div>
+        <div class="cards-grid">
+            <a href="model.html" class="card reveal">
+                <span class="card-icon">📊</span>
+                <h3>The Model</h3>
+                <p>An interactive displacement scenario model covering 283 occupations and 138.8M workers. Adjust assumptions and see the impact in real time.</p>
+            </a>
+            <a href="news.html" class="card reveal">
+                <span class="card-icon">📰</span>
+                <h3>News & Commentary</h3>
+                <p>Curated news, data, and observations about the post-labor transition — with brief analysis on what it means for investors.</p>
+            </a>
+            <a href="signals.html" class="card reveal">
+                <span class="card-icon">📡</span>
+                <h3>Post-Labor Signals</h3>
+                <p>Real-world evidence that the post-labor economy is arriving. Tracked and updated as new data emerges.</p>
+            </a>
+            <a href="capital-vs-labor.html" class="card reveal">
+                <span class="card-icon">⚖️</span>
+                <h3>Capital vs. Labor</h3>
+                <p>The long-term decline of labor's share of income — and why this historical trend is about to accelerate.</p>
+            </a>
+            <a href="research.html" class="card reveal">
+                <span class="card-icon">🔬</span>
+                <h3>Research</h3>
+                <p>Academic studies and papers on AI, automation, labor markets, and the economic implications of the post-labor shift.</p>
+            </a>
+            <a href="policy.html" class="card reveal">
+                <span class="card-icon">🏛️</span>
+                <h3>Policy & Governance</h3>
+                <p>UBI, taxation of automation, and regulatory shifts — the public policy response the post-labor economy demands.</p>
+            </a>
         </div>
+    </section>
 
-        <div class="news-feed">
+    <!-- INTRO -->
+    <section class="intro reveal">
+        <p><strong>Welcome to the post-labor economy.</strong> An economy where production is cheap and easy — with AI, robotics, and automation driving productivity gains unimaginable just a year, or indeed a month, ago.</p>
 
-            <!-- ENTRY: BLS / February 2026 Jobs Report -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">March 6, 2026</div>
-                    <div class="news-headline"><a href="https://www.bls.gov/news.release/empsit.nr0.htm" target="_blank">BLS: U.S. Economy Lost 92,000 Jobs in February; Unemployment Rises to 4.4%</a></div>
-                    <div class="news-stat">The Bureau of Labor Statistics reported that nonfarm payrolls fell by 92,000 in February 2026, badly missing the consensus forecast of +50,000 and marking the third month of job losses in the last five. The unemployment rate rose to 4.4%. December was revised from +50,000 to -17,000, meaning payrolls contracted in two of the last three months. January was also revised down from +130,000 to +126,000 — combined downward revisions of 69,000. The labor force participation rate fell to 62%, its lowest level since December 2021 outside the pandemic. Healthcare — the sector that had carried virtually all job growth in 2025 — lost 28,000 jobs, largely due to a Kaiser Permanente strike during the survey week. Federal government lost another 10,000 jobs. Average duration of unemployment surged to 25.7 weeks, the longest since December 2021. Navy Federal Credit Union chief economist Heather Long noted the U.S. economy has now lost jobs on net since April 2025. Indeed Hiring Lab: the labor market has averaged "essentially zero net job creation over the past six months." Wages rose more than expected — +0.4% monthly, +3.8% year-over-year — reinforcing the fewer-workers-higher-pay pattern. The Dow fell 903 points at the open.</div>
-                    <div class="news-source">Bureau of Labor Statistics, March 6, 2026</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">This is the number the post-labor framework has been pointing toward. For months, we've tracked the divergence between GDP growth and job creation — an economy producing more output with fewer workers. That divergence just turned into outright job losses. The consensus expected +50,000 and got -92,000. That's not a miss. That's a different economy than the one Wall Street thought it was looking at. The timing is hard to ignore. This report lands in the same week that: the New York Times ran a 2,000-word essay asking whether AI is about to gut the white-collar middle class; Goldman Sachs documented a 30% productivity gain in the two sectors most exposed to AI; Oracle announced thousands of layoffs to fund its AI data center buildout; and India's $300 billion outsourcing industry showed signs of structural collapse. One month doesn't make a trend, and the Kaiser strike is a real factor. But strip that out and you're still negative. The question Claudia Sahm raised in the CNBC preview — whether the ultra-low hiring rate makes the economy "vulnerable" — just got answered. The Sahm Rule recession indicator, which uses changes in the unemployment rate to flag downturns, is now within range. We're watching.</div>
-                </div>
-            </div>
+        <p>But if you're here reading this, you also recognize the inherent problem: what we call the <em>consumer dilemma</em>. If machines produce everything, what happens to the demand side of the equation?</p>
 
-            <!-- ENTRY: Axios / Anthropic AI Job Destruction Detector -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">March 5, 2026</div>
-                    <div class="news-headline"><a href="https://www.axios.com/2026/03/05/anthropic-ai-jobs-claude" target="_blank">Axios: Anthropic Launches AI Job Destruction Detector</a></div>
-                    <div class="news-stat">Anthropic — the company behind Claude — has built an early-warning index for AI-driven job displacement, using anonymized data from its own platform to measure which occupations are actually being automated in real time. The index compares theoretical AI task coverage (what AI could do) against observed coverage (what it's actually doing). The gap is enormous: in Computer & Math occupations, Claude currently covers just 33% of theoretically automatable tasks. Computer programmers (75% task coverage), customer service reps, data entry keyers, and medical record specialists rank among the most exposed. About 30% of occupations — cooks, lifeguards, dishwashers — don't register as exposed at all. The headline finding: workers in the most exposed occupations have not yet become unemployed at meaningfully higher rates. But the researchers warn the gap between current and potential exposure is massive, and compare AI's trajectory to the "China shock" of the early 2000s, where major labor market disruption took years to appear clearly in the data.</div>
-                    <div class="news-source">Axios, March 5, 2026</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">This is the most important chart in the AI-and-jobs debate, and the company that made Claude is the one publishing it. Anthropic's index shows a huge gap between what AI can theoretically automate and what it's actually automating today. That gap is the investment signal. Right now, only 33% of automatable tasks in computer and math occupations are actually being done by AI. When that number moves to 50%, to 70%, the displacement that's currently "ambiguous" becomes unmistakable. The researchers explicitly compare this to the China shock — where millions of manufacturing jobs were lost but it took economists years to agree on what was happening. That's the playbook: by the time the data is definitive, the displacement has already occurred. What makes this unusual is who's publishing it. Anthropic's CEO, Dario Amodei, is one of the most vocal voices warning that his own technology could displace half of entry-level white-collar jobs within one to five years. Building the measurement tool before the disruption arrives is either an act of unusual corporate responsibility or an acknowledgment that the disruption is close enough to measure. Either way, the framework tells you exactly what to watch: the red area growing to fill the blue.</div>
-                </div>
-            </div>
+        <p>This isn't a distant hypothetical. The AI and robotics revolution is here now, and it's accelerating faster than most people realize. Every week brings new breakthroughs in autonomous systems, agentic AI, and physical robotics. The question is no longer <em>if</em> this transition will happen, but how quickly. And as it unfolds, what happens to the economy when unemployment is both high and persistent? Companies may improve their productivity and profit margins, but they may also see revenues decline as their customer base is largely out of work.</p>
 
-            <!-- ENTRY: Bloomberg / Oracle Layoffs -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">March 5, 2026</div>
-                    <div class="news-headline"><a href="https://www.bloomberg.com/news/articles/2026-03-05/oracle-layoffs-to-impact-thousands-in-ai-cash-crunch" target="_blank">Bloomberg: Oracle Plans Thousands of Job Cuts Amid AI Data Center Cash Crunch</a></div>
-                    <div class="news-stat">Bloomberg reports that Oracle is planning to cut thousands of jobs across multiple divisions, with some cuts starting as soon as this month. The layoffs are driven by a cash crunch from Oracle's massive AI data center expansion — capex for fiscal 2026 was revised upward by $15 billion to $50 billion, and the company plans to raise $45–50 billion in debt and equity this year to fund the buildout. Some cuts will specifically target job categories Oracle expects AI will make redundant. Wall Street projects Oracle's cash flow will remain negative until 2030 before the AI spending pays off. The company already cut an estimated 10,000 jobs in late 2025, and this week announced an internal hiring freeze in its cloud division. Oracle has 162,000 employees globally. The expansion is anchored by a $300 billion deal with OpenAI.</div>
-                    <div class="news-source">Bloomberg, March 5, 2026</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">Oracle illustrates a mechanism we haven't seen clearly until now: companies cutting workers to fund AI, not just because of AI. The capital demands of building AI infrastructure are so enormous — $50 billion in a single year, cash flow negative until 2030 — that the workers themselves become a funding source. You are being laid off so the company can afford the machines that will also replace you. That's the post-labor flywheel in its purest form: invest in AI infrastructure, cut workers to pay for it, use AI to replace the work those workers did, then reinvest the savings into more AI. Oracle isn't unique here. The hyperscalers collectively plan $667 billion in capex for 2026 (per Goldman). That capital has to come from somewhere. When the spending is this large and the returns are years away, payroll is the most liquid line item on the balance sheet. This story also connects to the India outsourcing disruption: Oracle's clients include the same global enterprises that once offshored work to India. Now they're building the AI infrastructure to eliminate the need for that labor entirely — whether it's in Bangalore, Austin, or Redwood City.</div>
-                </div>
-            </div>
+        <p>This transition won't be evenly distributed. Some sectors, companies, and asset classes will thrive. Others will be disrupted beyond recognition. But as with every great economic transformation, change of this magnitude represents both enormous risk and extraordinary opportunity. The investors who understand this shift early will be the ones best positioned to navigate it.</p>
 
-            <!-- ENTRY: NYT / Mass Hysteria, Thousands of Jobs Lost -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">March 5, 2026</div>
-                    <div class="news-headline"><a href="https://www.nytimes.com/2026/03/05/opinion/ai-jobs-white-collar-apocalpyse.html" target="_blank">NYT: Mass Hysteria. Thousands of Jobs Lost. Just How Bad Is It Going to Get?</a></div>
-                    <div class="news-stat">In a New York Times guest essay, Michael Steinberger surveys the state of the white-collar labor market and asks whether we're witnessing mass hysteria or the early stage of structural transformation. Key data: the economy added only 181,000 jobs in 2025 despite 2.2% GDP growth — Harvard economist Lawrence Katz calls this sustained period of slow job growth without recession "virtually unprecedented." Hiring has stalled in finance, insurance, accounting, consulting, and tech — all while companies in those sectors have performed well, suggesting productivity gains without headcount. Burning Glass Institute economist Gad Levanon notes these are exactly the industries most ripe for automation. The essay frames the political stakes through Financial Times chief economics commentator Martin Wolf: "We could have a social and political crisis that makes deindustrialization look trivial. Deindustrialization shook the working class. Shaking the prospects of the educated middle class is socially far more dangerous and explosive because it affects the people who run our societies in almost every possible way."</div>
-                    <div class="news-source">New York Times, March 5, 2026</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">It's like the New York Times has been reading postlaborinvesting.com. This piece pulls together everything we've been tracking into a single narrative — and the most important thing about it isn't the data, it's the venue. When the NYT runs a 2,000-word essay asking whether AI is about to gut the educated middle class, and sources it to Harvard economists and the FT's Martin Wolf, this is no longer a fringe conversation. The Steinberger essay does something subtle that most coverage misses: it connects the GDP-jobs divergence (strong growth, weak hiring) to sector-specific evidence. Finance, insurance, consulting, and tech aren't just slowing — they're posting solid results with flat or shrinking headcounts. That's the productivity-without-people pattern the post-labor framework predicts. Wolf's quote is the one to remember. Deindustrialization hollowed out the working class and reshaped politics for a generation. If AI does the same to the college-educated professional class — the people who, as Wolf puts it, "run our societies in almost every possible way" — the political consequences will be larger, faster, and harder to contain. The essay also captures the policy vacuum: a Warner-Hawley bill to track AI job losses but nothing to actually help displaced workers. We're measuring the flood but not building the levee.</div>
-                </div>
-            </div>
+        <p>How does one invest in such an environment? That's the question Post Labor Investing seeks to answer.</p>
 
-            <!-- ENTRY: Fortune / Goldman Sachs AI-nxiety -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">March 3, 2026</div>
-                    <div class="news-headline"><a href="https://fortune.com/2026/03/03/goldman-earnings-ai-anxiety-no-meaningful-impact-productivity-economy-30-percent-in-2-areas/" target="_blank">Fortune: Goldman Finds No Meaningful Relationship Between AI and Productivity — Except a 30% Boost in Two Areas</a></div>
-                    <div class="news-stat">Goldman Sachs analyzed Q4 earnings and found no economy-wide link between AI adoption and productivity growth. But firms that actually measured AI's impact on specific tasks reported a median 30% productivity gain — concentrated in software development and customer support. A record 70% of S&P 500 management teams discussed AI on earnings calls, but only 10% quantified impact on a use case and just 1% tied AI to earnings growth. Census data shows fewer than 20% of U.S. establishments are using AI at all. Companies that discussed AI in workforce context cut job openings 12% over the past year, versus 8% across all companies. Goldman's baseline forecast: 6–7% of workers — roughly 11 million jobs — will eventually be displaced. Meanwhile, hyperscaler capex expectations for 2026 have been revised to $667 billion, a 62% jump over 2025. Apollo chief economist Torsten Slok called the narrative swing from "the economy is strong" to "we are all becoming unemployed" in recent weeks "truly remarkable."</div>
-                    <div class="news-source">Fortune, March 3, 2026</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">This is the most useful data point in the AI-and-jobs debate right now — because it quantifies the gap between talk and action, and then shows you what happens when the gap closes. Seventy percent of CEOs talk about AI. Ten percent can point to a use case. One percent can show it in earnings. That's the adoption funnel, and it tells you we're early. But look at what happens at the narrow end: 30% productivity gains in software and customer service. Those aren't projections — they're reported results from companies that actually implemented. The investment implication is the lag between the 70% talking and the 1% showing up in earnings. That gap is closing, and every percentage point it closes sends two signals simultaneously: higher margins for companies that execute, and fewer jobs for the roles being automated. Goldman's own number — 11 million jobs eventually displaced — sits alongside $667 billion in capex. That's the trade: massive capital spending to build the infrastructure that eliminates the labor. Companies discussing AI in their workforce context are already cutting job openings 50% faster than the broader market. The displacement isn't theoretical. It's in the hiring data.</div>
-                </div>
-            </div>
+        <p>In the coming weeks, we'll be exploring which sectors are most exposed to labor displacement, how to identify companies that benefit from automation versus those disrupted by it, and what the consumer dilemma means for long-term portfolio strategy.</p>
 
-            <!-- ENTRY: NYT / AI Gutting India Outsourcing -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">March 3, 2026</div>
-                    <div class="news-headline"><a href="https://www.nytimes.com/2026/03/03/business/india-outsourcing-ai.html" target="_blank">NYT: After 25 Years of Growth, AI Is Gutting Jobs in India's Outsourcing Industry</a></div>
-                    <div class="news-stat">The New York Times reports that AI is threatening to dismantle India's $300 billion IT outsourcing industry — 6 million workers, 7% of GDP — built over 25 years on one value proposition: Indian developers cost a fraction of their American counterparts. But as the NYT notes, "the marginal cost of an AI coding agent has collapsed to, essentially, the cost of electricity." TCS has cut headcount to 580,000, down 20,000+ from its 2022 peak. Infosys has pulled back on hiring. India's IT index fell 24% in February. At one engineering college, graduate job placement dropped from 85% to 75%. Nasscom's president told the NYT: "If you're a young engineer getting out of university, I'd be worried. It's not going to be pretty out there." One Indian startup founder told the paper his AI tools have already eliminated 1,000 HR jobs, targeting 10,000 by year-end.</div>
-                    <div class="news-source">New York Times, March 3, 2026</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">This is the post-labor transition at national scale. India's entire outsourcing model was the original labor cost arbitrage: Western companies shipped work to lower-cost workers overseas. AI eliminates the need for the arbitrage entirely — not by making Indian workers cheaper, but by making the work nearly free. When the cost of an AI agent approaches the cost of electricity, it doesn't matter whether you're paying $150,000 in San Francisco or $15,000 in Bangalore. Both lose to $0.02. The fact that this is hitting India's IT sector — the most successful knowledge-work export economy in history — should end the debate about whether AI displacement is limited to a few tech companies in Silicon Valley. It's not. It's global, it's structural, and it's moving up the value chain. The engineering college placement numbers are the leading indicator: the pipeline of new workers entering the knowledge economy is narrowing everywhere, simultaneously.</div>
-                </div>
-            </div>
+        <p>To start, this site will offer a framework, tools, and analysis to help you think clearly about the investing challenge presented by the transition to a post-labor economy.</p>
 
-            <!-- ENTRY: WSJ / AI Jobs Wipeout Got Real -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">March 1, 2026</div>
-                    <div class="news-headline"><a href="https://www.wsj.com/business/the-week-the-dreaded-ai-jobs-wipeout-got-real" target="_blank">WSJ: "The Week the Dreaded AI Jobs Wipeout Got Real"</a></div>
-                    <div class="news-stat">The Wall Street Journal's weekend lead declares that the theoretical prospect of AI-driven job losses is now materializing in visible waves at blue-chip firms. The piece centers on Block's 40% workforce cut and eBay's simultaneous elimination of 800 positions (its third round since 2023, hitting managers, researchers, data scientists and engineers). Ladders CEO Marc Cenedella warns the mood is shifting fast: "When things crystallize like this, it brings out the pitchforks and the torches." Industry experts describe a widening gap between corporate profits and human cost, as investors reward companies that slash headcount under the banner of "AI productivity." Former Block employees told the Journal they had embraced AI tools in their work — only to see them weaponized against their jobs.</div>
-                    <div class="news-source">Wall Street Journal, March 1, 2026</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">Fortune ran the same story on Friday. The Wall Street Journal ran it on Saturday. When both papers of record for the investment class publish the same thesis in the same weekend — and the headline uses the word "real" — the mainstream narrative has shifted. What matters for investors isn't the human-interest angle (though it's devastating). It's the market structure the Journal describes: companies that cut get rewarded, companies that don't get punished. That's not a one-quarter trend. That's a repricing mechanism that feeds on itself. The most telling detail is the Block employees who built with AI and got laid off anyway. The narrative that "learning AI will save your job" is breaking down in real time. The tools don't protect the worker — they replace the need for the worker. Capital doesn't share productivity gains. It captures them.</div>
-                </div>
-            </div>
+        <p class="cta-line"><strong><a href="#subscribe">Sign up below</a> to receive updates as we publish new analysis and insights.</strong></p>
+    </section>
 
-            <!-- ENTRY: Fortune / AI Scare Turned Real -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 28, 2026</div>
-                    <div class="news-headline"><a href="https://fortune.com/2026/02/28/ai-scare-trade-mass-layoffs-white-collar-recession-citrini-shumer-viral-doomsday-essays/" target="_blank">Fortune: "The Week the AI Scare Turned Real"</a></div>
-                    <div class="news-stat">Fortune's lead story declares the week AI labor displacement went from "distant storm" to "landfall." The piece ties together Matt Shumer's viral essay (85 million views on X), Citrini Research's "Ghost GDP" scenario, and Block's 40% workforce cut into a single narrative: America isn't prepared for what's coming. Independent research firm Unicus forecasts high unemployment and sticky inflation into H2 2026. Wall Street pushback from Citadel Securities, Morgan Stanley, and Bank of America argues the thesis is overblown — but even Goldman Sachs concedes "AI impacts could be more frontloaded than the 10-year adoption cycle embedded in our forecasts." Meanwhile, the S&P 500 posted its second losing month in ten, and the software ETF (IGV) fell nearly 10% in February alone.</div>
-                    <div class="news-source">Fortune, February 28, 2026</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">When Fortune runs a 3,000-word lead story connecting the same dots we've been tracking — Citrini's Ghost GDP, the Block layoffs, the divergence between economic data and lived reality — the thesis has left the fringe. What's notable isn't that Fortune agrees with the doomsday scenario. It's that the pushback is getting weaker. Citadel's rebuttal cites rising software engineer demand — but that's demand to build the tools that replace everyone else. Morgan Stanley's answer is "new job titles will emerge" — Chief AI Officer, computational geneticist — which is a hope, not a labor market. And BofA compares the selloff to a bank run triggered by rumors, missing the point that Block's 40% cut isn't a rumor. The most honest quote comes from an insurance CEO: "It's slow, and then it's sudden." We're somewhere in the transition between those two speeds.</div>
-                </div>
-            </div>
+    <!-- MANIFESTO -->
+    <section class="manifesto">
+        <div class="manifesto-inner reveal">
+            <blockquote>
+                The greatest wealth transfer in history won't come from a market crash or a policy change — it will come from the quiet replacement of human labor by machines.
+            </blockquote>
+            <p class="attribution">The thesis behind Post Labor Investing</p>
+        </div>
+    </section>
 
-            <!-- ENTRY: Dallas Fed / AI Replacing and Rewarding Workers -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 24, 2026</div>
-                    <div class="news-headline"><a href="https://www.dallasfed.org/research/economics/2026/0224" target="_blank">Dallas Fed: AI Is Simultaneously Replacing and Rewarding Workers</a></div>
-                    <div class="news-stat">Dallas Fed economist J. Scott Davis finds that since ChatGPT's launch, employment in the most AI-exposed industries has declined 1%, while the computer systems design sector alone dropped 5%. But wages in those same sectors surged — up 16.7% in computer systems design vs. 7.5% nationally. The key variable: experience. AI automates "codified knowledge" (textbook learning that entry-level workers bring) but complements "tacit knowledge" (judgment gained through experience). Employment for workers under 25 in high-AI-exposure occupations fell from 16.4% to 15.5% share — not through layoffs, but because companies simply stopped hiring them. Occupations with the highest experience premiums (lawyers, credit analysts, marketing specialists) saw wages rise with AI exposure. Those with the lowest premiums saw wages fall.</div>
-                    <div class="news-source">Federal Reserve Bank of Dallas, February 24, 2026</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">This is one of the cleanest pieces of Fed research on the two-speed labor market AI is creating. Fewer jobs, higher pay for survivors — that's not a contradiction, it's the pattern. What makes the Dallas Fed framework especially useful is the codified-vs-tacit knowledge distinction. AI doesn't just replace "low-skill" workers — it replaces anyone whose value comes from knowing things that can be looked up. A junior lawyer doing document review is more exposed than an electrician. A new financial analyst running models is more exposed than a veteran dealmaker reading a room. The paper's most important implication is buried at the end: the entire white-collar career ladder — start entry-level, learn on the job, become senior — breaks down when companies can't justify hiring the entry-level rung. That's not a labor market problem. That's a civilizational design problem.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: Block / Jack Dorsey AI Layoffs -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 26, 2026</div>
-                    <div class="news-headline"><a href="https://www.cnn.com/2026/02/26/business/block-layoffs-ai-jack-dorsey" target="_blank">Block Cuts Nearly Half Its Workforce, Blames AI — Stock Surges 24%</a></div>
-                    <div class="news-stat">Jack Dorsey announced Block (Square, Cash App, Afterpay) is cutting more than 4,000 employees — reducing headcount from over 10,000 to under 6,000. Dorsey explicitly cited AI: "A significantly smaller team, using the tools we're building, can do more and do it better." CFO Amrita Ahuja: "We see an opportunity to move faster with smaller, highly talented teams using AI to automate more work." The cuts came from strength — Block reported 24% year-over-year gross profit growth. Dorsey predicted most companies would reach the same conclusion within a year. Shares surged as much as 24% on the announcement.</div>
-                    <div class="news-source">CNN Business, February 26, 2026</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">A profitable company fires 40% of its workforce, explicitly credits AI, and the market rewards it with a 24% stock pop in a single session. The signal isn't that Block is struggling — it's the opposite. Dorsey cut from strength, and Wall Street cheered because fewer humans means wider margins. Every CEO in America watched that stock chart yesterday. Dorsey's prediction — that most companies will reach the same conclusion within a year — isn't a warning, it's a roadmap. The pattern we've been tracking (companies rationally cutting headcount while collectively destroying the consumer base) just got its most explicit corporate endorsement yet. When a CEO publicly says AI replaces half his workforce and shareholders add $3 billion in market value in response, the incentive structure is locked in. The question is no longer whether companies will cut — it's who moves first and gets rewarded, and who moves last and gets punished.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: Fed Governor Cook, February 2026 -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 24, 2026</div>
-                    <div class="news-headline"><a href="https://www.federalreserve.gov/newsevents/speech/cook20260224a.htm" target="_blank">Fed Governor Cook: AI Could Trigger Unemployment the Fed Can't Fix</a></div>
-                    <div class="news-stat">Speaking at the 42nd NABE Economic Policy Conference in Washington, Federal Reserve Governor Lisa Cook warned that AI-driven job displacement may precede job creation — pushing up unemployment even as the broader economy remains strong. "We appear to be approaching the most significant reorganization of work in generations," she said, pointing to declining demand for coders and softer entry-level hiring as early evidence. Fellow Governor Waller added that 2025 saw "close to zero net job creation" — only the third time that's happened outside a recession since 1945.</div>
-                    <div class="news-source">Federal Reserve, February 24, 2026</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">These comments from a Fed governor pretty much sum up the post-labor economy. Cook's specific concern — that rising unemployment in a productivity boom won't signal "slack" in the usual way — is exactly the dynamic post-labor investors need to understand. The Fed's own tools may be poorly suited to the transition ahead. That's not a bearish signal for the market. It's a bullish one for companies that are on the right side of it.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: IBM / Anthropic COBOL Modernization -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 23, 2026</div>
-                    <div class="news-headline"><a href="https://www.cnbc.com/2026/02/23/ibm-is-the-latest-ai-casualty-shares-are-tanking-on-anthropic-cobol-threat.html" target="_blank">IBM Drops 13% — Worst Day Since 2000 — After Anthropic Targets COBOL</a></div>
-                    <div class="news-stat">Anthropic announced that its Claude Code tool can automate COBOL modernization — mapping dependencies, documenting workflows, and identifying risks across thousands of lines of legacy code that "would take human analysts months to surface." IBM fell 13.2% in a single session, wiping $31 billion in market value — its worst day since October 2000 and worst month since at least 1968. Accenture and Cognizant also fell ~6%. An estimated 95% of U.S. ATM transactions still run on COBOL, and IBM's consulting moat was built on a shrinking pool of humans who understand it. Anthropic's blog post: "Legacy code modernization stalled for years because understanding legacy code cost more than rewriting it. AI flips that equation."</div>
-                    <div class="news-source">CNBC · Bloomberg · Forbes</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">This is what AI displacement looks like in real time — not a labor statistic, but a $31 billion repricing of a business model in a single afternoon. IBM's COBOL consulting moat wasn't built on technology; it was built on scarcity of human expertise. The people who understand COBOL are retiring and universities stopped teaching it. IBM monetized that scarcity for decades. Then a blog post from an AI startup flipped the equation: if the machine can read what humans can't, the scarcity premium evaporates. This is the pattern investors should internalize. AI doesn't need to replace the worker — it just needs to replace the skill that made the worker expensive. Every industry has its COBOL: specialized knowledge that commands premium billing rates because few people possess it. Legal research. Actuarial analysis. Radiology reads. When AI can perform the cognitive task that justified the premium, the entire fee structure reprices. IBM is the case study. It won't be the last.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: Citrini Research / AI Scare Trade -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 23, 2026</div>
-                    <div class="news-headline"><a href="https://fintool.com/news/citrini-ai-apocalypse-software-selloff" target="_blank">A Viral Substack Post Tanks the Stock Market: Citrini's "2028 Global Intelligence Crisis"</a></div>
-                    <div class="news-stat">Citrini Research, Substack's top finance writer, published a fictional dispatch from June 2028 modeling what happens when AI succeeds too well: mass white-collar layoffs hollow out consumer demand, creating "Ghost GDP" — output that never circulates because machines don't buy houses or iPhones. The S&P 500 crashes 38% in the scenario. The piece went viral and is credited by Bloomberg and the WSJ for contributing to Monday's selloff. The Dow fell 822 points. IBM dropped 13% after Anthropic announced a tool automating consulting work. The iShares Software ETF (IGV) hit a 52-week low, down ~30% YTD — erasing all gains since ChatGPT's launch. The "AI Scare Trade" has now hit software, cybersecurity, financial services, logistics, and commercial real estate.</div>
-                    <div class="news-source">Fintool · Bloomberg · CNBC · Yahoo Finance · TheStreet</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">Citrini's thesis — that AI bullishness is actually bearish because productivity gains destroy the consumer demand that sustains the market — is the argument we laid out in our Capital Markets analysis last week. The "negative feedback loop" where companies rationally cut headcount to boost margins but collectively destroy their own customer base is exactly what we called Phase 2: the Recognition Phase. The market is now pricing this scenario in real time. Note what's happening beneath the headline: the selloff isn't hitting AI infrastructure (Nvidia was flat). It's hitting the companies whose business models depend on human workers as customers, licensees, and intermediaries — software seats, consulting hours, brokerage fees. The market is sorting capital-side winners from labor-side losers, which is the core of our investment framework. Citrini explicitly disclaims it as "a scenario, not a prediction." Fair enough. But when a thought experiment moves the Dow 800 points, it's no longer theoretical — it's a risk the market is actively pricing.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: NYT / Warsh AI Productivity Rate Cuts -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 20, 2026</div>
-                    <div class="news-headline"><a href="https://www.nytimes.com/2026/02/20/business/economy/fed-ai-productivity-rate-cuts.html" target="_blank">NY Times: Can an A.I. Productivity Boom Clear a Path for More Rate Cuts? Trump's Fed Pick Thinks So.</a></div>
-                    <div class="news-stat">Kevin Warsh, Trump's pick to replace Powell, calls AI "the most productivity-enhancing wave of our lifetimes" and argues it justifies lower rates. Current Fed officials disagree: Governor Barr says AI is "unlikely to be a reason for lowering policy rates," and Vice Chair Jefferson warns AI infrastructure buildout could prove inflationary. Meanwhile, Brynjolfsson finds 2.7% productivity growth alongside near-zero job creation.</div>
-                    <div class="news-source">New York Times · Bloomberg · Axios</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">Both sides of this debate are missing the labor variable. Warsh sees AI productivity as non-inflationary growth that justifies rate cuts. Current Fed officials see AI infrastructure demand as inflationary, justifying holding rates. Neither is fully accounting for what happens when AI productivity gains flow to capital while labor income erodes — which is disinflationary on both the demand side (fewer wages) and the supply side (lower production costs). The 2.7% productivity jump with zero job creation is the early data point: output is decoupling from employment. If that continues, the Fed will eventually be cutting rates not because productivity enabled it, but because labor market deterioration demands it.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: Walmart K-Shaped Consumer -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 19, 2026</div>
-                    <div class="news-headline"><a href="https://www.nbcnews.com/business/consumer/walmart-earnings-sales-higher-income-shoppers-rcna259629" target="_blank">Walmart CEO: Majority of Share Gains Came from Households Making Over $100,000</a></div>
-                    <div class="news-stat">New CEO John Furner on Q4 earnings call: "The majority of our share gains came from households making more than $100,000." For households under $50,000, "wallets are stretched and in some cases, people are managing spending paycheck to paycheck." In apparel, almost all Q4 growth came from $100K+ households. Furner also flagged "the hiring recession" and elevated student loan delinquencies.</div>
-                    <div class="news-source">NBC News · CNBC · Retail Dive</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">When the largest retailer in America — built on serving lower-income households — reports that its growth engine is now affluent consumers trading down for value while its core customers are paycheck-to-paycheck, you're looking at the K-shaped economy in a single earnings call. This is the capital-vs-labor divergence expressed through consumer spending data: asset owners are flush, wage earners are squeezed, and the gap is widening.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: Fortune / Altman AI Washing -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 19, 2026</div>
-                    <div class="news-headline"><a href="https://fortune.com/2026/02/19/sam-altman-confirms-ai-washing-job-displacement-layoffs/" target="_blank">Sam Altman Confirms "AI Washing" — Companies Blaming AI for Layoffs They Would Have Made Anyway</a></div>
-                    <div class="news-stat">OpenAI's CEO acknowledged that some firms are falsely attributing workforce cuts to AI, while affirming that real displacement is coming and will be "palpable in the next few years." Of the 108,435 U.S. job cuts in January 2026 — the worst since 2009 — AI was explicitly cited in only ~7,600. An NBER study found ~90% of surveyed C-suite executives reported no employment impact from AI over the past three years.</div>
-                    <div class="news-source">Fortune · Business Insider · CNBC-TV18</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">The gap between narrative and data is itself the story: companies <em>want</em> to attribute cuts to AI because it signals forward-thinking efficiency to investors, while the actual displacement hasn't yet hit at scale. But Altman's own caveat — "I would expect the real impact of AI doing jobs in the next few years will begin to be palpable" — is the more important line. We're in the window where AI washing inflates the perceived pace of displacement while masking the real structural shift still building underneath.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: Fortune / Barr "Essentially Unemployable" -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 18, 2026</div>
-                    <div class="news-headline"><a href="https://fortune.com/2026/02/18/ai-doomsday-where-many-workers-are-essentially-unemployable-is-totally-possible-fed-governor-says/" target="_blank">Fortune: AI Doomsday Where Workers Are "Essentially Unemployable" Is Totally Possible, Fed Governor Says</a></div>
-                    <div class="news-stat">Fortune's write-up of the Barr speech pulls out the most alarming scenario: AI agents replace professional and service occupations while robotics automate manufacturing and transportation. "Layoffs soar, leading to widespread unemployment … as a large share of the population is essentially unemployable." Barr warns gains would concentrate "among a small group of capital holders and AI superstars" and that the "historical record on meaningful efforts to help workers in such a transition is not encouraging." Early-career workers in AI-exposed fields are already seeing employment declines.</div>
-                    <div class="news-source">Fortune</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">Fortune's framing is exactly right — this isn't the fringe scenario in Barr's speech, it's the one that matters for investors. "Concentrated among a small group of capital holders and AI superstars" is the post-labor investment thesis stated by a Federal Reserve Governor. His admission that government has a poor track record managing these transitions makes the case for private capital positioning even stronger. If you're waiting for policymakers to protect labor income, Barr himself is telling you that history says they won't do it in time. The investment implication: own the capital side of this equation.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: Fed Governor Barr Speech -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 17, 2026</div>
-                    <div class="news-headline"><a href="https://www.federalreserve.gov/newsevents/speech/barr20260217a.htm" target="_blank">Fed Governor Barr: "What Will Artificial Intelligence Mean for the Labor Market and the Economy?"</a></div>
-                    <div class="news-stat">Federal Reserve Governor Michael Barr delivered a major speech on AI and the labor market. Key disclosure: job creation has been "near zero over the course of last year," as has labor force growth. The labor market is in a "delicate balance" that is "especially vulnerable to negative shocks." Barr frames AI as a likely general-purpose technology and notes 17% of U.S. businesses now report using AI, with adoption among large firms at 30%. GenAI workplace adoption has been as fast as PC adoption after the IBM PC in 1984.</div>
-                    <div class="news-source">Federal Reserve Board</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">This is a sitting Federal Reserve Governor — from the podium at the New York Association for Business Economics — stating that job creation has been near zero while the economy continues to grow. That's the post-labor thesis delivered in Fedspeak. His warning that the labor market is "especially vulnerable to negative shocks" is the quiet part out loud: the traditional employment safety net is fraying. When the Fed starts dedicating entire speeches to AI labor displacement, the thesis has moved from the fringe to the center of monetary policy discussion.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: UnHerd AI Jobs Apocalypse -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 17, 2026</div>
-                    <div class="news-headline"><a href="https://unherd.com/2026/02/the-ai-jobs-apocalypse-is-here/" target="_blank">UnHerd: "The AI Jobs-Apocalypse Is Here"</a></div>
-                    <div class="news-stat">AI was cited as a contributing factor in nearly 55,000 U.S. layoffs in 2025, per Challenger, Gray & Christmas. The January 2026 jobs report showed 124,000 of 130,000 new jobs were in healthcare and social assistance — not productive economy growth. An AI executive at a top consulting firm said end-of-year model releases (Opus 4.5, GPT-5.2) "crossed a threshold" for handling complex tasks with fewer mistakes. The piece draws a direct parallel to deindustrialization's hollowing out of blue-collar communities.</div>
-                    <div class="news-source">UnHerd</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">The January jobs data is striking: strip out healthcare — an industry dedicated to managing an aging population — and the economy created almost no jobs. The 55,000 AI-attributed layoffs are still small relative to the 1.5 million monthly churn, but the trajectory matters more than the level. The historical parallel to deindustrialization is apt: that displacement created a generation of economic dislocation. The difference this time is speed and scope — white-collar workers are the new factory workers, and AI capabilities are compounding monthly, not over decades.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: El-Erian FT -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 17, 2026</div>
-                    <div class="news-headline"><a href="https://ft.com/content/298a38bb-4cc1-44f3-bd62-6aff25d58b94" target="_blank">Mohamed El-Erian: US Jobs and GDP Growth Decoupling Is Likely to Persist</a></div>
-                    <div class="news-stat">Allianz chief economic advisor writes that the decoupling of GDP growth from employment is "more persistent and consequential than the three previous episodes we've seen over the last 40 years." AI capex is driving growth but without the traditional labor multiplier. He calls it an "unsettling" structural shift: the economy grows while the labor market stagnates.</div>
-                    <div class="news-source">Financial Times</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">When Mohamed El-Erian — one of the most respected macroeconomists alive — describes exactly the phenomenon at the center of our thesis, it's worth paying attention. GDP growing while employment stagnates is the post-labor economy in one sentence. His framing is precise: AI capex drives output but doesn't have the same employment multiplier as traditional investment. This isn't a fringe idea anymore. It's becoming the mainstream macro view. The investment implication is clear: own the capital, not the labor.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: Microsoft AI Chief / White-Collar Automation Timeline -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 13, 2026</div>
-                    <div class="news-headline"><a href="https://fortune.com/2026/02/13/when-will-ai-kill-white-collar-office-jobs-18-months-microsoft-mustafa-suleyman/" target="_blank">Microsoft AI Chief Gives It 18 Months — for All White-Collar Work to Be Automated</a></div>
-                    <div class="news-stat">Mustafa Suleyman told the Financial Times that AI will achieve "human-level performance on most, if not all, professional tasks" within 12–18 months — naming lawyers, accountants, project managers, and marketers. He pointed to Microsoft engineers already using AI for "the vast majority" of code production. Separately, Anthropic CEO Dario Amodei predicted 50% of entry-level white-collar jobs disrupted within 1–5 years. AI researcher Matt Shumer compared this moment to February 2020 — just before the pandemic hit.</div>
-                    <div class="news-source">Fortune / Financial Times</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">When the CEO of the company selling the tools says the jobs are going away in 18 months, listen — not to the timeline, but to the incentive structure. Suleyman is simultaneously building the replacement technology and warning you about it. That's not altruism; it's a sales pitch dressed as a prophecy. The timeline is almost certainly aggressive — adoption friction, regulatory drag, and institutional inertia will slow deployment. But the direction is undeniable. What matters for investors: this isn't a fringe prediction anymore. The people building these systems are now openly stating that white-collar labor is the target, not the customer. Every company buying Microsoft Copilot licenses is implicitly agreeing. The capital-vs-labor rebalancing we track isn't theoretical — it's being priced into enterprise software contracts right now.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: Fortune Jobless Expansion -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 13, 2026</div>
-                    <div class="news-headline"><a href="https://fortune.com/2026/02/13/jobless-expansion-economy-gdp-growth-payroll-gains-unemployment-rate-ai-productivity/" target="_blank">Oxford Economics: The Economy Is Learning to Grow Without Creating Jobs</a></div>
-                    <div class="news-stat">Oxford Economics projects GDP growth of 2.8% in 2026 but job gains averaging under 40,000 per month — barely enough to hold unemployment steady. The break-even rate for payroll growth is "close to zero." Meanwhile, Burning Glass Institute data shows white-collar employment peaked in November 2022 — the same month ChatGPT launched — and has declined since, even as output in those sectors continued to rise.</div>
-                    <div class="news-source">Fortune</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">This is the "jobless expansion" entering the lexicon of mainstream economics. GDP up, jobs flat. The white-collar employment peak coinciding exactly with ChatGPT's launch is a data point that will be studied for decades. Oxford Economics warns this leaves the economy "vulnerable to shocks" because the labor market is the main firewall against recession. Translation: the economy is structurally shifting to favor capital over labor, and most people's financial security still depends on the old model.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY 0 -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 11, 2026</div>
-                    <div class="news-headline"><a href="https://shumer.dev/something-big-is-happening" target="_blank">Matt Shumer's "Something Big Is Happening" Goes Viral — 80M+ Views</a></div>
-                    <div class="news-stat">AI startup CEO Matt Shumer published a 5,000-word essay comparing this moment in AI to February 2020 — before the world changed. He argues AI isn't replacing one skill, it's a "general substitute for cognitive work" that gets better at everything simultaneously. Cites Anthropic CEO Dario Amodei's prediction that AI will eliminate 50% of entry-level white-collar jobs within 1–5 years.</div>
-                    <div class="news-source">shumer.dev, Fortune, 80M+ views on X</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">Shumer's essay struck a nerve because it articulated what millions of knowledge workers are quietly feeling. The skeptics — Gary Marcus, Oxford Economics, Fortune's own analysis — make fair points about timeline and hype. But the directional argument is hard to dismiss: AI is improving at everything simultaneously, and unlike previous automation waves, there's no obvious adjacent sector for displaced workers to move into. Whether the timeline is 2 years or 10, the investment implications are the same. Read it, then read the rebuttals. Form your own view. That's what this page is for.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY 1 -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 11, 2026</div>
-                    <div class="news-headline"><a href="https://www.hiringlab.org/2026/02/11/january-2026-jobs-report/" target="_blank">BLS Benchmark Revision: 2025 Was One of the Weakest Years for Job Creation Outside a Recession</a></div>
-                    <div class="news-stat">The U.S. economy added just 181,000 jobs in all of 2025 — revised down from 584,000. That's an average of 15,000 per month. The benchmark revision erased 898,000 jobs from the April 2024–March 2025 period, the second-largest downward adjustment on record.</div>
-                    <div class="news-source">Indeed Hiring Lab, BLS, CNN</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">This is the single most important labor market data point of the year. The economy we thought we had in 2025 didn't exist. Stock markets hit all-time highs while the job market was essentially at a standstill. That disconnect — booming corporate profits, stagnant employment — is the post-labor economy in miniature. When companies can grow earnings without growing headcount, the thesis isn't theoretical anymore.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY 2 -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 6, 2026</div>
-                    <div class="news-headline"><a href="https://www.cnbc.com/2026/02/06/google-microsoft-meta-amazon-ai-cash.html" target="_blank">Big Tech AI Spending Approaches $700 Billion in 2026</a></div>
-                    <div class="news-stat">Alphabet, Microsoft, Meta, and Amazon are projected to spend nearly $700 billion combined on AI infrastructure in 2026. Amazon alone plans $200B in capex. Amazon's free cash flow is expected to turn negative. Google's FCF may plummet 90%.</div>
-                    <div class="news-source">CNBC</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">Companies are betting their balance sheets on AI — and they're not building labor-intensive factories. They're building data centers that run on chips, not people. When the four largest companies in the world spend $700B on automation infrastructure while the economy creates 181,000 jobs, the capital-over-labor reallocation isn't subtle. Follow the capex.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY 3 -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">February 3, 2026</div>
-                    <div class="news-headline"><a href="https://www.cbsnews.com/news/ai-layoffs-2026-artificial-intelligence-amazon-pinterest/" target="_blank">Companies Citing AI in 55,000 Job Cuts in 2025 — 12x the Level Two Years Prior</a></div>
-                    <div class="news-stat">Pinterest cut 15% of its workforce for an "AI-forward strategy." Dow eliminated 4,500 jobs citing AI and automation. Indeed and Glassdoor cut 1,300 jobs. Amazon's CEO expects white-collar jobs to shrink as AI agents scale.</div>
-                    <div class="news-source">CBS News, Challenger Gray & Christmas</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">Some skeptics argue companies are using AI as a pretext for normal layoffs. That may be partly true — but it doesn't matter for the thesis. Whether companies are actually replacing workers with AI today or merely signaling that they intend to, both lead to the same investment conclusion: capital is flowing toward automation and away from labor. The direction of the bet is clear even if the timing is debated.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY: Productivity Surge -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">January 29, 2026</div>
-                    <div class="news-headline"><a href="https://www.bls.gov/news.release/prod2.nr0.htm" target="_blank">U.S. Productivity Surges 4.9% as Output Soars and Hours Barely Budge</a></div>
-                    <div class="news-stat">BLS revised Q3 2025 data confirmed: nonfarm productivity up 4.9% annualized, driven by output rising 5.4% against hours worked up just 0.5%. Unit labor costs fell 1.9%. Manufacturing hours actually declined while output grew. The annualized productivity growth rate for the current business cycle has climbed to 2.0%, well above the 1.5% average from 2007-2019.</div>
-                    <div class="news-source">Bureau of Labor Statistics</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">This is the post-labor thesis expressed in government data. Output up 5.4%, hours up 0.5%. Companies are producing dramatically more with barely any additional labor input. Falling unit labor costs mean capital's share of the value is expanding. The comparison to the late 1990s productivity boom is apt — but this time the gains are concentrated in sectors where AI is displacing cognitive work, not just automating manufacturing. For investors, this is the clearest signal yet: the returns are accruing to the owners of the machines, not the operators.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY 4 -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">January 29, 2026</div>
-                    <div class="news-headline"><a href="https://hbr.org/2026/01/companies-are-laying-off-workers-because-of-ais-potential-not-its-performance" target="_blank">HBR: Companies Laying Off Workers for AI's Potential — Not Its Performance</a></div>
-                    <div class="news-stat">CEOs from Ford, Amazon, Salesforce, and JP Morgan Chase have proclaimed that many white-collar jobs at their companies will soon disappear. Companies are making preemptive workforce reductions based on anticipated AI capabilities, not proven deployments.</div>
-                    <div class="news-source">Harvard Business Review</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">This distinction — potential vs. performance — is crucial. It means the labor displacement hasn't fully happened yet, which is why the thesis is still an investment opportunity rather than yesterday's news. The market is pricing in future AI productivity, but the workforce disruption is still in early innings. The companies making these bets are telling you their plans. Listen.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY 5 -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">January 7, 2026</div>
-                    <div class="news-headline"><a href="https://fortune.com/2026/01/07/ai-layoffs-convenient-corporate-fiction-true-false-oxford-economics-productivity/" target="_blank">Oxford Economics: Companies May Be "Dressing Up" Layoffs as AI-Driven</a></div>
-                    <div class="news-stat">Oxford Economics finds "firms don't appear to be replacing workers with AI on a significant scale" and suspects some are using AI as cover for routine cuts. AI-cited layoffs represent just 4.5% of total reported job losses. The firm calls the shift "evolutionary rather than revolutionary."</div>
-                    <div class="news-source">Fortune, Oxford Economics</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">A credible counterpoint, and we include it because the thesis should be tested, not protected. Oxford's argument: it's cyclical, not structural. They may be right — for now. But their own data shows entry-level hiring is collapsing regardless of the cause. Whether the mechanism is AI displacement or AI-justified cost cutting, the outcome for workers is the same: fewer jobs, lower bargaining power, and a labor market being restructured. We watch for the productivity spike that would confirm true substitution.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY 6 -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">December 31, 2025</div>
-                    <div class="news-headline"><a href="https://techcrunch.com/2025/12/31/investors-predict-ai-is-coming-for-labor-in-2026/" target="_blank">VCs Predict 2026 Will Be the Year AI Comes for Labor</a></div>
-                    <div class="news-stat">Multiple enterprise VCs unsolicited predicted AI will impact the workforce in 2026. Battery Ventures: "2026 will be the year of agents as software expands from making humans more productive to automating work itself." Exceptional Capital: "We'll see more human labor get cut as AI budgets increase."</div>
-                    <div class="news-source">TechCrunch</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">When VCs volunteer labor displacement predictions without being asked, that tells you something about where private capital sees the world going. These aren't labor economists theorizing — they're investors deploying billions into companies built to replace human work. The smart money isn't debating whether AI will displace labor. They're funding it.</div>
-                </div>
-            </div>
-
-            <!-- ENTRY 7 -->
-            <div class="news-entry">
-                <div class="news-col news-col-left">
-                    <div class="news-date">December 8, 2025</div>
-                    <div class="news-headline"><a href="https://www.cnbc.com/2025/12/08/how-recent-grads-are-dealing-with-the-shrinking-pool-of-entry-level-jobs.html" target="_blank">'None of Us Are Really Thriving': Gen Z Faces Toughest Entry-Level Market in Years</a></div>
-                    <div class="news-stat">Recent college grad unemployment reached 9.7% — equal to high school diploma holders for the first time. Only 30% of 2025 graduates found full-time work in their field. Layoffs hit 1.1 million in the first 10 months of 2025, the highest since the pandemic. The unemployment rate for grads and non-grads has converged.</div>
-                    <div class="news-source">CNBC, NY Fed, Cengage</div>
-                </div>
-                <div class="news-col">
-                    <div class="news-take-label">Our Take</div>
-                    <div class="news-take">The convergence of graduate and non-graduate unemployment rates may be the most underreported economic story of the decade. The entire premise of the knowledge economy was that education = employment security. That premise is breaking. If a college degree no longer guarantees a job advantage, the social contract around work, education, and economic mobility is being rewritten. This is where the post-labor thesis meets real people's lives.</div>
-                </div>
-            </div>
-
-        </div><!-- /news-feed -->
-
-    </div><!-- /news-container -->
-
+    <!-- SUBSCRIBE -->
     <section class="newsletter-footer" id="subscribe">
         <h2>Stay ahead of the curve</h2>
         <p>Get analysis on investing in a world where work is being redefined.</p>
@@ -544,9 +366,19 @@
         </form>
     </section>
 
+    <!-- FOOTER -->
     <footer>
         <div class="footer-left">&copy; 2026 postlaborinvesting.com</div>
     </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 
 </body>
 </html>
